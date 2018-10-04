@@ -9,7 +9,8 @@ public class wellcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wellcome);
+        setContentView(R.layout.activity_main_menu);
+//        setContentView(R.layout.wellcomeActivity);
 //        ActionBar actionBar = getActionBar();
 //        actionBar.hide();
     }

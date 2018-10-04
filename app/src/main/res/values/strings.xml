@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">ifood</string>
+    <string name="menu_item_about_app">About app</string>
+    <string name="menu_item_help">Help</string>
+    <string name="menu_item_search">Search</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <!--User info-->
+    <string name="user_email">abc@gmail.com</string>
+    <!--User info end-->
+
+    <!--Menu list-->
+    <string name="menu_daily_food">Daily Food</string>
+    <string name="menu_healthy_food">Healthy Food</string>
+    <string name="menu_gym_food">Gym Food</string>
 </resources>
