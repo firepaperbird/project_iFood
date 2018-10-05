@@ -31,7 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@null"
-            android:src="@drawable/ic_close" />
+            android:src="@drawable/ic_close"
+            android:onClick="clickClose"
+            />
 
     </RelativeLayout>
 

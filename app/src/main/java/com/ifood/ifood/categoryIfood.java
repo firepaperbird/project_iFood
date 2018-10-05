@@ -1,5 +1,6 @@
 package com.ifood.ifood;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -48,5 +49,12 @@ public class categoryIfood extends AppCompatActivity {
     }
 
     public void clickDaily(View view) {
+    }
+
+    public void clickClose(View view) {
+        Intent intent = new Intent(categoryIfood.this, mainMenuActivity.class);
+        startActivity(intent);
+
+        finish();
     }
 }
