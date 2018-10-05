@@ -3,26 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_home"
-        android:enabled="true"
         android:icon="@drawable/ic_action_home_inactive"
-        android:title="Home"
-        app:showAsAction="always" />
+        android:title="Home"/>
     <item
         android:id="@+id/action_favorite"
-        android:enabled="true"
         android:icon="@drawable/ic_action_favorite_inactive"
-        android:title="Favorite"
-        app:showAsAction="always" />
+        android:title="Favorite" />
     <item
         android:id="@+id/action_account"
-        android:enabled="true"
         android:icon="@drawable/ic_action_account_circle_inactive"
-        android:title="Account"
-        app:showAsAction="always" />
+        android:title="Account"/>
     <item
         android:id="@+id/action_cart"
-        android:enabled="true"
         android:icon="@drawable/ic_action_shopping_cart_inactive"
-        android:title="Cart"
-        app:showAsAction="always" />
+        android:title="Cart"/>
 </menu>
