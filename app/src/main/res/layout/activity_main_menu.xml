@@ -16,6 +16,23 @@
         tools:context=".mainMenuActivity">
 
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="70dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listMenu"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </ScrollView>
     </RelativeLayout>
 
     <include layout="@layout/bottom_layout"/>
