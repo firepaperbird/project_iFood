@@ -1,11 +1,11 @@
 package com.ifood.ifood;
 
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,16 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ifood.ifood.ultil.BottomNavigationViewHelper;
-
-import org.w3c.dom.Text;
 
 public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -36,48 +32,7 @@ public class mainMenuActivity extends AppCompatActivity {
 
         setDrawerLayout();
 
-        LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutMenu.setMargins(0,0,0,50);
-        LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        listMenu = (LinearLayout) findViewById(R.id.listMenu);
-
-        for (int i = 0; i < 5; i++){
-            LinearLayout layout = new LinearLayout(this);
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.setLayoutParams(layoutMenu);
-
-            ImageView imageMenu = new ImageView(this);
-            imageMenu.setLayoutParams(new LinearLayout.LayoutParams(800, 400));
-            imageMenu.setImageResource(R.drawable.mon_ca_ri_ga);
-            imageMenu.setScaleType(ImageView.ScaleType.FIT_XY);
-
-            LinearLayout titleLayout = new LinearLayout(this);
-            titleLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-            TextView txtTitle = new TextView(this);
-            txtTitle.setLayoutParams(layoutParamsText);
-            txtTitle.setText("Cà ri gà");
-
-            Button btnViewDetail = new Button(this);
-            btnViewDetail.setBackgroundColor(Color.YELLOW);
-            btnViewDetail.setText("View Detail");
-            btnViewDetail.setLayoutParams(layoutParamsText);
-
-            titleLayout.addView(txtTitle);
-            titleLayout.addView(btnViewDetail);
-
-            TextView txtDescription = new TextView(this);
-            txtDescription.setLayoutParams(layoutParamsText);
-            txtDescription.setText("Cà ri gà công thức : 2 muỗng knor, 3 muỗng muối, 4 muỗng đường");
-
-            layout.addView(imageMenu);
-            layout.addView(titleLayout);
-            layout.addView(txtDescription);
-
-            listMenu.addView(layout);
-        }
+        setListMenu();
     }
 
     @Override
@@ -127,5 +82,89 @@ public class mainMenuActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
+    }
+
+    private void setListMenu(){
+
+        LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutMenu.setMargins(0,0,0,50);
+
+        LinearLayout.LayoutParams layoutParamsInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParamsText.setMargins(0, 0,20,20);
+
+        LinearLayout.LayoutParams layoutParamsDivider = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                3);
+        layoutParamsDivider.setMargins(0,0,0,20);
+
+        LinearLayout.LayoutParams layoutParamsTag = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParamsTag.setMargins(0, 0, 10, 0);
+
+        listMenu = (LinearLayout) findViewById(R.id.listMenu);
+
+        for (int i = 0; i < 5; i++){
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setLayoutParams(layoutMenu);
+            layout.setPadding(2,2,2,0);
+            layout.setBackgroundResource(R.drawable.border_menu);
+
+            /*Image*/
+            ImageView imageMenu = new ImageView(this);
+            imageMenu.setLayoutParams(new LinearLayout.LayoutParams(800, 400));
+            imageMenu.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageMenu.setImageResource(R.drawable.mon_ca_ri_ga);
+
+
+            LinearLayout layoutInfo = new LinearLayout(this);
+            layoutInfo.setLayoutParams(layoutParamsInfo);
+            layoutInfo.setOrientation(LinearLayout.VERTICAL);
+            layoutInfo.setPadding(25,25,25,25);
+            /*Title*/
+            TextView txtTitle = new TextView(this);
+            txtTitle.setLayoutParams(layoutParamsText);
+            txtTitle.setTextSize(20);
+            Typeface font = ResourcesCompat.getFont(this, R.font.arrusb);
+            txtTitle.setTypeface(font, Typeface.BOLD);
+            txtTitle.setText("Cà ri gà");
+
+            /*Description*/
+            TextView txtDescription = new TextView(this);
+            txtDescription.setLayoutParams(layoutParamsText);
+            txtDescription.setText("Cà ri gà công thức : 2 muỗng knor, 3 muỗng muối, 4 muỗng đường");
+
+            /*Divider*/
+            View divider = new View(this);
+            divider.setLayoutParams(layoutParamsDivider);
+            divider.setBackgroundColor(Color.GRAY);
+
+            /*Tags*/
+            LinearLayout tagLayout = new LinearLayout(this);
+            tagLayout.setLayoutParams(layoutParamsTag);
+
+            for (int tagIndex = 0; tagIndex < 3; tagIndex++){
+                TextView tag = new TextView(this);
+                tag.setLayoutParams(layoutParamsTag);
+                tag.setText("India");
+                tag.setBackgroundResource(R.drawable.border_tag);
+                tagLayout.addView(tag);
+            }
+
+            layoutInfo.addView(txtTitle);
+            layoutInfo.addView(txtDescription);
+            layoutInfo.addView(divider);
+            layoutInfo.addView(tagLayout);
+
+
+            layout.addView(imageMenu);
+            layout.addView(layoutInfo);
+
+            listMenu.addView(layout);
+        }
     }
 }

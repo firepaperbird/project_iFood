@@ -5,4 +5,5 @@
     <color name="colorWellcome">#ff6060</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorDarkerGray">#5c5c5c</color>
 </resources>
