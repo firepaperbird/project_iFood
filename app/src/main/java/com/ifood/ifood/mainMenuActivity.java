@@ -33,6 +33,14 @@ public class mainMenuActivity extends AppCompatActivity {
         setDrawerLayout();
 
         setListMenu();
+
+        LinearLayout userIcon = findViewById(R.id.userIcon);
+        userIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
     }
 
     @Override
@@ -87,7 +95,7 @@ public class mainMenuActivity extends AppCompatActivity {
     private void setListMenu(){
 
         LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams.MATCH_PARENT);
         layoutMenu.setMargins(0,0,0,50);
 
         LinearLayout.LayoutParams layoutParamsInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -116,7 +124,7 @@ public class mainMenuActivity extends AppCompatActivity {
 
             /*Image*/
             ImageView imageMenu = new ImageView(this);
-            imageMenu.setLayoutParams(new LinearLayout.LayoutParams(800, 400));
+            imageMenu.setLayoutParams(new LinearLayout.LayoutParams(layout.getHeight(), 400));
             imageMenu.setScaleType(ImageView.ScaleType.FIT_XY);
             imageMenu.setImageResource(R.drawable.mon_ca_ri_ga);
 
