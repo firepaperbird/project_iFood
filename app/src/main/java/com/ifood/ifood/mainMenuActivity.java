@@ -7,13 +7,16 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,9 +41,32 @@ public class mainMenuActivity extends AppCompatActivity {
         userIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
+
+
+        ActionBar actionBar = this.getSupportActionBar();
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.actionbar_layout);
+        actionBar.setDisplayShowHomeEnabled(true);
+        int categoryId = 1;
+        //Integer.parseInt(actionBar.getTitle() + "")
+        TextView txtTitle = findViewById(R.id.action_bar_title);
+        switch (categoryId) {
+            case 1:
+                txtTitle.setText(getResources().getString(R.string.menu_gym_food));
+                break;
+            case 2:
+                txtTitle.setText(getResources().getString(R.string.menu_healthy_food));
+                break;
+            case 3:
+                txtTitle.setText(getResources().getString(R.string.menu_daily_food));
+                break;
+            default:
+                txtTitle.setText("Home");
+                break;
+        }
     }
 
     @Override
@@ -57,7 +83,6 @@ public class mainMenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_actions, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -67,7 +92,7 @@ public class mainMenuActivity extends AppCompatActivity {
             return true;
         }
 
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case R.id.btnSearch:
                 Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
                 return true;
@@ -77,7 +102,7 @@ public class mainMenuActivity extends AppCompatActivity {
             case R.id.btnHelp:
                 Toast.makeText(this, "Help button selected", Toast.LENGTH_SHORT).show();
                 return true;
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 
@@ -95,7 +120,7 @@ public class mainMenuActivity extends AppCompatActivity {
     private void setListMenu(){
 
         LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutMenu.setMargins(0,0,0,50);
 
         LinearLayout.LayoutParams layoutParamsInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -121,10 +146,16 @@ public class mainMenuActivity extends AppCompatActivity {
             layout.setLayoutParams(layoutMenu);
             layout.setPadding(2,2,2,0);
             layout.setBackgroundResource(R.drawable.border_menu);
-
             /*Image*/
-            ImageView imageMenu = new ImageView(this);
-            imageMenu.setLayoutParams(new LinearLayout.LayoutParams(layout.getHeight(), 400));
+            final ImageView imageMenu = new ImageView(this);
+            final ViewTreeObserver observer = listMenu.getViewTreeObserver();
+            observer.addOnGlobalLayoutListener(
+                    new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            imageMenu.setLayoutParams(new LinearLayout.LayoutParams(listMenu.getWidth(), 400));
+                        }
+                    });
             imageMenu.setScaleType(ImageView.ScaleType.FIT_XY);
             imageMenu.setImageResource(R.drawable.mon_ca_ri_ga);
 

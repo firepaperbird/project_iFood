@@ -27,8 +27,6 @@ public class categoryIfood extends AppCompatActivity {
                         setCateImgSize(layout.getHeight());
                     }
                 });
-
-
     }
 
     private void setCateImgSize(int hight){

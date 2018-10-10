@@ -15,4 +15,9 @@
     <string name="menu_daily_food">Daily Food</string>
     <string name="menu_healthy_food">Healthy Food</string>
     <string name="menu_gym_food">Gym Food</string>
+
+    <string name="category_daily_food_id">3</string>
+    <string name="category_gym_food">1</string>
+    <string name="category_healthy_food">2</string>
+    <string name="category_none_choice">0</string>
 </resources>
