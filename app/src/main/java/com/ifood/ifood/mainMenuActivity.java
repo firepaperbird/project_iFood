@@ -1,5 +1,6 @@
 package com.ifood.ifood;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -38,7 +39,8 @@ public class mainMenuActivity extends AppCompatActivity {
         userIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Intent userDetailIntent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
+                startActivity(userDetailIntent);
             }
         });
     }
