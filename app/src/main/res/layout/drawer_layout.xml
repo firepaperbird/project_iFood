@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:id="@+id/drawer_navigation"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".mainMenuActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,9 +54,10 @@
 
         </LinearLayout>
 
-        <!-- Item Info -->
+        <!-- Item Gym Food -->
 
         <LinearLayout
+            android:id="@+id/gym_category_menu"
             android:layout_width="match_parent"
             android:layout_height="@dimen/navigation_item_height"
             android:layout_marginTop="@dimen/padding_tiny_plus_one"
@@ -63,24 +65,26 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:onClick="moveToMainMenuByCategoryId">
 
             <ImageView
                 android:layout_width="@dimen/navigation_item_icon_size"
                 android:layout_height="@dimen/navigation_item_icon_size"
-                android:src="@drawable/ic_action_daily_food" />
+                android:src="@drawable/ic_action_gym_food" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_extra_extra_large"
-                android:text="@string/menu_daily_food" />
+                android:text="@string/menu_gym_food" />
 
         </LinearLayout>
 
         <!-- Item Healthy Food -->
 
         <LinearLayout
+            android:id="@+id/healthy_category_menu"
             android:layout_width="match_parent"
             android:layout_height="@dimen/navigation_item_height"
             android:layout_marginTop="@dimen/padding_tiny_plus_one"
@@ -88,7 +92,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:onClick="moveToMainMenuByCategoryId">
 
             <ImageView
                 android:layout_width="@dimen/navigation_item_icon_size"
@@ -103,9 +108,10 @@
 
         </LinearLayout>
 
-        <!-- Item Gym Food -->
+        <!-- Item Info -->
 
         <LinearLayout
+            android:id="@+id/daily_category_menu"
             android:layout_width="match_parent"
             android:layout_height="@dimen/navigation_item_height"
             android:layout_marginTop="@dimen/padding_tiny_plus_one"
@@ -113,18 +119,19 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:onClick="moveToMainMenuByCategoryId">
 
             <ImageView
                 android:layout_width="@dimen/navigation_item_icon_size"
                 android:layout_height="@dimen/navigation_item_icon_size"
-                android:src="@drawable/ic_action_gym_food" />
+                android:src="@drawable/ic_action_daily_food" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_extra_extra_large"
-                android:text="@string/menu_gym_food" />
+                android:text="@string/menu_daily_food" />
 
         </LinearLayout>
 

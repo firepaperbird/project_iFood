@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -22,15 +23,22 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.ultil.BottomNavigationViewHelper;
 
 public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout listMenu;
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private com.ifood.ifood.data.Menu menu;
+
+    final int GYM_FOOD_CATEGORY_ID = 1;
+    final int HEALTHY_FOOD_CATEGORY_ID = 2;
+    final int DAILY_FOOD_CATEGORY_ID = 3;
+    final int NONE_FOOD_CATEGORY_ID = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,29 +58,7 @@ public class mainMenuActivity extends AppCompatActivity {
         });
 
 
-        ActionBar actionBar = this.getSupportActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.actionbar_layout);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        int categoryId = 1;
-        //Integer.parseInt(actionBar.getTitle() + "")
-        TextView txtTitle = findViewById(R.id.action_bar_title);
-        switch (categoryId) {
-            case 1:
-                txtTitle.setText(getResources().getString(R.string.menu_gym_food));
-                break;
-            case 2:
-                txtTitle.setText(getResources().getString(R.string.menu_healthy_food));
-                break;
-            case 3:
-                txtTitle.setText(getResources().getString(R.string.menu_daily_food));
-                break;
-            default:
-                txtTitle.setText("Home");
-                break;
-        }
+
     }
 
     @Override
@@ -112,45 +98,98 @@ public class mainMenuActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void moveToMainMenuByCategoryId(View view) {
+        int nav_category_id = view.getId();
+        int categoryId = 0;
+        switch (nav_category_id){
+            case R.id.gym_category_menu:
+                categoryId = GYM_FOOD_CATEGORY_ID;
+                break;
+            case R.id.healthy_category_menu:
+                categoryId = HEALTHY_FOOD_CATEGORY_ID;
+                break;
+            case R.id.daily_category_menu:
+                categoryId = DAILY_FOOD_CATEGORY_ID;
+                break;
+        }
+
+        Intent intent = new Intent(this, mainMenuActivity.class);
+        intent.putExtra("categoryId", categoryId);
+        startActivity(intent);
+    }
+
     private void setDrawerLayout(){
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
+        ActionBar actionBar = this.getSupportActionBar();
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.actionbar_layout);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        Intent intent = this.getIntent();
+        int categoryId = intent.getIntExtra("categoryId", 0);
+        setMainMenuByCategoryId(categoryId);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setMainMenuByCategoryId(int categoryId){
+        TextView txtTitle = findViewById(R.id.action_bar_title);
+
+        menu = new com.ifood.ifood.data.Menu(categoryId + "", txtTitle.getText().toString());
+        switch (categoryId) {
+            case GYM_FOOD_CATEGORY_ID:
+                txtTitle.setText(getResources().getString(R.string.menu_gym_food));
+                menu.setListDish(menu.getGymMenu());
+                break;
+            case HEALTHY_FOOD_CATEGORY_ID:
+                txtTitle.setText(getResources().getString(R.string.menu_healthy_food));
+                menu.setListDish(menu.getHealthyMenu());
+                break;
+            case DAILY_FOOD_CATEGORY_ID:
+                txtTitle.setText(getResources().getString(R.string.menu_daily_food));
+                menu.setListDish(menu.getDalyMenu());
+                break;
+            default:
+                txtTitle.setText("Home");
+                txtTitle.setText(getResources().getString(R.string.menu_daily_food));
+                menu.setListDish(menu.getDalyMenu());
+                break;
+        }
+    }
+
     private void setListMenu(){
 
         LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                400);
+                600);
 
         LinearLayout.LayoutParams layoutParamsInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.FILL_PARENT);
 
         LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParamsText.setMargins(0, 0,20,20);
+        layoutParamsText.setMargins(0, 0,10,20);
 
         LinearLayout.LayoutParams layoutParamsDivider = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 3);
         layoutParamsDivider.setMargins(0,0,0,20);
 
-        LinearLayout.LayoutParams layoutParamsTag = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+        RelativeLayout.LayoutParams layoutParamsTag = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT    ,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParamsTag.setMargins(0, 0, 10, 0);
+        layoutParamsTag.addRule(RelativeLayout.ALIGN_PARENT_END);
+        layoutParamsTag.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
         listMenu = findViewById(R.id.listMenu);
 
-        for (int i = 0; i < 5; i++){
+        for ( Dish dish: menu.getListDish()){
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(layoutMenu);
-            layout.setBackground(getDrawable(R.drawable.mon_ca_ri_ga));
+            layout.setBackground(getResources().getDrawable(dish.getImage()));
 
 
             /*Image*/
@@ -172,7 +211,8 @@ public class mainMenuActivity extends AppCompatActivity {
             layoutInfo.setLayoutParams(layoutParamsInfo);
             layoutInfo.setOrientation(LinearLayout.VERTICAL);
             layoutInfo.setGravity(Gravity.BOTTOM);
-            layoutInfo.setPadding(25,25,25,25);
+            layoutInfo.setPadding(25,25,25,5);
+
             /*Title*/
             TextView txtTitle = new TextView(this);
             txtTitle.setLayoutParams(layoutParamsText);
@@ -180,24 +220,21 @@ public class mainMenuActivity extends AppCompatActivity {
             Typeface font = ResourcesCompat.getFont(this, R.font.arrusb);
             txtTitle.setTypeface(font, Typeface.BOLD);
             txtTitle.setTextColor(Color.WHITE);
-            txtTitle.setGravity(Gravity.BOTTOM);
-            txtTitle.setText("BBQ and Vegatable");
+            txtTitle.setText(dish.getTitle());
 
             /*Divider*/
             View divider = new View(this);
             divider.setLayoutParams(layoutParamsDivider);
-            txtTitle.setGravity(Gravity.BOTTOM);
             divider.setBackgroundColor(Color.WHITE);
 
             /*Tags*/
             LinearLayout tagLayout = new LinearLayout(this);
-            txtTitle.setGravity(Gravity.BOTTOM);
             tagLayout.setLayoutParams(layoutParamsTag);
 
-            for (int tagIndex = 0; tagIndex < 3; tagIndex++){
+            for (int k = 0; k < dish.getTags().size() && k < 3; k++){
                 TextView tag = new TextView(this);
-                tag.setLayoutParams(layoutParamsTag);
-                tag.setText("India");
+                tag.setLayoutParams(layoutParamsText);
+                tag.setText(dish.getTags().get(k));
                 tag.setBackgroundResource(R.drawable.border_tag);
                 tagLayout.addView(tag);
             }
@@ -208,8 +245,8 @@ public class mainMenuActivity extends AppCompatActivity {
 
             LinearLayout shadowLayout = new LinearLayout(this);
             shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-                    400));
-            shadowLayout.setBackground(getDrawable(R.drawable.shadow));
+                    600));
+            shadowLayout.setBackground(getResources().getDrawable(R.drawable.shadow));
             shadowLayout.getBackground().setAlpha(175);
             shadowLayout.setGravity(Gravity.BOTTOM);
 
