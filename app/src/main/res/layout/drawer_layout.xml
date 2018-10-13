@@ -29,7 +29,8 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:id="@+id/userIcon"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            android:onClick="moveToUserDetail">
 
             <ImageView
                 android:id="@+id/userAvatar"

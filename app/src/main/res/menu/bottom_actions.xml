@@ -12,7 +12,8 @@
     <item
         android:id="@+id/action_account"
         android:icon="@drawable/ic_action_account_circle_inactive"
-        android:title="Account"/>
+        android:title="Account"
+        android:onClick="moveToUserDetail"/>
     <item
         android:id="@+id/action_cart"
         android:icon="@drawable/ic_action_shopping_cart_inactive"

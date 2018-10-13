@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -20,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -96,6 +92,16 @@ public class mainMenuActivity extends AppCompatActivity {
                 return true;
         }*/
         return super.onOptionsItemSelected(item);
+    }
+
+    public void moveToUserDetail(View view){
+        Intent intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
+        startActivity(intent);
+    }
+
+    public void moveToUserDetail(MenuItem item) {
+        Intent intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
+        startActivity(intent);
     }
 
     public void moveToMainMenuByCategoryId(View view) {
@@ -191,22 +197,6 @@ public class mainMenuActivity extends AppCompatActivity {
             layout.setLayoutParams(layoutMenu);
             layout.setBackground(getResources().getDrawable(dish.getImage()));
 
-
-            /*Image*/
-            /*
-            final ImageView imageMenu = new ImageView(this);
-            final ViewTreeObserver observer = listMenu.getViewTreeObserver();
-            observer.addOnGlobalLayoutListener(
-                    new ViewTreeObserver.OnGlobalLayoutListener() {
-                        @Override
-                        public void onGlobalLayout() {
-                            imageMenu.setLayoutParams(new LinearLayout.LayoutParams(listMenu.getWidth(), 400));
-                        }
-                    });
-            imageMenu.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageMenu.setImageResource(R.drawable.mon_ca_ri_ga);
-*/
-
             LinearLayout layoutInfo = new LinearLayout(this);
             layoutInfo.setLayoutParams(layoutParamsInfo);
             layoutInfo.setOrientation(LinearLayout.VERTICAL);
@@ -262,4 +252,5 @@ public class mainMenuActivity extends AppCompatActivity {
             listMenu.addView(layout);
         }
     }
+
 }
