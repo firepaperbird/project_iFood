@@ -20,4 +20,9 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/colorDarkerGray</item>
     </style>
+    <style name="edtProfileBtn"  parent="Widget.AppCompat.Button" >
+
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
 </resources>

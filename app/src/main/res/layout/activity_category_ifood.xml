@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -26,19 +35,7 @@
             android:clickable="true"
             android:onClick="clickGym"/>
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@null"
-            android:src="@drawable/ic_close"
-            android:onClick="clickClose"
-            />
-
     </RelativeLayout>
-
-
-
 
     <ImageView
         android:id="@+id/midCate"
@@ -76,3 +73,16 @@
         android:scaleType="fitXY" />
 
 </LinearLayout>
+</ScrollView>
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:onClick="clickClose"
+        android:layout_y="-15dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_close"
+        android:id="@+id/btnClose"/>
+</AbsoluteLayout>
