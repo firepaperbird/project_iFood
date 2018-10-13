@@ -36,8 +36,6 @@ public class categoryIfood extends AppCompatActivity {
                         setCateImgSize(size);
                     }
                 });
-
-
     }
 
     private void setCateImgSize(Point size){

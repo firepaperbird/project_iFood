@@ -15,14 +15,10 @@
         android:layout_height="wrap_content"
         tools:context=".mainMenuActivity">
 
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="70dp">
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
