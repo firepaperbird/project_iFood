@@ -3,7 +3,9 @@ package com.ifood.ifood;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,16 +13,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ifood.ifood.ultil.BottomNavigationViewHelper;
 
@@ -28,6 +29,7 @@ public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout listMenu;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class mainMenuActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar_layout);
         actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         int categoryId = 1;
         //Integer.parseInt(actionBar.getTitle() + "")
         TextView txtTitle = findViewById(R.id.action_bar_title);
@@ -117,14 +121,14 @@ public class mainMenuActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setListMenu(){
 
-        LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutMenu.setMargins(0,0,0,50);
+        LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                400);
 
-        LinearLayout.LayoutParams layoutParamsInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParamsInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.FILL_PARENT);
 
         LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -138,15 +142,17 @@ public class mainMenuActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParamsTag.setMargins(0, 0, 10, 0);
 
-        listMenu = (LinearLayout) findViewById(R.id.listMenu);
+        listMenu = findViewById(R.id.listMenu);
 
         for (int i = 0; i < 5; i++){
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(layoutMenu);
-            layout.setPadding(2,2,2,0);
-            layout.setBackgroundResource(R.drawable.border_menu);
+            layout.setBackground(getDrawable(R.drawable.mon_ca_ri_ga));
+
+
             /*Image*/
+            /*
             final ImageView imageMenu = new ImageView(this);
             final ViewTreeObserver observer = listMenu.getViewTreeObserver();
             observer.addOnGlobalLayoutListener(
@@ -158,11 +164,12 @@ public class mainMenuActivity extends AppCompatActivity {
                     });
             imageMenu.setScaleType(ImageView.ScaleType.FIT_XY);
             imageMenu.setImageResource(R.drawable.mon_ca_ri_ga);
-
+*/
 
             LinearLayout layoutInfo = new LinearLayout(this);
             layoutInfo.setLayoutParams(layoutParamsInfo);
             layoutInfo.setOrientation(LinearLayout.VERTICAL);
+            layoutInfo.setGravity(Gravity.BOTTOM);
             layoutInfo.setPadding(25,25,25,25);
             /*Title*/
             TextView txtTitle = new TextView(this);
@@ -170,20 +177,19 @@ public class mainMenuActivity extends AppCompatActivity {
             txtTitle.setTextSize(20);
             Typeface font = ResourcesCompat.getFont(this, R.font.arrusb);
             txtTitle.setTypeface(font, Typeface.BOLD);
-            txtTitle.setText("Cà ri gà");
-
-            /*Description*/
-            TextView txtDescription = new TextView(this);
-            txtDescription.setLayoutParams(layoutParamsText);
-            txtDescription.setText("Cà ri gà công thức : 2 muỗng knor, 3 muỗng muối, 4 muỗng đường");
+            txtTitle.setTextColor(Color.WHITE);
+            txtTitle.setGravity(Gravity.BOTTOM);
+            txtTitle.setText("BBQ and Vegatable");
 
             /*Divider*/
             View divider = new View(this);
             divider.setLayoutParams(layoutParamsDivider);
-            divider.setBackgroundColor(Color.GRAY);
+            txtTitle.setGravity(Gravity.BOTTOM);
+            divider.setBackgroundColor(Color.WHITE);
 
             /*Tags*/
             LinearLayout tagLayout = new LinearLayout(this);
+            txtTitle.setGravity(Gravity.BOTTOM);
             tagLayout.setLayoutParams(layoutParamsTag);
 
             for (int tagIndex = 0; tagIndex < 3; tagIndex++){
@@ -195,13 +201,24 @@ public class mainMenuActivity extends AppCompatActivity {
             }
 
             layoutInfo.addView(txtTitle);
-            layoutInfo.addView(txtDescription);
             layoutInfo.addView(divider);
             layoutInfo.addView(tagLayout);
 
+            LinearLayout shadowLayout = new LinearLayout(this);
+            shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+                    400));
+            shadowLayout.setBackground(getDrawable(R.drawable.shadow));
+            shadowLayout.getBackground().setAlpha(175);
+            shadowLayout.setGravity(Gravity.BOTTOM);
 
-            layout.addView(imageMenu);
-            layout.addView(layoutInfo);
+            FrameLayout frameLayout = new FrameLayout(this);
+            frameLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+                    ViewGroup.LayoutParams.FILL_PARENT, Gravity.BOTTOM));
+
+            frameLayout.addView(shadowLayout);
+            frameLayout.addView(layoutInfo);
+
+            layout.addView(frameLayout);
 
             listMenu.addView(layout);
         }
