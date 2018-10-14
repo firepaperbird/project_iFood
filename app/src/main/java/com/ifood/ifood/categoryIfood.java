@@ -56,17 +56,24 @@ public class categoryIfood extends AppCompatActivity {
     }
 
     public void clickGym(View view) {
-
+        nextToMainMenu(Integer.parseInt(getResources().getString(R.string.category_gym_food_id)));
     }
 
     public void clickHealthy(View view) {
+        nextToMainMenu(Integer.parseInt(getResources().getString(R.string.category_healthy_food_id)));
     }
 
     public void clickDaily(View view) {
+        nextToMainMenu(Integer.parseInt(getResources().getString(R.string.category_daily_food_id)));
     }
 
     public void clickClose(View view) {
-        Intent intent = new Intent(categoryIfood.this, mainMenuActivity.class);
+        nextToMainMenu(Integer.parseInt(getResources().getString(R.string.category_none_choice_id)));
+    }
+
+    private  void nextToMainMenu(int categoryId){
+        Intent intent = new Intent(this, mainMenuActivity.class);
+        intent.putExtra("categoryId", categoryId);
         startActivity(intent);
 
         finish();
