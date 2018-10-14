@@ -249,6 +249,18 @@ public class mainMenuActivity extends AppCompatActivity {
 
             layout.addView(frameLayout);
 
+            //set Onclick event
+            final int id = i + 1;
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mainMenuActivity.this, detailFoodActivity.class);
+                    intent.putExtra("id" , id);
+                    startActivity(intent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+            });
+
             listMenu.addView(layout);
         }
     }
