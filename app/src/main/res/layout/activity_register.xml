@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/activity_register"
+    tools:context=".Register">
+
+    <!-- Content -->
+
+    <RelativeLayout
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        tools:context=".Register"
+        android:background="@drawable/c4">
+
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="69dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/textView15"
+            android:layout_marginEnd="58dp"
+            android:onClick="OnClickLogin_Signup"
+            android:text="Log in"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/background_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/textView13"
+            android:layout_marginBottom="26dp"
+            android:text="Already have an account?"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="281dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="75dp"
+            android:text="@string/terms_of_use_privacy_policy"
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="304dp"
+            android:layout_height="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/edtPassword"
+            android:layout_marginBottom="112dp"
+            android:layout_marginStart="7dp"
+            android:text="By signing up you agree to SideChef"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edtPassword_Signup"
+            android:layout_width="318dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="235dp"
+            android:background="@android:color/white"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtEmail_Signup"
+            android:layout_width="318dp"
+            android:layout_height="45dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="159dp"
+            android:background="@android:color/white"
+            android:hint="Email"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="318dp"
+            android:layout_height="54dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="219dp"
+            android:background="@android:color/white"
+            android:hint="Display Name"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnSignup"
+            android:layout_width="318dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="172dp"
+            android:background="@android:color/holo_blue_bright"
+            android:onClick="onClickSignup"
+            android:text="Sign up"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp"
+            tools:text="Sign up"
+            />
+    </RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>
+
