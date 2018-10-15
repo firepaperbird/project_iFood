@@ -70,17 +70,15 @@ public class detailFoodActivity extends AppCompatActivity {
             name.setGravity(Gravity.CENTER_VERTICAL);
 
             //border
-            TextView border = new TextView(this);
-            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 1);
-            llp.setMargins(20,0,20,0);
-            border.setLayoutParams(llp);
-            border.setBackgroundColor(Color.LTGRAY);
+//            TextView border = new TextView(this);
+//            border.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 1));
+//            border.setBackgroundColor(Color.LTGRAY);
 
             ingredient.addView(quantity,0);
             ingredient.addView(name,1);
+//            ingredient.addView(border,2);
 
             detail.addView(ingredient);
-            detail.addView(border);
         }
 
         //Recipe Title
@@ -129,7 +127,5 @@ public class detailFoodActivity extends AppCompatActivity {
 
             detail.addView(recipe);
         }
-
-        //Related menu
     }
 }
