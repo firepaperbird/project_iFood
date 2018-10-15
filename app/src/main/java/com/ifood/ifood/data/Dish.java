@@ -2,10 +2,11 @@ package com.ifood.ifood.data;
 
 import android.graphics.drawable.Drawable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dish {
+public class Dish implements Serializable{
     private String id;
     private String title;
     private String description;
