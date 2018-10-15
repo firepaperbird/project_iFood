@@ -128,8 +128,8 @@ public class mainMenuActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        /*BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);*/
 
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

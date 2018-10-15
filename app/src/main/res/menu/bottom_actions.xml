@@ -14,8 +14,8 @@
         android:icon="@drawable/ic_action_account_circle_inactive"
         android:title="Account"
         android:onClick="moveToUserDetail"/>
-    <item
+    <!--<item
         android:id="@+id/action_cart"
         android:icon="@drawable/ic_action_shopping_cart_inactive"
-        android:title="Cart"/>
+        android:title="Cart"/>-->
 </menu>
