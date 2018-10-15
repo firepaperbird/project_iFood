@@ -19,13 +19,13 @@
         </activity>
         <activity android:name=".categoryIfood" />
         <activity
-            android:name=".mainMenuActivity"
-            android:theme="@style/mainMenu"></activity>
+            android:name=".mainMenuActivity"></activity>
         <activity android:name=".detailFoodActivity"></activity>
         <activity android:name=".LoginFActivity"></activity>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".Register"></activity>
         <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".UserDetailActivity"></activity>
     </application>
 
 </manifest>
