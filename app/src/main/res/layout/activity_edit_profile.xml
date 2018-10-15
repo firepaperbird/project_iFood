@@ -55,4 +55,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/editDescription"
         />
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="#ff6060"
+        android:textSize="16sp"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#787878"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="save"/>
 </LinearLayout>
