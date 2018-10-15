@@ -12,30 +12,10 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/imgMain"
             android:layout_width="match_parent"
-            android:layout_height="500px"
-            android:background="@drawable/mon_ca_ri_ga"
+            android:layout_height="400dp"
             />
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="40dp"-->
-                <!--android:text="Nguyên liệu"-->
-                <!--android:paddingLeft="20dp"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:background="#F7F2EA"-->
-                <!--/>-->
-            <!--<ListView-->
-                <!--android:id="@+id/listView"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="300dp"></ListView>-->
-
-        <!--</LinearLayout>-->
 
     </LinearLayout>
 

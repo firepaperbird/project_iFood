@@ -191,7 +191,7 @@ public class mainMenuActivity extends AppCompatActivity {
 
         listMenu = findViewById(R.id.listMenu);
 
-        for ( Dish dish: menu.getListDish()){
+        for ( final Dish dish: menu.getListDish()){
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(layoutMenu);
@@ -250,12 +250,11 @@ public class mainMenuActivity extends AppCompatActivity {
             layout.addView(frameLayout);
 
             //set Onclick event
-            final String id = dish.getId();
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mainMenuActivity.this, detailFoodActivity.class);
-                    intent.putExtra("id" , id);
+                    intent.putExtra("dish", dish);
                     startActivity(intent);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }

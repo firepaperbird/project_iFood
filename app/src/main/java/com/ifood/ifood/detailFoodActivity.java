@@ -1,5 +1,6 @@
 package com.ifood.ifood;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ifood.ifood.data.Dish;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,13 @@ public class detailFoodActivity extends AppCompatActivity {
     }
 
     private void setDetail(){
+        //Set image food
+        Intent intent = getIntent();
+        Dish dish = (Dish)intent.getSerializableExtra("dish");
+
+        TextView imgMain = findViewById(R.id.imgMain);
+        imgMain.setBackgroundResource(dish.getImage());
+
         LinearLayout detail = findViewById(R.id.layout);
 
         //Ingredient Title
