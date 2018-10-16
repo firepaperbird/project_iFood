@@ -48,8 +48,7 @@ public class mainMenuActivity extends AppCompatActivity {
         userIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
-                startActivity(intent);
+                clickToUserCheck();
             }
         });
 
@@ -94,16 +93,23 @@ public class mainMenuActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void moveToUserDetail(View view){
-        Intent intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
-        startActivity(intent);
-    }
+    public void onClickUserIcon(View view) {
 
+        clickToUserCheck();
+    }
     public void moveToUserDetail(MenuItem item) {
-        Intent intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
-        startActivity(intent);
+        clickToUserCheck();
     }
 
+    private void clickToUserCheck(){
+        Intent intent;
+        if(true){
+            intent = new Intent(mainMenuActivity.this,LoginActivity.class);
+        }else{
+            intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
+        }
+        startActivity(intent);
+    }
     public void moveToMainMenuByCategoryId(View view) {
         int nav_category_id = view.getId();
         int categoryId = 0;
