@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
@@ -22,21 +23,29 @@ import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.ifood.ifood.data.Comment_User;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.ultil.MoveToDetailView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class detailFoodActivity extends AppCompatActivity {
 
     private List<String> listIngredient = new ArrayList<String>();
+    private List<Comment_User> comment_userList = new ArrayList<Comment_User>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_food);
+
+        comment_userList.add(new Comment_User("huy","everyone like it alot", 5, "2018-10-11"));
+        comment_userList.add(new Comment_User("hoang","Taste , easy to make . Would make again", 5, "2018-10-11"));
+        comment_userList.add(new Comment_User("huy","so good", Float.parseFloat("4.5"), "2018-10-11"));
 
         setDetail();
 
@@ -168,7 +177,7 @@ public class detailFoodActivity extends AppCompatActivity {
         TextView reviewTitle = new TextView(this);
         reviewTitle.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
         reviewTitle.setGravity(Gravity.CENTER_VERTICAL);
-        reviewTitle.setText("Review");
+        reviewTitle.setText("Review("+comment_userList.size()+")");
         reviewTitle.setTypeface(null, Typeface.BOLD);
         reviewTitle.setTextSize(18);
         reviewTitle.setPadding(30,0,0,0);
@@ -213,6 +222,72 @@ public class detailFoodActivity extends AppCompatActivity {
         detail.addView(borderTop);
         detail.addView(rateZone);
         detail.addView(borderBottom);
+
+        //Comment
+        for(int i = 0; i < 2 && i < comment_userList.size(); i++){
+            LinearLayout comment = new LinearLayout(this);
+            comment.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            comment.setOrientation(LinearLayout.HORIZONTAL);
+            comment.setPadding(20,0,0,0);
+
+            TextView user_img = new TextView(this);
+            user_img.setLayoutParams(new LinearLayout.LayoutParams(80, 80));
+            user_img.setBackgroundResource(R.drawable.icon_user_50);
+
+            LinearLayout userInfo = new LinearLayout(this);
+            userInfo.setLayoutParams(new LinearLayout.LayoutParams(450, 80));
+            userInfo.setOrientation(LinearLayout.VERTICAL);
+
+            TextView username = new TextView(this);
+            username.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            username.setText(comment_userList.get(i).getName());
+            username.setTypeface(null,Typeface.BOLD);
+
+            TextView time = new TextView(this);
+            time.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            time.setText(comment_userList.get(i).getTime());
+
+            RatingBar rating = new RatingBar(this,null,android.R.attr.ratingBarStyleSmall);
+            rating.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80));
+            rating.setNumStars(5);
+            rating.setRating(comment_userList.get(i).getStar());
+            rating.setClickable(false);
+
+
+            userInfo.addView(username);
+            userInfo.addView(time);
+
+            comment.addView(user_img);
+            comment.addView(userInfo);
+            comment.addView(rating);
+
+            detail.addView(comment);
+
+            TextView comment_review = new TextView(this);
+            comment_review.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            comment_review.setText(comment_userList.get(i).getReview());
+            comment_review.setPadding(30,0,20,30);
+
+            detail.addView(comment_review);
+        }
+
+        //ViewMore Comment
+        Button moreComment = new Button(this);
+        moreComment.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+        moreComment.setText(comment_userList.size() - 2 + " MORE REVIEWS");
+        moreComment.setTypeface(null,Typeface.BOLD);
+        moreComment.setBackgroundColor(Color.parseColor("#E5EAE5"));
+        moreComment.setPadding(0,0,30,0);
+        moreComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent moreComment = new Intent(detailFoodActivity.this,ViewCommentActivity.class);
+                moreComment.putExtra("list", (Serializable) comment_userList);
+                startActivity(moreComment);
+            }
+        });
+
+        detail.addView(moreComment);
 
         //Related menu Title
         TextView menuTitle = new TextView(this);
