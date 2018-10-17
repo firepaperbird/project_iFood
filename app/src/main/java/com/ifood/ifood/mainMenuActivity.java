@@ -25,7 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ifood.ifood.data.Dish;
-import com.ifood.ifood.ultil.BottomNavigationViewHelper;
+import com.ifood.ifood.ultil.MoveToDetailView;
 
 public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -245,9 +245,8 @@ public class mainMenuActivity extends AppCompatActivity {
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mainMenuActivity.this, detailFoodActivity.class);
-                    intent.putExtra("dish", dish);
-                    startActivity(intent);
+                    MoveToDetailView move = new MoveToDetailView();
+                    move.moveToDetail(mainMenuActivity.this,detailFoodActivity.class,dish,menu.getListDish());
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             });
