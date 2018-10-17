@@ -1,7 +1,7 @@
 
 CREATE TABLE User (
 	Id	int,
-	Name	varchar(50),
+	Username	varchar(50),
 	Email	varchar(50),
 	Password	varchar(50),
 	Address	varchar(250),

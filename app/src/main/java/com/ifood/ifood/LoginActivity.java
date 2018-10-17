@@ -23,15 +23,6 @@ public class LoginActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        TextView textView = (TextView) findViewById(R.id.loginText);
-        SpannableString content = new SpannableString("Already have an account ?");
-        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        textView.setText(content);
-    }
-
-    public void OnClickLogin(View view){
-        startActivity(new Intent(this, LoginFActivity.class));
-        finish();
     }
 
     public void OnClickSignUp_Login(View view){

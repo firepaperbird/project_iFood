@@ -17,7 +17,7 @@
 
 
         <EditText
-            android:id="@+id/edtPassword"
+            android:id="@+id/edtLoginPassword"
             android:layout_width="318dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
@@ -26,25 +26,13 @@
             android:background="@android:color/white"
             android:hint="Password"
             android:textColor="@android:color/darker_gray"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:textSize="18dp"
+            android:padding="@dimen/padding_small"
             android:inputType="textPassword"/>
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="285dp"
-            android:layout_height="32dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="35dp"
-            android:layout_marginStart="36dp"
-            android:text="Forgot Password?"
-            android:textAlignment="center"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/edtEmail"
+            android:id="@+id/edtLoginEmail"
             android:layout_width="318dp"
             android:layout_height="45dp"
             android:layout_alignParentTop="true"
@@ -52,9 +40,9 @@
             android:layout_marginTop="159dp"
             android:background="@android:color/white"
             android:hint="Email"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:padding="@dimen/padding_small"/>
 
         <Button
             android:id="@+id/btnLogin"
@@ -62,15 +50,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="233dp"
+            android:layout_marginBottom="150dp"
             android:background="@android:color/holo_blue_bright"
             android:text="Log in"
             android:textColor="@android:color/background_light"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:onClick="onClickLoginF"
             tools:text="Log in" />
-        1
-
     </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

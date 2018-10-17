@@ -19,13 +19,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.ultil.BottomNavigationViewHelper;
+import com.ifood.ifood.ultil.SessionLoginController;
 
 public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -46,7 +49,13 @@ public class mainMenuActivity extends AppCompatActivity {
 
         setListMenu();
 
-        //setUserLoginOrSignUp();
+        setUserLoginOrSignUp();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUserLoginOrSignUp();
     }
 
     @Override
@@ -84,6 +93,21 @@ public class mainMenuActivity extends AppCompatActivity {
                 return true;
         }*/
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void moveToLoginView(View view) {
+        Intent intent = new Intent(mainMenuActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void clickToSignOut(View view) {
+        SessionLoginController session = new SessionLoginController(this);
+        session.clearSession();
+
+        Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void moveToUserDetail(View view){
@@ -129,9 +153,6 @@ public class mainMenuActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        Intent intent = this.getIntent();
-        int categoryId = intent.getIntExtra("categoryId", 0);
-        setMainMenuByCategoryId(categoryId);
     }
 
     private void setMainMenuByCategoryId(int categoryId){
@@ -160,12 +181,15 @@ public class mainMenuActivity extends AppCompatActivity {
     }
 
     private void setListMenu(){
+        Intent intent = this.getIntent();
+        int categoryId = intent.getIntExtra("categoryId", 0);
+        setMainMenuByCategoryId(categoryId);
 
         LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 600);
 
         LinearLayout.LayoutParams layoutParamsInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.FILL_PARENT);
+                ViewGroup.LayoutParams.MATCH_PARENT);
 
         LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -226,7 +250,7 @@ public class mainMenuActivity extends AppCompatActivity {
             layoutInfo.addView(tagLayout);
 
             LinearLayout shadowLayout = new LinearLayout(this);
-            shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+            shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     600));
             shadowLayout.setBackground(getResources().getDrawable(R.drawable.shadow));
             shadowLayout.getBackground().setAlpha(175);
@@ -234,13 +258,21 @@ public class mainMenuActivity extends AppCompatActivity {
 
             FrameLayout frameLayout = new FrameLayout(this);
             frameLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-                    ViewGroup.LayoutParams.FILL_PARENT, Gravity.BOTTOM));
+                    ViewGroup.LayoutParams.MATCH_PARENT, Gravity.BOTTOM));
 
             frameLayout.addView(shadowLayout);
             frameLayout.addView(layoutInfo);
 
-            layout.addView(frameLayout);
+            Button btnAddToCookBook = new Button(this);
+            btnAddToCookBook.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                }
+            });
+
+            layout.addView(frameLayout);
+            //layout.addView(btnAddToCookBook);
             //set Onclick event
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -256,25 +288,33 @@ public class mainMenuActivity extends AppCompatActivity {
         }
     }
 
-    private boolean setUserLoginOrSignUp (){
-        boolean isLogin = false;
+    private void setUserLoginOrSignUp (){
         //SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.login_prefs), Context.MODE_PRIVATE);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SessionLoginController session = new SessionLoginController(this);
         TextView userName = findViewById(R.id.userName);
         TextView userEmail = findViewById(R.id.userEmail);
-        if (preferences.contains("CurrentUserLogin")){
-            isLogin = true;
-            userName.setText(preferences.getString("UserName", null));
-            userEmail.setText(preferences.getString("UserEmail", null));
+        LinearLayout btnSignin = findViewById(R.id.btn_signin_category);
+        LinearLayout btnSignout = findViewById(R.id.btn_signout_category);
+        if (!session.getUsername().isEmpty()){
+            userName.setText(session.getUsername());
+            userEmail.setText(session.getEmail());
+            btnSignout.setVisibility(View.VISIBLE);
+            btnSignin.setVisibility(View.INVISIBLE);
+
+            boolean isSignUpSuccessful = getIntent().getBooleanExtra("LOGIN_SUCCESSFUL", false);
+            if (isSignUpSuccessful){
+                Toast.makeText(this, "Sign up successful. ", Toast.LENGTH_SHORT).show();
+            }
+
         } else {
-            userName.setText("Sign Up");
+            userName.setVisibility(View.INVISIBLE);
             userEmail.setVisibility(View.INVISIBLE);
+            btnSignout.setVisibility(View.INVISIBLE);
+            btnSignin.setVisibility(View.VISIBLE);
         }
-        return isLogin;
     }
 
-
-    public void btnLogin(View view) {
+    private void addToDishToCookBook(){
 
     }
 }

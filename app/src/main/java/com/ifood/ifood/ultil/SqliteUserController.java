@@ -18,26 +18,28 @@ import java.util.List;
 public class SqliteUserController extends SqliteDataController {
     private final int COLUMN_NAME_INDEX = 1;
     private final int COLUMN_EMAIL_INDEX = 2;
+    private final int COLUMN_PASSWORD_INDEX = 3;
     private final int COLUMN_ADDRESS_INDEX = 4;
     private final int COLUMN_DESCRIPTION_INDEX = 5;
 
-    private final Context context;
+    private final String TABLE_NAME = "User";
+
 
     public SqliteUserController(Context con) {
         super(con);
-        context = con;
-        checkTableExistInDatabase();
+        checkTableExistInDatabase(TABLE_NAME);
     }
 
-    public Model_User getUserById(String id) {
+    public Model_User getUserByEmailAndPassword(String email, String password) {
         Model_User user = null;
         try {
             openDataBase();
-            Cursor cs = database.rawQuery("select * from User where id=" + id, null);
-            if (cs.moveToNext()) {
+            Cursor cs = database.query(TABLE_NAME, null, "Email = ? AND Password = ?", new String[]{email, password}, null, null, null, null);
+            if (cs.moveToFirst()) {
                 user = new Model_User();
                 user.setUsername(cs.getString(COLUMN_NAME_INDEX));
                 user.setEmail(cs.getString(COLUMN_EMAIL_INDEX));
+                user.setPassword(cs.getString(COLUMN_PASSWORD_INDEX));
                 user.setAddress(cs.getString(COLUMN_ADDRESS_INDEX));
                 user.setDescription(cs.getString(COLUMN_DESCRIPTION_INDEX));
             }
@@ -50,29 +52,30 @@ public class SqliteUserController extends SqliteDataController {
         return user;
     }
 
-    public void checkTableExistInDatabase() {
+    public Model_User getUserByEmail(String email) {
+        Model_User user = null;
         try {
-            boolean dbExist = isCreatedDatabase();
             openDataBase();
-            Cursor cursor = database.rawQuery("SELECT 1 FROM sqlite_master WHERE type = ? AND name = ?", new String[] {"table", "User"});
-            String fileName = "";
-            if (cursor.moveToFirst() == false)
-            {
-                fileName = "User.sql";
-                InputStream inputStream = context.getAssets().open(fileName);
-                BufferedReader insertReader = new BufferedReader(new InputStreamReader(inputStream));
-                String sql = "";
-                while (insertReader.ready()){
-                    sql += insertReader.readLine() + " ";
-                }
-
-                database.execSQL(sql);
-                insertReader.close();
+            Cursor cs = database.query(TABLE_NAME, null, "Email = ?", new String[]{email}, null, null, null, null);
+            if (cs.moveToFirst()) {
+                user = new Model_User();
+                user.setUsername(cs.getString(COLUMN_NAME_INDEX));
+                user.setEmail(cs.getString(COLUMN_EMAIL_INDEX));
+                user.setPassword(cs.getString(COLUMN_PASSWORD_INDEX));
+                user.setAddress(cs.getString(COLUMN_ADDRESS_INDEX));
+                user.setDescription(cs.getString(COLUMN_DESCRIPTION_INDEX));
             }
-        } catch (IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close();
         }
+
+        return user;
     }
+
+    public String getTableName(){
+        return TABLE_NAME;
+    }
+
 }

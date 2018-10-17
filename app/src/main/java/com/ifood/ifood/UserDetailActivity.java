@@ -8,8 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ifood.ifood.data.Model_User;
+import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteDataController;
 import com.ifood.ifood.ultil.SqliteUserController;
 
@@ -26,10 +28,17 @@ public class UserDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_detail);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        boolean isEditSuccessful = getIntent().getBooleanExtra("LOGIN_SUCCESSFUL", false);
+        if (isEditSuccessful){
+            Toast.makeText(this, "Edit successful. ", Toast.LENGTH_SHORT).show();
+        }
+
         SqliteUserController sqliteControl = new SqliteUserController(getApplicationContext());
         Model_User user = null;
         try {
-            user = sqliteControl.getUserById("1");
+            SessionLoginController session = new SessionLoginController(this);
+            user = sqliteControl.getUserByEmail(session.getEmail());
         }catch (Exception e) {
             e.printStackTrace();
         } finally {

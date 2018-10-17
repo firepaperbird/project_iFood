@@ -7,14 +7,17 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,6 +127,9 @@ public class SqliteDataController extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             Class objectClass = object.getClass();
             for (Field field : objectClass.getDeclaredFields()) {
+                if (field.isSynthetic() || field.getName().equals("serialVersionUID")){
+                    continue;
+                }
                 String fieldName = field.getName();
                 fieldName = fieldName.substring(0,1).toUpperCase() + fieldName.substring(1, fieldName.length());
                 Method getValueMethod = objectClass.getMethod("get" + fieldName, null);
@@ -155,13 +161,16 @@ public class SqliteDataController extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             Class objectClass = object.getClass();
             for (Field field : objectClass.getDeclaredFields()) {
+                if (field.isSynthetic() || field.getName().equals("serialVersionUID")){
+                    continue;
+                }
                 String fieldName = field.getName();
                 fieldName = fieldName.substring(0,1).toUpperCase() + fieldName.substring(1, fieldName.length());
                 Method getValueMethod = objectClass.getMethod("get" + fieldName, null);
                 values.put(field.getName(), getValueMethod.invoke(object).toString());
             }
 
-            long rs = database.update(tableName, values, "id=" + values.get("id"), null);
+            long rs = database.update(tableName, values, "Email = ?", new String[] {values.get("email").toString()});
             if (rs > 0) {
                 result = true;
             }
@@ -198,6 +207,32 @@ public class SqliteDataController extends SQLiteOpenHelper {
         }
 
         return result;
+    }
+
+    public void checkTableExistInDatabase(String tableName) {
+        try {
+            isCreatedDatabase();
+            openDataBase();
+            Cursor cursor = database.rawQuery("SELECT 1 FROM sqlite_master WHERE type = ? AND name = ?", new String[] {"table", tableName});
+            String fileName = "";
+            if (cursor.moveToFirst() == false)
+            {
+                fileName = tableName + ".sql";
+                InputStream inputStream = mContext.getAssets().open(fileName);
+                BufferedReader insertReader = new BufferedReader(new InputStreamReader(inputStream));
+                String sql = "";
+                while (insertReader.ready()){
+                    sql += insertReader.readLine() + " ";
+                }
+
+                database.execSQL(sql);
+                insertReader.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
     }
 
     @Override

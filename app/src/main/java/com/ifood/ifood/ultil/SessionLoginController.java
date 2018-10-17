@@ -29,4 +29,9 @@ public class SessionLoginController {
         String email = prefs.getString("email","");
         return email;
     }
+
+    public void clearSession(){
+        prefs.edit().putString("email", "").commit();
+        prefs.edit().putString("username", "").commit();
+    }
 }

@@ -59,13 +59,13 @@
                 android:text="user email"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
-            <Button
+            <!--<Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Sign in"
-                android:onClick="btnLogin"/>
+                android:onClick="btnLogin"/>-->
         </LinearLayout>
 
         <!-- Item Gym Food -->
@@ -148,6 +148,64 @@
                 android:text="@string/menu_daily_food" />
 
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--Button Signin-->
+            <LinearLayout
+                android:id="@+id/btn_signin_category"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_item_height"
+                android:layout_marginTop="@dimen/padding_tiny_plus_one"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:onClick="moveToLoginView">
+
+                <ImageView
+                    android:layout_width="@dimen/navigation_item_icon_size"
+                    android:layout_height="@dimen/navigation_item_icon_size"
+                    android:src="@drawable/ic_action_signin" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                    android:text="Sign In"/>
+
+            </LinearLayout>
+
+            <!--Button Signout-->
+            <LinearLayout
+                android:id="@+id/btn_signout_category"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_item_height"
+                android:layout_marginTop="@dimen/padding_tiny_plus_one"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:onClick="clickToSignOut">
+
+                <ImageView
+                    android:layout_width="@dimen/navigation_item_icon_size"
+                    android:layout_height="@dimen/navigation_item_icon_size"
+                    android:src="@drawable/ic_action_signout" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                    android:text="Sign Out"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 </android.support.design.widget.NavigationView>
