@@ -24,4 +24,7 @@
     <string name="category_healthy_food_id">2</string>
     <string name="category_none_choice_id">0</string>
     <string name="terms_of_use_privacy_policy">Terms of use privacy policy</string>
+
+    <!-- login activity-->
+    <string name="plese_login"> <u>Already have an account ?</u></string>
 </resources>
