@@ -9,8 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/mainMenu">
-        <activity
-            android:name=".wellcomeActivity">
+        <activity android:name=".wellcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,14 +17,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".categoryIfood" />
-        <activity
-            android:name=".mainMenuActivity"></activity>
-        <activity android:name=".detailFoodActivity"></activity>
-        <activity android:name=".LoginFActivity"></activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".Register"></activity>
-        <activity android:name=".EditProfileActivity"></activity>
-        <activity android:name=".UserDetailActivity"></activity>
+        <activity android:name=".mainMenuActivity" />
+        <activity android:name=".detailFoodActivity" />
+        <activity android:name=".LoginFActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".Register" />
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".UserDetailActivity" />
+        <activity android:name=".CommentActivity"></activity>
     </application>
 
 </manifest>
