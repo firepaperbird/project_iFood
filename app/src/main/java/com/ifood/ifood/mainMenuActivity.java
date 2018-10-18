@@ -1,11 +1,13 @@
 package com.ifood.ifood;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -23,7 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ifood.ifood.data.Dish;
-import com.ifood.ifood.ultil.BottomNavigationViewHelper;
+import com.ifood.ifood.ultil.MoveToDetailView;
 
 public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -44,17 +46,7 @@ public class mainMenuActivity extends AppCompatActivity {
 
         setListMenu();
 
-        LinearLayout userIcon = findViewById(R.id.userIcon);
-        userIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-
+        //setUserLoginOrSignUp();
     }
 
     @Override
@@ -253,9 +245,8 @@ public class mainMenuActivity extends AppCompatActivity {
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mainMenuActivity.this, detailFoodActivity.class);
-                    intent.putExtra("dish", dish);
-                    startActivity(intent);
+                    MoveToDetailView move = new MoveToDetailView();
+                    move.moveToDetail(mainMenuActivity.this,detailFoodActivity.class,dish,menu.getListDish());
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             });
@@ -264,4 +255,25 @@ public class mainMenuActivity extends AppCompatActivity {
         }
     }
 
+    private boolean setUserLoginOrSignUp (){
+        boolean isLogin = false;
+        //SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.login_prefs), Context.MODE_PRIVATE);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        TextView userName = findViewById(R.id.userName);
+        TextView userEmail = findViewById(R.id.userEmail);
+        if (preferences.contains("CurrentUserLogin")){
+            isLogin = true;
+            userName.setText(preferences.getString("UserName", null));
+            userEmail.setText(preferences.getString("UserEmail", null));
+        } else {
+            userName.setText("Sign Up");
+            userEmail.setVisibility(View.INVISIBLE);
+        }
+        return isLogin;
+    }
+
+
+    public void btnLogin(View view) {
+
+    }
 }
