@@ -47,7 +47,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="75dp"
-            android:text="@string/terms_of_use_privacy_policy"
+            android:text="terms_of_use_privacy_policy"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />
