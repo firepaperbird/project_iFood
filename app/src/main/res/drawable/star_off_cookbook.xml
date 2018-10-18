@@ -7,5 +7,4 @@
         android:drawable="@drawable/button_focused" /> &lt;!&ndash; focused &ndash;&gt;
     <item android:state_hovered="true"
         android:drawable="@drawable/st" /> &lt;!&ndash; hovered &ndash;&gt;-->
-
 </selector>

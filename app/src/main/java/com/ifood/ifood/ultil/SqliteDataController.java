@@ -124,29 +124,12 @@ public class SqliteDataController extends SQLiteOpenHelper {
         boolean result = false;
         try {
             openDataBase();
-            ContentValues values = new ContentValues();
-            Class objectClass = object.getClass();
-            for (Field field : objectClass.getDeclaredFields()) {
-                if (field.isSynthetic() || field.getName().equals("serialVersionUID")){
-                    continue;
-                }
-                String fieldName = field.getName();
-                fieldName = fieldName.substring(0,1).toUpperCase() + fieldName.substring(1, fieldName.length());
-                Method getValueMethod = objectClass.getMethod("get" + fieldName, null);
-                values.put(field.getName(), getValueMethod.invoke(object).toString());
-            }
-
+            ContentValues values = getContentValuesFromObject(object);
             long rs = database.insert(tableName, null, values);
             if (rs > 0) {
                 result = true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
             e.printStackTrace();
         } finally {
             close();
@@ -158,8 +141,23 @@ public class SqliteDataController extends SQLiteOpenHelper {
         boolean result = false;
         try {
             openDataBase();
-            ContentValues values = new ContentValues();
-            Class objectClass = object.getClass();
+            ContentValues values = getContentValuesFromObject(object);
+            long rs = database.update(tableName, values, "Email = ?", new String[] {values.get("email").toString()});
+            if (rs > 0) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return result;
+    }
+
+    private ContentValues getContentValuesFromObject(Object object){
+        ContentValues values = new ContentValues();
+        Class objectClass = object.getClass();
+        try {
             for (Field field : objectClass.getDeclaredFields()) {
                 if (field.isSynthetic() || field.getName().equals("serialVersionUID")){
                     continue;
@@ -169,23 +167,15 @@ public class SqliteDataController extends SQLiteOpenHelper {
                 Method getValueMethod = objectClass.getMethod("get" + fieldName, null);
                 values.put(field.getName(), getValueMethod.invoke(object).toString());
             }
-
-            long rs = database.update(tableName, values, "Email = ?", new String[] {values.get("email").toString()});
-            if (rs > 0) {
-                result = true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-        } finally {
-            close();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
-        return result;
+
+        return values;
     }
 
     public int deleteData_From_Table(String tbName, String whereClause) {
@@ -234,6 +224,7 @@ public class SqliteDataController extends SQLiteOpenHelper {
             close();
         }
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {

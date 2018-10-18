@@ -50,7 +50,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="210dp"
             android:background="@android:color/white"
-            android:hint="Password"
+            android:hint="Confirm Password"
             android:inputType="textPassword"
             android:padding="@dimen/padding_small"
             android:textColor="@android:color/darker_gray"

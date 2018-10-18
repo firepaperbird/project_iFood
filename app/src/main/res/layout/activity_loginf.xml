@@ -15,22 +15,6 @@
         tools:context=".LoginFActivity"
         android:background="@drawable/c4">
 
-
-        <EditText
-            android:id="@+id/edtLoginPassword"
-            android:layout_width="318dp"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="219dp"
-            android:background="@android:color/white"
-            android:hint="Password"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="18dp"
-            android:padding="@dimen/padding_small"
-            android:inputType="textPassword"/>
-
-
         <EditText
             android:id="@+id/edtLoginEmail"
             android:layout_width="318dp"
@@ -43,6 +27,20 @@
             android:textColor="@android:color/black"
             android:textSize="18dp"
             android:padding="@dimen/padding_small"/>
+
+        <EditText
+            android:id="@+id/edtLoginPassword"
+            android:layout_width="318dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="219dp"
+            android:background="@android:color/white"
+            android:hint="Password"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:padding="@dimen/padding_small"
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/btnLogin"

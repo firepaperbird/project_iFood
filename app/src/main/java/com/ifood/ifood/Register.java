@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,11 +32,19 @@ public class Register extends AppCompatActivity {
         SpannableString content = new SpannableString("Already have an account ?");
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         textView.setText(content);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void OnClickLogin_Signup(View view) {
-        startActivity(new Intent(this, LoginFActivity.class));
-        finish();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void onClickSignup(View v) {
@@ -46,7 +55,7 @@ public class Register extends AppCompatActivity {
         EditText edConfirmPassword = findViewById(R.id.edtConfirmPassword_Signup);
         String confirmPassword = edConfirmPassword.getText().toString();
         EditText edName = findViewById(R.id.edtUsername_Signup);
-        String username = edPassword.getText().toString();
+        String username = edName.getText().toString();
 
         if (!password.equals(confirmPassword)){
             Toast.makeText(this, "Password does not match the confirm password! ", Toast.LENGTH_SHORT).show();

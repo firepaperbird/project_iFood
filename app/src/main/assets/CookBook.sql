@@ -1,10 +1,7 @@
-BEGIN TRANSACTION;
-CREATE TABLE IF NOT EXISTS `CookBook` (
-	`Id`	INTEGER,
-	`DishId`	INTEGER,
-	`DishName`	INTEGER,
+CREATE TABLE CookBook (
+	Id	int IDENTITY,
+	DishId int,
+	DishName	varchar(50),
+	UserId int
 	PRIMARY KEY(`Id`)
 );
-INSERT INTO `CookBook` VALUES (1,1,'Black Bean Bowl');
-INSERT INTO `CookBook` VALUES (2,2,'Chicken Avocado Burritos');
-COMMIT;
