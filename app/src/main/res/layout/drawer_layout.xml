@@ -20,7 +20,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/navigation_header_height"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:gravity="bottom"
             android:orientation="vertical"
@@ -47,15 +47,25 @@
                 android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="@color/colorWhite"
-                android:text="Yellow Code"
+                android:text="user name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <TextView
                 android:id="@+id/userEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                android:text="user email"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_email" />
-
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Sign in"
+                android:onClick="btnLogin"/>
         </LinearLayout>
 
         <!-- Item Gym Food -->
