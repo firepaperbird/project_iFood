@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/activity_login"
+    tools:context=".LoginActivity">
+
+    <!-- Content -->
+
+    <RelativeLayout
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        tools:context=".LoginActivity"
+        android:background="/">
+
+
+        <TextView
+            android:id="@+id/TxtAddBuy"
+            android:layout_width="match_parent"
+            android:layout_height="139dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="TextView" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="169dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/aaa"
+            app:srcCompat="@drawable/aaa" />
+
+        <TextView
+            android:id="@+id/TxtAddBuy"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageView"
+            android:layout_marginTop="-7dp"
+            tools:background="@android:color/black" />
+
+        <ImageView
+            android:id="@+id/imagemini"
+            android:layout_width="71dp"
+            android:layout_height="49dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="13dp"
+            app:srcCompat="@drawable/aaaa" />
+
+        <Button
+            android:id="@+id/BtnBuy"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignTop="@+id/TxtAddBuy"
+            android:layout_toStartOf="@+id/BtnAdd"
+            tools:background="@drawable/giohang" />
+
+        <Button
+            android:id="@+id/BtnAdd"
+            android:layout_width="60dp"
+            android:layout_height="55dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/TxtAddBuy"
+            tools:background="@drawable/add" />
+
+        <RadioButton
+            android:id="@+id/rBtnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageView"
+            android:text="RECIPES"
+            tools:textColor="@android:color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TxtAddBuy"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/Img"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/c3" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="166dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:text="Delicious,Rich and simple chocolate"
+                android:textAlignment="center"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/BtnDelicious"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/inconBtn" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/imageView"
+                android:orientation="vertical"></LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/txtCongthuc"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="166dp"
+            android:background="#f0eded"
+            android:text="2 Egg Yolks"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/CbCongThuc"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/txtCongthuc" />
+
+        <TextView
+            android:id="@+id/txtCongthuc2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txtCongthuc"
+            android:layout_marginTop="-166dp"
+            android:text="168 Grams Semisweet Chocolate"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/CbCongThuc2"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/txtCongthuc2" />
+
+        <TextView
+            android:id="@+id/txtCongthuc3"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txtCongthuc2"
+            android:background="#f0eded"
+            android:text="237 Ml Heavy Cream"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/CbCongThuc3"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/txtCongthuc3" />
+
+        <TextView
+            android:id="@+id/txtCongthuc4"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txtCongthuc3"
+            android:text="2 Tbs Amaretto"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/CbCongThuc4"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/txtCongthuc4" />
+
+        <TextView
+            android:id="@+id/txtCongthuc5"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txtCongthuc4"
+            android:background="#f0eded"
+            android:text="2 Tbs Butter"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/CbCongThuc5"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/txtCongthuc5" />
+
+    </RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>
+
