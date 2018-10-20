@@ -165,7 +165,10 @@ public class SqliteDataController extends SQLiteOpenHelper {
                 String fieldName = field.getName();
                 fieldName = fieldName.substring(0,1).toUpperCase() + fieldName.substring(1, fieldName.length());
                 Method getValueMethod = objectClass.getMethod("get" + fieldName, null);
-                values.put(field.getName(), getValueMethod.invoke(object).toString());
+                String value = getValueMethod.invoke(object) != null ? getValueMethod.invoke(object).toString() : null;
+                if (value != null){
+                    values.put(field.getName(), value);
+                }
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -178,13 +181,13 @@ public class SqliteDataController extends SQLiteOpenHelper {
         return values;
     }
 
-    public int deleteData_From_Table(String tbName, String whereClause) {
+    public int deleteData_From_Table(String tbName, String whereClause, String[] whereArgs) {
 
         int result = 0;
         try {
             openDataBase();
             database.beginTransaction();
-            result = database.delete(tbName, whereClause, null);
+            result = database.delete(tbName, whereClause, whereArgs);
             if (result >= 0) {
                 database.setTransactionSuccessful();
             }

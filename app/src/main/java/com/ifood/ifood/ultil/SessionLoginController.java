@@ -30,8 +30,18 @@ public class SessionLoginController {
         return email;
     }
 
+    public void setUserId(int id) {
+        prefs.edit().putString("userId", id + "").commit();
+    }
+
+    public int getUserId() {
+        String id = prefs.getString("userId","0");
+        return Integer.parseInt(id);
+    }
+
     public void clearSession(){
         prefs.edit().putString("email", "").commit();
         prefs.edit().putString("username", "").commit();
+        prefs.edit().putString("userId", "").commit();
     }
 }

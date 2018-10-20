@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
@@ -28,15 +31,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ifood.ifood.data.Dish;
+import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.MoveToDetailView;
 import com.ifood.ifood.ultil.BottomNavigationViewHelper;
 import com.ifood.ifood.ultil.SessionLoginController;
+import com.ifood.ifood.ultil.SqliteCookbookController;
 
 public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout listMenu;
     private com.ifood.ifood.data.Menu menu;
+
+    private boolean isLogin = false;
+
+    final int LAYOUT_DISH_HEIGHT = 1000;
 
     final int GYM_FOOD_CATEGORY_ID = 1;
     final int HEALTHY_FOOD_CATEGORY_ID = 2;
@@ -49,9 +58,10 @@ public class mainMenuActivity extends AppCompatActivity {
 
         setDrawerLayout();
 
+        setUserLoginOrSignUp();
+
         setListMenu();
 
-        setUserLoginOrSignUp();
     }
 
     @Override
@@ -173,7 +183,7 @@ public class mainMenuActivity extends AppCompatActivity {
         setMainMenuByCategoryId(categoryId);
 
         LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                600);
+                LAYOUT_DISH_HEIGHT);
 
         LinearLayout.LayoutParams layoutParamsInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.FILL_PARENT);
@@ -198,7 +208,8 @@ public class mainMenuActivity extends AppCompatActivity {
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(layoutMenu);
-            layout.setBackground(getResources().getDrawable(dish.getImage()));
+            BitmapDrawable image = ConfigImageQuality.getBitmapImage(getResources(), dish.getImage());
+            layout.setBackground(image);  ;
 
             LinearLayout layoutInfo = new LinearLayout(this);
             layoutInfo.setLayoutParams(layoutParamsInfo);
@@ -239,20 +250,29 @@ public class mainMenuActivity extends AppCompatActivity {
             /*Shadow layout of dish image*/
             LinearLayout shadowLayout = new LinearLayout(this);
             shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    600));
+                    LAYOUT_DISH_HEIGHT));
             shadowLayout.setBackground(getResources().getDrawable(R.drawable.shadow));
             shadowLayout.getBackground().setAlpha(175);
             shadowLayout.setGravity(Gravity.BOTTOM);
 
             /*cookbook_icon show when that dish was add into cookbook*/
-            LinearLayout cookbookLayout = enableCookbookIcon(dish);
+            LinearLayout cookbookLayout = enableCookbookIcon();
 
             FrameLayout frameLayout = new FrameLayout(this);
             frameLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT, Gravity.BOTTOM));
 
             frameLayout.addView(shadowLayout);
-            frameLayout.addView(cookbookLayout);
+
+            if (isLogin) {
+                SqliteCookbookController sqlite = new SqliteCookbookController(getApplicationContext());
+                SessionLoginController session = new SessionLoginController(this);
+                Dish dishCookbook = sqlite.checkDishIsAdded(dish.getId(), session.getUserId());
+                if (dishCookbook != null){
+                    frameLayout.addView(cookbookLayout);
+                }
+            }
+
             frameLayout.addView(layoutInfo);
 
             layout.addView(frameLayout);
@@ -270,7 +290,7 @@ public class mainMenuActivity extends AppCompatActivity {
         }
     }
 
-    private LinearLayout enableCookbookIcon(Dish dish){
+    private LinearLayout enableCookbookIcon(){
         LinearLayout cookbookLayout = new LinearLayout(this);
         cookbookLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -305,13 +325,15 @@ public class mainMenuActivity extends AppCompatActivity {
             }
 
             iconUser.setClickable(true);
-
+            isLogin = true;
         } else {
             userName.setVisibility(View.INVISIBLE);
             userEmail.setVisibility(View.INVISIBLE);
             btnSignout.setVisibility(View.INVISIBLE);
             btnSignin.setVisibility(View.VISIBLE);
             iconUser.setClickable(false);
+
+            isLogin = false;
         }
     }
 

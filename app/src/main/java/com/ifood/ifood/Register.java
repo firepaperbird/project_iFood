@@ -65,6 +65,8 @@ public class Register extends AppCompatActivity {
         sqlite.insertDataIntoTable(sqlite.getTableName(), user);
 
         SessionLoginController session = new SessionLoginController(this);
+        Model_User newUser = sqlite.getUserByEmail(email);
+        session.setUserId(newUser.getId());
         session.setUsername(username);
         session.setEmail(email);
 

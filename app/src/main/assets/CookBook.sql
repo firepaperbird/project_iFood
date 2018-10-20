@@ -1,7 +1,6 @@
 CREATE TABLE CookBook (
-	Id	int IDENTITY,
+	Id	INTEGER PRIMARY KEY AUTOINCREMENT,
 	DishId int,
 	DishName	varchar(50),
 	UserId int
-	PRIMARY KEY(`Id`)
 );

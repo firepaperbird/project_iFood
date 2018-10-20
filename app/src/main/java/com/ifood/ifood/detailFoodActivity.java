@@ -1,8 +1,12 @@
 package com.ifood.ifood;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SlidingPaneLayout;
@@ -12,20 +16,27 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ifood.ifood.data.Comment_User;
 import com.ifood.ifood.data.Dish;
+import com.ifood.ifood.data.Model_Cookbook;
+import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.MoveToDetailView;
+import com.ifood.ifood.ultil.SessionLoginController;
+import com.ifood.ifood.ultil.SqliteCookbookController;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,6 +48,10 @@ public class detailFoodActivity extends AppCompatActivity {
     private List<String> listIngredient = new ArrayList<String>();
     private List<Comment_User> comment_userList = new ArrayList<Comment_User>();
 
+    private final String ADD_COOKBOOK = "Add Cookbook";
+    private final String REMOVE_COOKBOOK = "Remove Cookbook";
+
+    private final String ADD_SHOPPING_LIST = "Add Shopping List";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +81,7 @@ public class detailFoodActivity extends AppCompatActivity {
 
     private void setDetail(){
 
-        LinearLayout.LayoutParams borderParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 1);
+        LinearLayout.LayoutParams borderParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
         borderParams.setMargins(20,20,20,20);
 
         //Set image food
@@ -75,15 +90,18 @@ public class detailFoodActivity extends AppCompatActivity {
         final List<Dish> dishList = (List<Dish>)intent.getSerializableExtra("listDish");
 
         TextView imgMain = findViewById(R.id.imgMain);
-        imgMain.setBackgroundResource(dish.getImage());
+        BitmapDrawable image = ConfigImageQuality.getBitmapImage(getResources(), dish.getImage());
+        imgMain.setBackground(image);
 
         LinearLayout detail = findViewById(R.id.layout);
+
+        getActionButtonLayout();
 
         //Ingredient Title
         TextView ing = new TextView(this);
         ing.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
         ing.setGravity(Gravity.CENTER_VERTICAL);
-        ing.setText("Nguyên liệu");
+        ing.setText("Ingredients");
         ing.setTypeface(null, Typeface.BOLD);
         ing.setTextSize(18);
         ing.setPadding(30,0,0,0);
@@ -311,13 +329,14 @@ public class detailFoodActivity extends AppCompatActivity {
         //menu.setPadding(10,0,0,0);
 
         for (final Dish dishItem:dishList) {
-            if(dish.getId().equals(dishItem.getId())){
+            if(dish.getId() == dishItem.getId()){
                 continue;
             }
 
             FrameLayout item = new FrameLayout(this);
             item.setLayoutParams(new FrameLayout.LayoutParams(300, 300));
-            item.setBackgroundResource(dishItem.getImage());
+            BitmapDrawable imageDrawable = ConfigImageQuality.getBitmapImage(getResources(), dishItem.getImage());
+            item.setBackground(imageDrawable);
 
             TextView itemName = new TextView(this);
             itemName.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -352,5 +371,106 @@ public class detailFoodActivity extends AppCompatActivity {
         container.addView(menu);
 
         detail.addView(container);
+    }
+
+    private void getActionButtonLayout(){
+
+        //Action button
+        LinearLayout actionLayout = findViewById(R.id.btnActionLayout);
+
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+
+
+        LinearLayout cookbookLayout = new LinearLayout(this);
+        cookbookLayout.setLayoutParams(new LinearLayout.LayoutParams(size.x / 2 - 20, ViewGroup.LayoutParams.MATCH_PARENT));
+        cookbookLayout.setGravity(Gravity.CENTER);
+        LinearLayout orderLayout = new LinearLayout(this);
+        orderLayout.setLayoutParams(new LinearLayout.LayoutParams(size.x / 2, ViewGroup.LayoutParams.MATCH_PARENT));
+        orderLayout.setGravity(Gravity.CENTER);
+
+        ImageButton btnCookbook = new ImageButton(this);
+        btnCookbook.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_add_cook_book));
+        btnCookbook.setBackgroundColor(Color.TRANSPARENT);
+
+        LinearLayout.LayoutParams txtActionLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        txtActionLayout.setMargins(0,0,10,5);
+
+        final TextView txtCookbook = new TextView(this);
+        txtCookbook.setLayoutParams(txtActionLayout);
+        txtCookbook.setText(ADD_COOKBOOK);
+        txtCookbook.setGravity(Gravity.CENTER);
+        txtCookbook.setTextColor(getResources().getColor(R.color.colorDarkerGray));
+
+        cookbookLayout.addView(txtCookbook);
+        cookbookLayout.addView(btnCookbook);
+
+
+        ImageButton btnOrder = new ImageButton(this);
+        btnOrder.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_shopping_cart));
+        btnOrder.setBackgroundColor(Color.TRANSPARENT);
+
+        TextView txtOrder = new TextView(this);
+        txtOrder.setLayoutParams(txtActionLayout);
+        txtOrder.setText(ADD_SHOPPING_LIST);
+        txtOrder.setGravity(Gravity.CENTER);
+        txtOrder.setTextColor(getResources().getColor(R.color.colorDarkerGray));
+
+        orderLayout.addView(txtOrder);
+        orderLayout.addView(btnOrder);
+
+        /*Add border between 2 layout*/
+        LinearLayout borderLayout = new LinearLayout(this);
+        borderLayout.setLayoutParams(new LinearLayout.LayoutParams(2, ViewGroup.LayoutParams.MATCH_PARENT));
+        borderLayout.setBackgroundColor(Color.DKGRAY);
+        /*===========================*/
+
+        actionLayout.addView(cookbookLayout);
+        actionLayout.addView(borderLayout);
+        actionLayout.addView(orderLayout);
+
+        final SessionLoginController session = new SessionLoginController(getApplicationContext());
+        final Dish dish = (Dish) detailFoodActivity.this.getIntent().getSerializableExtra("dish");
+        if (!session.getEmail().isEmpty() && checkDishIsExistInCookbook(dish)){
+            txtCookbook.setText(REMOVE_COOKBOOK);
+        }
+
+        cookbookLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SqliteCookbookController sqlite = new SqliteCookbookController(getApplicationContext());
+                if (session.getEmail().isEmpty()){
+                    Intent intent = new Intent(detailFoodActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+                if (checkDishIsExistInCookbook(dish)){
+                    sqlite.deleteData_From_Table(sqlite.getTableName(), "DishId = ? AND UserId = ?", new String[] {dish.getId() + "", session.getUserId() + ""});
+                    txtCookbook.setText(ADD_COOKBOOK);
+                    Toast.makeText(detailFoodActivity.this, "Remove cookbook successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Model_Cookbook cookbook = new Model_Cookbook();
+                    cookbook.setDishId(dish.getId());
+                    cookbook.setDishName(dish.getTitle());
+                    cookbook.setUserId(session.getUserId());
+                    sqlite.insertDataIntoTable(sqlite.getTableName(), cookbook);
+
+                    txtCookbook.setText(REMOVE_COOKBOOK);
+                    Toast.makeText(detailFoodActivity.this, "Add cookbook successful", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private boolean checkDishIsExistInCookbook(Dish dish){
+
+        SqliteCookbookController sqlite = new SqliteCookbookController(getApplicationContext());
+        SessionLoginController session = new SessionLoginController(this);
+
+        Dish dishCookbook = sqlite.checkDishIsAdded(dish.getId(), session.getUserId());
+        if (dishCookbook != null){
+            return true;
+        }
+        return false;
     }
 }

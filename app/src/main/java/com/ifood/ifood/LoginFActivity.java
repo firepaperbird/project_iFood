@@ -52,6 +52,7 @@ public class LoginFActivity extends AppCompatActivity {
         if (user != null){
             SessionLoginController session = new SessionLoginController(this);
 
+            session.setUserId(user.getId());
             session.setUsername(user.getUsername());
             session.setEmail(user.getEmail());
 

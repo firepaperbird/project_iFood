@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqliteUserController extends SqliteDataController {
+    private final int COLUMN_ID_INDEX = 0;
     private final int COLUMN_NAME_INDEX = 1;
     private final int COLUMN_EMAIL_INDEX = 2;
     private final int COLUMN_PASSWORD_INDEX = 3;
@@ -59,6 +60,7 @@ public class SqliteUserController extends SqliteDataController {
             Cursor cs = database.query(TABLE_NAME, null, "Email = ?", new String[]{email}, null, null, null, null);
             if (cs.moveToFirst()) {
                 user = new Model_User();
+                user.setId(Integer.parseInt(cs.getString(COLUMN_ID_INDEX)));
                 user.setUsername(cs.getString(COLUMN_NAME_INDEX));
                 user.setEmail(cs.getString(COLUMN_EMAIL_INDEX));
                 user.setPassword(cs.getString(COLUMN_PASSWORD_INDEX));
