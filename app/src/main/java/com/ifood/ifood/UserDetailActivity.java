@@ -93,12 +93,7 @@ public class UserDetailActivity extends AppCompatActivity {
         SessionLoginController session = new SessionLoginController(this);
 
         List<Model_Cookbook> listCookbook = sqlite.getCookbookByUserId(session.getUserId());
-        if (listCookbook.size() == 0){
-            TextView txtCookbookTitle = findViewById(R.id.txtCookbookTitle);
-            txtCookbookTitle.setText("");
-            TextView txtRecipes = findViewById(R.id.txtTotalRecipes);
-            txtRecipes.setText("");
-        } else {
+        if (listCookbook.size() != 0){
             for (int i = 0; i < listCookbook.size(); i++){
                 FrameLayout newLayoutCookbook = (FrameLayout) LayoutInflater.from(this).inflate(R.layout.cookbook_layout, null);
                 LinearLayout.LayoutParams layoutParamsCookbook = new LinearLayout.LayoutParams(layoutCookbookWidth, layoutCookbookHeight);
@@ -116,8 +111,8 @@ public class UserDetailActivity extends AppCompatActivity {
 
                 int totalLayoutCookbook = mainLayoutCookbooks.getChildCount();
                 if (i % 2 == 0){
-                    int id = getResources().getIdentifier("layoutCookbooks_" + (totalLayoutCookbook - 1), "id", getApplicationContext().getPackageName());
-                    LinearLayout layoutCookbook = findViewById(id);
+                    //int id = getResources().getIdentifier("layoutCookbooks_" + (totalLayoutCookbook - 1), "id", getApplicationContext().getPackageName());
+                    LinearLayout layoutCookbook = mainLayoutCookbooks.findViewWithTag("layoutCookbooks_" + (totalLayoutCookbook - 1));
                     layoutCookbook.addView(newLayoutCookbook);
 
                 } else {
@@ -126,7 +121,7 @@ public class UserDetailActivity extends AppCompatActivity {
                     layoutParams.setMargins(0,10,0,0);
                     newLayoutCookbooks.setLayoutParams(layoutParams);
                     newLayoutCookbooks.setOrientation(LinearLayout.HORIZONTAL);
-                    newLayoutCookbooks.setId(totalLayoutCookbook);
+                    newLayoutCookbooks.setTag("layoutCookbooks_" + totalLayoutCookbook);
                     newLayoutCookbooks.addView(newLayoutCookbook);
                     mainLayoutCookbooks.addView(newLayoutCookbooks);
                 }

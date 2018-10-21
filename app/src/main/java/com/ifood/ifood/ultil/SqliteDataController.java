@@ -137,12 +137,12 @@ public class SqliteDataController extends SQLiteOpenHelper {
         return result;
     }
 
-    public boolean updateDataIntoTable (String tableName, Object object) {
+    public boolean updateDataIntoTable (String tableName, Object object, String WhereClause, String[] WhereArgs) {
         boolean result = false;
         try {
             openDataBase();
             ContentValues values = getContentValuesFromObject(object);
-            long rs = database.update(tableName, values, "Email = ?", new String[] {values.get("email").toString()});
+            long rs = database.update(tableName, values, WhereClause, WhereArgs);
             if (rs > 0) {
                 result = true;
             }

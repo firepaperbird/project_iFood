@@ -7,24 +7,28 @@ public class Model_Cookbook {
     private Integer userId;
     private String title;
     private String imageId;
-    private Integer totalRecipes;
+    private int totalRecipes;
 
     public Model_Cookbook() {
     }
 
-    public Model_Cookbook(Integer userId, String title, String imageId, Integer totalRecipes) {
+    public Model_Cookbook(Integer userId, String title, String imageId, int totalRecipes) {
         this.userId = userId;
         this.title = title;
         this.imageId = imageId;
         this.totalRecipes = totalRecipes;
     }
 
-    public Integer getTotalRecipes() {
+    public int getTotalRecipes() {
         return totalRecipes;
     }
 
-    public void setTotalRecipes(Integer totalRecipes) {
+    public void setTotalRecipes(int totalRecipes) {
         this.totalRecipes = totalRecipes;
+    }
+
+    public void increateTotalRecipes(){
+        this.totalRecipes++;
     }
 
     public Integer getId() {

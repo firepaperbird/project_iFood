@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 
+import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.data.Model_Cookbook_Dish;
 
@@ -16,7 +17,7 @@ public class SqliteCookbookDishController extends SqliteDataController {
     private final int COLUMN_DISH_NAME_INDEX = 2;
     private final int COLUMN_COOKBOOK_ID_INDEX = 3;
 
-    private final String TABLE_NAME = "Cookbook_Dish";
+    private final String TABLE_NAME = "CookBook_Dish";
 
 
     public SqliteCookbookDishController(Context con) {
@@ -44,6 +45,24 @@ public class SqliteCookbookDishController extends SqliteDataController {
         }
 
         return listDish;
+    }
+
+     public boolean checkDishIsAdded(List<Model_Cookbook> listCookbook, int dishId){
+        try {
+            openDataBase();
+            for (Model_Cookbook cookbook : listCookbook){
+                Cursor cs = database.query(TABLE_NAME, null, "DishId = ? AND CookbookId = ?"
+                        , new String[]{dishId + "" , cookbook.getId() + ""}, null, null, null, null);
+                if (cs.moveToFirst()) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return false;
     }
 
     public String getTableName(){

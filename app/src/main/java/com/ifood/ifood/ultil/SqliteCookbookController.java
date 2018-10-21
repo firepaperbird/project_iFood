@@ -16,7 +16,7 @@ public class SqliteCookbookController extends SqliteDataController {
     private final int COLUMN_USER_ID_INDEX = 1;
     private final int COLUMN_TITLE_INDEX = 2;
     private final int COLUMN_IMAGE_ID_INDEX = 3;
-    private final int COLUMN_TOTAL_RECIPES_INDEX = 3;
+    private final int COLUMN_TOTAL_RECIPES_INDEX = 4;
 
     private final String TABLE_NAME = "CookBook";
 
@@ -47,24 +47,6 @@ public class SqliteCookbookController extends SqliteDataController {
 
         return listCookbook;
     }
-
-   /* public Dish checkDishIsAdded(int dishId, int userId){
-        try {
-            openDataBase();
-            Cursor cs = database.query(TABLE_NAME, null, "DishId = ? AND UserId = ?", new String[]{dishId + "", userId + ""}, null, null, null, null);
-            if (cs.moveToFirst()) {
-                Dish dish = new Dish();
-                dish.setId(Integer.parseInt(cs.getString(COLUMN_DISH_ID_INDEX)));
-                dish.setTitle(cs.getString(COLUMN_DISH_NAME_INDEX));
-                return dish;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close();
-        }
-        return null;
-    }*/
 
     public String getTableName(){
         return TABLE_NAME;

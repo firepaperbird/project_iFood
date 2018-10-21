@@ -45,7 +45,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 edtUser.setDescription(edtDescription.getText().toString());
 
                 SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
-                sqlite.updateDataIntoTable(sqlite.getTableName(), edtUser);
+                sqlite.updateDataIntoTable(sqlite.getTableName(), edtUser, "Id = ?", new String[] {user.getId().toString()});
 
                 SessionLoginController session = new SessionLoginController(EditProfileActivity.this);
                 session.setUsername(edtUser.getUsername());

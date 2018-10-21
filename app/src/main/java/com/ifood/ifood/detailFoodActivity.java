@@ -21,13 +21,16 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ifood.ifood.Dialog.AddToCookbookDialog;
 import com.ifood.ifood.data.Comment_User;
 import com.ifood.ifood.data.Dish;
+import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.data.Model_Cookbook_Dish;
 import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.MoveToDetailView;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
+import com.ifood.ifood.ultil.SqliteCookbookDishController;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,7 +42,7 @@ public class detailFoodActivity extends AppCompatActivity {
     private List<Comment_User> comment_userList = new ArrayList<Comment_User>();
 
     private final String ADD_COOKBOOK = "Add Cookbook";
-    private final String REMOVE_COOKBOOK = "Remove Cookbook";
+    private final String ADDED_COOKBOOK = "Added";
 
     private final String ADD_SHOPPING_LIST = "Add Shopping List";
 
@@ -92,7 +95,7 @@ public class detailFoodActivity extends AppCompatActivity {
 
         LinearLayout detail = findViewById(R.id.layout);
 
-        //getActionButtonLayout();
+        getActionButtonLayout();
 
         //Ingredient Title
         TextView ing = new TextView(this);
@@ -163,7 +166,7 @@ public class detailFoodActivity extends AppCompatActivity {
             imgR.setBackgroundResource(R.drawable.mon_ca_ri_ga);
 
             LinearLayout step = new LinearLayout(this);
-            step.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 100));
+            step.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             step.setOrientation(LinearLayout.VERTICAL);
             step.setPadding(20,10,0,0);
             step.setBackgroundColor(Color.parseColor("#C6E2FF"));
@@ -250,7 +253,7 @@ public class detailFoodActivity extends AppCompatActivity {
             user_img.setBackgroundResource(R.drawable.icon_user_50);
 
             LinearLayout userInfo = new LinearLayout(this);
-            userInfo.setLayoutParams(new LinearLayout.LayoutParams(450, 80));
+            userInfo.setLayoutParams(new LinearLayout.LayoutParams(450, ViewGroup.LayoutParams.WRAP_CONTENT));
             userInfo.setOrientation(LinearLayout.VERTICAL);
 
             TextView username = new TextView(this);
@@ -263,7 +266,7 @@ public class detailFoodActivity extends AppCompatActivity {
             time.setText(comment_userList.get(i).getTime());
 
             RatingBar rating = new RatingBar(this,null,android.R.attr.ratingBarStyleSmall);
-            rating.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80));
+            rating.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             rating.setNumStars(5);
             rating.setRating(comment_userList.get(i).getStar());
             rating.setClickable(false);
@@ -323,7 +326,6 @@ public class detailFoodActivity extends AppCompatActivity {
         LinearLayout menu = new LinearLayout(this);
         menu.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         menu.setOrientation(LinearLayout.HORIZONTAL);
-        //menu.setPadding(10,0,0,0);
 
         for (final Dish dishItem:dishList) {
             if(dish.getId() == dishItem.getId()){
@@ -370,7 +372,7 @@ public class detailFoodActivity extends AppCompatActivity {
         detail.addView(container);
     }
 
-    /*private void getActionButtonLayout(){
+    private void getActionButtonLayout(){
 
         //Action button
         LinearLayout actionLayout = findViewById(R.id.btnActionLayout);
@@ -416,11 +418,11 @@ public class detailFoodActivity extends AppCompatActivity {
         orderLayout.addView(txtOrder);
         orderLayout.addView(btnOrder);
 
-        *//*Add border between 2 layout*//*
+        /*Add border between 2 layout*/
         LinearLayout borderLayout = new LinearLayout(this);
         borderLayout.setLayoutParams(new LinearLayout.LayoutParams(2, ViewGroup.LayoutParams.MATCH_PARENT));
         borderLayout.setBackgroundColor(Color.DKGRAY);
-        *//*===========================*//*
+        /*===========================*/
 
         actionLayout.addView(cookbookLayout);
         actionLayout.addView(borderLayout);
@@ -428,48 +430,35 @@ public class detailFoodActivity extends AppCompatActivity {
 
         final SessionLoginController session = new SessionLoginController(getApplicationContext());
         final Dish dish = (Dish) detailFoodActivity.this.getIntent().getSerializableExtra("dish");
-        if (!session.getEmail().isEmpty() && checkDishIsExistInCookbook(dish)){
-            txtCookbook.setText(REMOVE_COOKBOOK);
+        final List<Model_Cookbook> listCookbook = getListCookbookByUserId(session);
+
+        boolean isAddedSuccessful = getIntent().getBooleanExtra("ADD_COOKBOOK_SUCCESSFUL", false);
+        if (isAddedSuccessful){
+            haveAction = true;
+            Toast.makeText(this, "Add into cookbook successful", Toast.LENGTH_SHORT).show();
+            getIntent().removeExtra("ADD_COOKBOOK_SUCCESSFUL");
         }
 
         cookbookLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SqliteCookbookController sqlite = new SqliteCookbookController(getApplicationContext());
                 if (session.getEmail().isEmpty()){
                     Intent intent = new Intent(detailFoodActivity.this, LoginActivity.class);
                     startActivity(intent);
                     return;
                 }
-                if (checkDishIsExistInCookbook(dish)){
-                    sqlite.deleteData_From_Table(sqlite.getTableName(), "DishId = ? AND UserId = ?", new String[] {dish.getId() + "", session.getUserId() + ""});
-                    txtCookbook.setText(ADD_COOKBOOK);
-                    Toast.makeText(detailFoodActivity.this, "Remove cookbook successful", Toast.LENGTH_SHORT).show();
-                    haveAction = true;
-                } else {
-                    Model_Cookbook_Dish cookbook = new Model_Cookbook_Dish();
-                    cookbook.setDishId(dish.getId());
-                    cookbook.setDishName(dish.getTitle());
-                    cookbook.setUserId(session.getUserId());
-                    sqlite.insertDataIntoTable(sqlite.getTableName(), cookbook);
 
-                    txtCookbook.setText(REMOVE_COOKBOOK);
-                    Toast.makeText(detailFoodActivity.this, "Add cookbook successful", Toast.LENGTH_SHORT).show();
-                    haveAction = true;
-                }
+                AddToCookbookDialog dialog = new AddToCookbookDialog();
+                dialog.insertListCookbookAndDish(listCookbook, dish);
+                dialog.show(getFragmentManager(), "");
             }
         });
     }
 
-    private boolean checkDishIsExistInCookbook(Dish dish){
-
+    private List<Model_Cookbook> getListCookbookByUserId(SessionLoginController session){
+        List<Model_Cookbook> listCookbook = new ArrayList<>();
         SqliteCookbookController sqlite = new SqliteCookbookController(getApplicationContext());
-        SessionLoginController session = new SessionLoginController(this);
-
-        Dish dishCookbook = sqlite.checkDishIsAdded(dish.getId(), session.getUserId());
-        if (dishCookbook != null){
-            return true;
-        }
-        return false;
-    }*/
+        listCookbook = sqlite.getCookbookByUserId(session.getUserId());
+        return listCookbook;
+    }
 }

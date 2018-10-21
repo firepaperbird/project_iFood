@@ -31,12 +31,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ifood.ifood.data.Dish;
+import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.MoveToDetailView;
 import com.ifood.ifood.ultil.BottomNavigationViewHelper;
 import com.ifood.ifood.ultil.SessionCategoryController;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
+import com.ifood.ifood.ultil.SqliteCookbookDishController;
+
+import java.util.List;
 
 public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -264,14 +268,16 @@ public class mainMenuActivity extends AppCompatActivity {
 
             frameLayout.addView(shadowLayout);
 
-            /*if (isLogin) {
-                SqliteCookbookController sqlite = new SqliteCookbookController(getApplicationContext());
+            if (isLogin) {
+                SqliteCookbookDishController sqlite = new SqliteCookbookDishController(getApplicationContext());
                 SessionLoginController session = new SessionLoginController(this);
-                Dish dishCookbook = sqlite.checkDishIsAdded(dish.getId(), session.getUserId());
-                if (dishCookbook != null){
+                SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getApplicationContext());
+                List<Model_Cookbook> listCookbook = sqliteCookbookController.getCookbookByUserId(session.getUserId());
+                boolean isExist = sqlite.checkDishIsAdded(listCookbook, dish.getId());
+                if (isExist){
                     frameLayout.addView(cookbookLayout);
                 }
-            }*/
+            }
 
             frameLayout.addView(layoutInfo);
 
@@ -280,8 +286,7 @@ public class mainMenuActivity extends AppCompatActivity {
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MoveToDetailView move = new MoveToDetailView();
-                    move.moveToDetail(mainMenuActivity.this,detailFoodActivity.class,dish,menu.getListDish());
+                    MoveToDetailView.moveToDetail(mainMenuActivity.this,detailFoodActivity.class,dish,menu.getListDish());
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             });
@@ -305,7 +310,6 @@ public class mainMenuActivity extends AppCompatActivity {
     }
 
     private void setUserLoginOrSignUp (){
-        //SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.login_prefs), Context.MODE_PRIVATE);
         SessionLoginController session = new SessionLoginController(this);
         TextView userName = findViewById(R.id.userName);
         TextView userEmail = findViewById(R.id.userEmail);
@@ -322,6 +326,7 @@ public class mainMenuActivity extends AppCompatActivity {
             boolean isSignUpSuccessful = getIntent().getBooleanExtra("LOGIN_SUCCESSFUL", false);
             if (isSignUpSuccessful){
                 Toast.makeText(this, "Sign up successful. ", Toast.LENGTH_SHORT).show();
+                getIntent().removeExtra("LOGIN_SUCCESSFUL");
             }
 
             iconUser.setClickable(true);

@@ -20,7 +20,7 @@
             android:background="@drawable/border_cookbook_title"/>
 
         <LinearLayout
-            android:id="@+id/layoutCookbooks_1"
+            android:tag="layoutCookbooks_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
