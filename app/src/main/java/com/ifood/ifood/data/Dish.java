@@ -7,17 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Dish implements Serializable{
-    private int id;
+    private Integer id;
     private String title;
     private String description;
     private String author;
-    private int image;
+    private Integer image;
     private List<String> tags;
 
     public Dish() {
     }
 
-    public Dish(int id, String title, String description, String author, int image, List<String> tags) {
+    public Dish(Integer id, String title, String description, String author, Integer image, List<String> tags) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -26,11 +26,11 @@ public class Dish implements Serializable{
         this.tags = tags;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -57,11 +57,11 @@ public class Dish implements Serializable{
         this.description = description;
     }
 
-    public int getImage() {
+    public Integer getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(Integer image) {
         this.image = image;
     }
 

@@ -1,6 +1,7 @@
 CREATE TABLE CookBook (
 	Id	INTEGER PRIMARY KEY AUTOINCREMENT,
-	DishId int,
-	DishName	varchar(50),
-	UserId int
+	UserId int,
+	Title varchar(50),
+	ImageId varchar(50),
+	TotalRecipes int
 );

@@ -1,38 +1,29 @@
 package com.ifood.ifood;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RatingBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ifood.ifood.data.Comment_User;
 import com.ifood.ifood.data.Dish;
-import com.ifood.ifood.data.Model_Cookbook;
+import com.ifood.ifood.data.Model_Cookbook_Dish;
 import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.MoveToDetailView;
 import com.ifood.ifood.ultil.SessionLoginController;
@@ -40,7 +31,6 @@ import com.ifood.ifood.ultil.SqliteCookbookController;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class detailFoodActivity extends AppCompatActivity {
@@ -52,6 +42,8 @@ public class detailFoodActivity extends AppCompatActivity {
     private final String REMOVE_COOKBOOK = "Remove Cookbook";
 
     private final String ADD_SHOPPING_LIST = "Add Shopping List";
+
+    private boolean haveAction = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +63,11 @@ public class detailFoodActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                if (haveAction){
+                    Intent intent = new Intent(this, mainMenuActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
                 finish();
                 return true;
             default:
@@ -95,7 +92,7 @@ public class detailFoodActivity extends AppCompatActivity {
 
         LinearLayout detail = findViewById(R.id.layout);
 
-        getActionButtonLayout();
+        //getActionButtonLayout();
 
         //Ingredient Title
         TextView ing = new TextView(this);
@@ -373,7 +370,7 @@ public class detailFoodActivity extends AppCompatActivity {
         detail.addView(container);
     }
 
-    private void getActionButtonLayout(){
+    /*private void getActionButtonLayout(){
 
         //Action button
         LinearLayout actionLayout = findViewById(R.id.btnActionLayout);
@@ -419,11 +416,11 @@ public class detailFoodActivity extends AppCompatActivity {
         orderLayout.addView(txtOrder);
         orderLayout.addView(btnOrder);
 
-        /*Add border between 2 layout*/
+        *//*Add border between 2 layout*//*
         LinearLayout borderLayout = new LinearLayout(this);
         borderLayout.setLayoutParams(new LinearLayout.LayoutParams(2, ViewGroup.LayoutParams.MATCH_PARENT));
         borderLayout.setBackgroundColor(Color.DKGRAY);
-        /*===========================*/
+        *//*===========================*//*
 
         actionLayout.addView(cookbookLayout);
         actionLayout.addView(borderLayout);
@@ -448,8 +445,9 @@ public class detailFoodActivity extends AppCompatActivity {
                     sqlite.deleteData_From_Table(sqlite.getTableName(), "DishId = ? AND UserId = ?", new String[] {dish.getId() + "", session.getUserId() + ""});
                     txtCookbook.setText(ADD_COOKBOOK);
                     Toast.makeText(detailFoodActivity.this, "Remove cookbook successful", Toast.LENGTH_SHORT).show();
+                    haveAction = true;
                 } else {
-                    Model_Cookbook cookbook = new Model_Cookbook();
+                    Model_Cookbook_Dish cookbook = new Model_Cookbook_Dish();
                     cookbook.setDishId(dish.getId());
                     cookbook.setDishName(dish.getTitle());
                     cookbook.setUserId(session.getUserId());
@@ -457,6 +455,7 @@ public class detailFoodActivity extends AppCompatActivity {
 
                     txtCookbook.setText(REMOVE_COOKBOOK);
                     Toast.makeText(detailFoodActivity.this, "Add cookbook successful", Toast.LENGTH_SHORT).show();
+                    haveAction = true;
                 }
             }
         });
@@ -472,5 +471,5 @@ public class detailFoodActivity extends AppCompatActivity {
             return true;
         }
         return false;
-    }
+    }*/
 }

@@ -34,6 +34,7 @@ import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.MoveToDetailView;
 import com.ifood.ifood.ultil.BottomNavigationViewHelper;
+import com.ifood.ifood.ultil.SessionCategoryController;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
 
@@ -131,9 +132,9 @@ public class mainMenuActivity extends AppCompatActivity {
                 categoryId = DAILY_FOOD_CATEGORY_ID;
                 break;
         }
-
+        SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
+        sessionCategoryController.setCurrentCategory(categoryId);
         Intent intent = new Intent(this, mainMenuActivity.class);
-        intent.putExtra("categoryId", categoryId);
         startActivity(intent);
     }
 
@@ -170,7 +171,6 @@ public class mainMenuActivity extends AppCompatActivity {
                 menu.setListDish(menu.getDalyMenu());
                 break;
             default:
-                txtTitle.setText("Home");
                 txtTitle.setText(getResources().getString(R.string.menu_daily_food));
                 menu.setListDish(menu.getDalyMenu());
                 break;
@@ -178,15 +178,15 @@ public class mainMenuActivity extends AppCompatActivity {
     }
 
     private void setListMenu(){
-        Intent intent = this.getIntent();
-        int categoryId = intent.getIntExtra("categoryId", 0);
+        SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
+        int categoryId = sessionCategoryController.getCurrentCategory();
         setMainMenuByCategoryId(categoryId);
 
         LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 LAYOUT_DISH_HEIGHT);
 
         LinearLayout.LayoutParams layoutParamsInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.FILL_PARENT);
+                ViewGroup.LayoutParams.MATCH_PARENT);
 
         LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -251,7 +251,7 @@ public class mainMenuActivity extends AppCompatActivity {
             LinearLayout shadowLayout = new LinearLayout(this);
             shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     LAYOUT_DISH_HEIGHT));
-            shadowLayout.setBackground(getResources().getDrawable(R.drawable.shadow));
+            shadowLayout.setBackground(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.shadow));
             shadowLayout.getBackground().setAlpha(175);
             shadowLayout.setGravity(Gravity.BOTTOM);
 
@@ -264,14 +264,14 @@ public class mainMenuActivity extends AppCompatActivity {
 
             frameLayout.addView(shadowLayout);
 
-            if (isLogin) {
+            /*if (isLogin) {
                 SqliteCookbookController sqlite = new SqliteCookbookController(getApplicationContext());
                 SessionLoginController session = new SessionLoginController(this);
                 Dish dishCookbook = sqlite.checkDishIsAdded(dish.getId(), session.getUserId());
                 if (dishCookbook != null){
                     frameLayout.addView(cookbookLayout);
                 }
-            }
+            }*/
 
             frameLayout.addView(layoutInfo);
 
