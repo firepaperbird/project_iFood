@@ -41,8 +41,6 @@ public class UserDetailActivity extends AppCompatActivity {
             user = sqliteControl.getUserByEmail(session.getEmail());
         }catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            sqliteControl.close();
         }
 
         TextView txtUsername = findViewById(R.id.txtUsername);

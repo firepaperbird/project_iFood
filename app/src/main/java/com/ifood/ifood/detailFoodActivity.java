@@ -407,7 +407,7 @@ public class detailFoodActivity extends AppCompatActivity {
 
 
         ImageButton btnOrder = new ImageButton(this);
-        btnOrder.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_shopping_cart));
+        btnOrder.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_shopping_list_icon));
         btnOrder.setBackgroundColor(Color.TRANSPARENT);
 
         TextView txtOrder = new TextView(this);
