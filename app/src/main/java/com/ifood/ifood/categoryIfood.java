@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.ifood.ifood.ultil.SessionCategoryController;
+
 public class categoryIfood extends AppCompatActivity {
 
     @Override
@@ -72,8 +74,9 @@ public class categoryIfood extends AppCompatActivity {
     }
 
     private  void nextToMainMenu(int categoryId){
+        SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
+        sessionCategoryController.setCurrentCategory(categoryId);
         Intent intent = new Intent(this, mainMenuActivity.class);
-        intent.putExtra("categoryId", categoryId);
         startActivity(intent);
 
         finish();

@@ -1,23 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".detailFoodActivity">
-    <LinearLayout
-        android:id="@+id/layout"
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
+        android:layout_marginBottom="50dp"
+        android:fillViewport="true"
+        android:id="@+id/scrollViewLayout">
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/imgMain"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true">
 
-        <TextView
-            android:id="@+id/imgMain"
+        <LinearLayout
+            android:id="@+id/btnActionLayout"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            />
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="#ffff00"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
 
-    </LinearLayout>
 
 
-</ScrollView>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>

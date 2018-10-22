@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp">
+
+    <LinearLayout
+        android:id="@+id/mainLayoutCookbook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:text="Cookbook"
+            android:background="@drawable/border_cookbook_title"/>
+
+        <LinearLayout
+            android:tag="layoutCookbooks_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+
+            <FrameLayout
+                android:id="@+id/defaultCookbook"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="@dimen/padding_medium"
+                android:orientation="vertical"
+                android:onClick="addNewCookBook">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/create_new_cookbook"
+                    android:onClick="addNewCookBook"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/shadow_cookbook"
+                    android:alpha="0.9"
+                    android:layout_gravity="top"
+                    android:onClick="addNewCookBook"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_medium"
+                    android:textColor="@color/colorWhite"
+                    android:text="Cookbook Title"
+                    android:onClick="addNewCookBook"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:padding="@dimen/padding_medium"
+                    android:layout_marginTop="@dimen/padding_large"
+                    android:textSize="8dp"
+                    android:text="Total Recipes"
+                    android:onClick="addNewCookBook"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
+
+
+

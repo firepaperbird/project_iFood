@@ -1,11 +1,16 @@
 package com.ifood.ifood;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,19 +22,35 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ifood.ifood.data.Dish;
+import com.ifood.ifood.data.Model_Cookbook;
+import com.ifood.ifood.ultil.ConfigImageQuality;
+import com.ifood.ifood.ultil.MoveToDetailView;
 import com.ifood.ifood.ultil.BottomNavigationViewHelper;
+import com.ifood.ifood.ultil.SessionCategoryController;
+import com.ifood.ifood.ultil.SessionLoginController;
+import com.ifood.ifood.ultil.SqliteCookbookController;
+import com.ifood.ifood.ultil.SqliteCookbookDishController;
+
+import java.util.List;
 
 public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout listMenu;
     private com.ifood.ifood.data.Menu menu;
+
+    private boolean isLogin = false;
+
+    final int LAYOUT_DISH_HEIGHT = 1000;
 
     final int GYM_FOOD_CATEGORY_ID = 1;
     final int HEALTHY_FOOD_CATEGORY_ID = 2;
@@ -42,18 +63,16 @@ public class mainMenuActivity extends AppCompatActivity {
 
         setDrawerLayout();
 
+        setUserLoginOrSignUp();
+
         setListMenu();
 
-        LinearLayout userIcon = findViewById(R.id.userIcon);
-        userIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickToUserCheck();
-            }
-        });
+    }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUserLoginOrSignUp();
     }
 
     @Override
@@ -93,23 +112,16 @@ public class mainMenuActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClickUserIcon(View view) {
-
-        clickToUserCheck();
-    }
-    public void moveToUserDetail(MenuItem item) {
-        clickToUserCheck();
-    }
-
-    private void clickToUserCheck(){
-        Intent intent;
-        if(true){
-            intent = new Intent(mainMenuActivity.this,LoginActivity.class);
-        }else{
-            intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
-        }
+    public void moveToUserDetail(View view){
+        Intent intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
         startActivity(intent);
     }
+
+    public void moveToUserDetail(MenuItem item) {
+        Intent intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
+        startActivity(intent);
+    }
+
     public void moveToMainMenuByCategoryId(View view) {
         int nav_category_id = view.getId();
         int categoryId = 0;
@@ -124,9 +136,9 @@ public class mainMenuActivity extends AppCompatActivity {
                 categoryId = DAILY_FOOD_CATEGORY_ID;
                 break;
         }
-
+        SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
+        sessionCategoryController.setCurrentCategory(categoryId);
         Intent intent = new Intent(this, mainMenuActivity.class);
-        intent.putExtra("categoryId", categoryId);
         startActivity(intent);
     }
 
@@ -143,9 +155,6 @@ public class mainMenuActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        Intent intent = this.getIntent();
-        int categoryId = intent.getIntExtra("categoryId", 0);
-        setMainMenuByCategoryId(categoryId);
     }
 
     private void setMainMenuByCategoryId(int categoryId){
@@ -166,7 +175,6 @@ public class mainMenuActivity extends AppCompatActivity {
                 menu.setListDish(menu.getDalyMenu());
                 break;
             default:
-                txtTitle.setText("Home");
                 txtTitle.setText(getResources().getString(R.string.menu_daily_food));
                 menu.setListDish(menu.getDalyMenu());
                 break;
@@ -174,12 +182,15 @@ public class mainMenuActivity extends AppCompatActivity {
     }
 
     private void setListMenu(){
+        SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
+        int categoryId = sessionCategoryController.getCurrentCategory();
+        setMainMenuByCategoryId(categoryId);
 
         LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                600);
+                LAYOUT_DISH_HEIGHT);
 
         LinearLayout.LayoutParams layoutParamsInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.FILL_PARENT);
+                ViewGroup.LayoutParams.MATCH_PARENT);
 
         LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -201,7 +212,8 @@ public class mainMenuActivity extends AppCompatActivity {
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(layoutMenu);
-            layout.setBackground(getResources().getDrawable(dish.getImage()));
+            BitmapDrawable image = ConfigImageQuality.getBitmapImage(getResources(), dish.getImage());
+            layout.setBackground(image);  ;
 
             LinearLayout layoutInfo = new LinearLayout(this);
             layoutInfo.setLayoutParams(layoutParamsInfo);
@@ -239,29 +251,42 @@ public class mainMenuActivity extends AppCompatActivity {
             layoutInfo.addView(divider);
             layoutInfo.addView(tagLayout);
 
+            /*Shadow layout of dish image*/
             LinearLayout shadowLayout = new LinearLayout(this);
-            shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-                    600));
-            shadowLayout.setBackground(getResources().getDrawable(R.drawable.shadow));
+            shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    LAYOUT_DISH_HEIGHT));
+            shadowLayout.setBackground(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.shadow));
             shadowLayout.getBackground().setAlpha(175);
             shadowLayout.setGravity(Gravity.BOTTOM);
 
+            /*cookbook_icon show when that dish was add into cookbook*/
+            LinearLayout cookbookLayout = enableCookbookIcon();
+
             FrameLayout frameLayout = new FrameLayout(this);
-            frameLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-                    ViewGroup.LayoutParams.FILL_PARENT, Gravity.BOTTOM));
+            frameLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT, Gravity.BOTTOM));
 
             frameLayout.addView(shadowLayout);
+
+            if (isLogin) {
+                SqliteCookbookDishController sqlite = new SqliteCookbookDishController(getApplicationContext());
+                SessionLoginController session = new SessionLoginController(this);
+                SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getApplicationContext());
+                List<Model_Cookbook> listCookbook = sqliteCookbookController.getCookbookByUserId(session.getUserId());
+                boolean isExist = sqlite.checkDishIsAdded(listCookbook, dish.getId());
+                if (isExist){
+                    frameLayout.addView(cookbookLayout);
+                }
+            }
+
             frameLayout.addView(layoutInfo);
 
             layout.addView(frameLayout);
-
             //set Onclick event
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mainMenuActivity.this, detailFoodActivity.class);
-                    intent.putExtra("dish", dish);
-                    startActivity(intent);
+                    MoveToDetailView.moveToDetail(mainMenuActivity.this,detailFoodActivity.class,dish,menu.getListDish());
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             });
@@ -270,4 +295,64 @@ public class mainMenuActivity extends AppCompatActivity {
         }
     }
 
+    private LinearLayout enableCookbookIcon(){
+        LinearLayout cookbookLayout = new LinearLayout(this);
+        cookbookLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        cookbookLayout.setGravity(Gravity.RIGHT);
+        cookbookLayout.setPadding(0,10,10,0);
+        ImageButton cookbook_icon = new ImageButton(this);
+        cookbook_icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_cook_book_icon));
+        cookbook_icon.setBackgroundColor(Color.TRANSPARENT);
+        cookbookLayout.addView(cookbook_icon);
+
+        return cookbookLayout;
+    }
+
+    private void setUserLoginOrSignUp (){
+        SessionLoginController session = new SessionLoginController(this);
+        TextView userName = findViewById(R.id.userName);
+        TextView userEmail = findViewById(R.id.userEmail);
+        LinearLayout btnSignin = findViewById(R.id.btn_signin_category);
+        LinearLayout btnSignout = findViewById(R.id.btn_signout_category);
+
+        LinearLayout iconUser = findViewById(R.id.userIcon);
+        if (!session.getUsername().isEmpty()){
+            userName.setText(session.getUsername());
+            userEmail.setText(session.getEmail());
+            btnSignout.setVisibility(View.VISIBLE);
+            btnSignin.setVisibility(View.INVISIBLE);
+
+            boolean isSignUpSuccessful = getIntent().getBooleanExtra("LOGIN_SUCCESSFUL", false);
+            if (isSignUpSuccessful){
+                Toast.makeText(this, "Sign up successful. ", Toast.LENGTH_SHORT).show();
+                getIntent().removeExtra("LOGIN_SUCCESSFUL");
+            }
+
+            iconUser.setClickable(true);
+            isLogin = true;
+        } else {
+            userName.setVisibility(View.INVISIBLE);
+            userEmail.setVisibility(View.INVISIBLE);
+            btnSignout.setVisibility(View.INVISIBLE);
+            btnSignin.setVisibility(View.VISIBLE);
+            iconUser.setClickable(false);
+
+            isLogin = false;
+        }
+    }
+
+    public void moveToLoginView(View view) {
+        Intent intent = new Intent(mainMenuActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void clickToSignOut(View view) {
+        SessionLoginController session = new SessionLoginController(this);
+        session.clearSession();
+
+        Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
