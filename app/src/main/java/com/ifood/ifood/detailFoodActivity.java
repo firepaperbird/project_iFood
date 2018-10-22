@@ -89,9 +89,27 @@ public class detailFoodActivity extends AppCompatActivity {
         final Dish dish = (Dish)intent.getSerializableExtra("dish");
         final List<Dish> dishList = (List<Dish>)intent.getSerializableExtra("listDish");
 
-        TextView imgMain = findViewById(R.id.imgMain);
+        FrameLayout imgMain = findViewById(R.id.imgMain);
         BitmapDrawable image = ConfigImageQuality.getBitmapImage(getResources(), dish.getImage());
         imgMain.setBackground(image);
+
+        LinearLayout content = findViewById(R.id.content);
+
+        TextView nameFood = new TextView(this);
+        nameFood.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        nameFood.setText(dish.getTitle());
+        nameFood.setTypeface(null, Typeface.BOLD);
+        nameFood.setTextColor(Color.WHITE);
+        nameFood.setTextSize(18);
+
+        RatingBar ratingFood = new RatingBar(this,null,android.R.attr.ratingBarStyleSmall);
+        ratingFood.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        ratingFood.setNumStars(5);
+        ratingFood.setRating(4);
+        ratingFood.setClickable(false);
+
+        content.addView(nameFood);
+        content.addView(ratingFood);
 
         LinearLayout detail = findViewById(R.id.layout);
 

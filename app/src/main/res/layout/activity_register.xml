@@ -22,9 +22,9 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp"
-            android:background="@android:color/white"
+            android:background="@drawable/button_signup"
             android:hint="Email"
-            android:padding="@dimen/padding_small"
+            android:padding="@dimen/padding_medium"
             android:textColor="@android:color/darker_gray"
             android:textSize="18dp" />
 
@@ -35,10 +35,10 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="140dp"
-            android:background="@android:color/white"
+            android:background="@drawable/button_signup"
             android:hint="Password"
             android:inputType="textPassword"
-            android:padding="@dimen/padding_small"
+            android:padding="@dimen/padding_medium"
             android:textColor="@android:color/darker_gray"
             android:textSize="18dp" />
 
@@ -49,10 +49,10 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="210dp"
-            android:background="@android:color/white"
+            android:background="@drawable/button_signup"
             android:hint="Confirm Password"
             android:inputType="textPassword"
-            android:padding="@dimen/padding_small"
+            android:padding="@dimen/padding_medium"
             android:textColor="@android:color/darker_gray"
             android:textSize="18dp" />
 
@@ -64,9 +64,9 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="280dp"
-            android:background="@android:color/white"
+            android:background="@drawable/button_signup"
             android:hint="Display Name"
-            android:padding="@dimen/padding_small"
+            android:padding="@dimen/padding_medium"
             android:textColor="@android:color/black"
             android:textSize="18dp" />
 
@@ -76,8 +76,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="370dp"
-            android:background="@android:color/holo_blue_bright"
+            android:layout_marginTop="350dp"
+            android:background="@drawable/button_signup"
+            android:backgroundTint="@android:color/holo_blue_dark"
             android:onClick="onClickSignup"
             android:text="Sign up"
             android:textColor="@android:color/background_light"
@@ -103,7 +104,7 @@
             android:layout_marginTop="450dp"
             android:gravity="center"
             android:text="@string/plese_login"
-            android:textColor="@android:color/background_light"
+            android:textColor="@android:color/holo_blue_dark"
             android:textSize="20sp"
             android:textStyle="bold"
             android:onClick="OnClickLogin"/>
