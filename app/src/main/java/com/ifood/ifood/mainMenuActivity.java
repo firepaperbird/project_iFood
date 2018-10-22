@@ -255,9 +255,7 @@ public class mainMenuActivity extends AppCompatActivity {
             LinearLayout shadowLayout = new LinearLayout(this);
             shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     LAYOUT_DISH_HEIGHT));
-            shadowLayout.setBackground(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.shadow));
-            shadowLayout.getBackground().setAlpha(175);
-            shadowLayout.setGravity(Gravity.BOTTOM);
+            shadowLayout.setBackground(getResources().getDrawable(R.drawable.shadow));
 
             /*cookbook_icon show when that dish was add into cookbook*/
             LinearLayout cookbookLayout = enableCookbookIcon();

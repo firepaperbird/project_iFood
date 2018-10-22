@@ -44,12 +44,9 @@ public class NewCookbookDialog extends DialogFragment {
                 SqliteCookbookController sqlite = new SqliteCookbookController(getActivity().getApplicationContext());
                 boolean result = sqlite.insertDataIntoTable(sqlite.getTableName(), cookbook);
                 if (result){
-                    Intent intent = new Intent(getActivity(), getActivity().getClass());
-                    intent.putExtra("CREATE_COOKBOOK_SUCCESSFUL", true);
-                    getActivity().startActivity(intent);
-
-                    getActivity().finish();
+                    getActivity().recreate();
                 }
+                dismiss();
             }
         });
 

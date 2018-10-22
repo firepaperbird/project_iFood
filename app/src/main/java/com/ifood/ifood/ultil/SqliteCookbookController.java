@@ -48,6 +48,28 @@ public class SqliteCookbookController extends SqliteDataController {
         return listCookbook;
     }
 
+    public Model_Cookbook getCookbookById(int id) {
+        try {
+            openDataBase();
+            Cursor cs = database.query(TABLE_NAME, null, "Id = ?", new String[]{id + ""}, null, null, null, null);
+            if (cs.moveToFirst()) {
+                Model_Cookbook cookbook = new Model_Cookbook();
+                cookbook.setId(Integer.parseInt(cs.getString(COLUMN_ID_INDEX)));
+                cookbook.setUserId(Integer.parseInt(cs.getString(COLUMN_USER_ID_INDEX)));
+                cookbook.setTitle(cs.getString(COLUMN_TITLE_INDEX));
+                cookbook.setImageId(cs.getString(COLUMN_IMAGE_ID_INDEX));
+                cookbook.setTotalRecipes(Integer.parseInt(cs.getString(COLUMN_TOTAL_RECIPES_INDEX)));
+                return cookbook;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+
+        return null;
+    }
+
     public String getTableName(){
         return TABLE_NAME;
     }

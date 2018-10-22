@@ -25,7 +25,9 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".UserDetailActivity" />
         <activity android:name=".CommentActivity" />
-        <activity android:name=".ViewCommentActivity"></activity>
+        <activity android:name=".ViewCommentActivity" />
+        <activity android:name=".EditCookbook" />
+        <activity android:name=".DetailCookbook"></activity>
     </application>
 
 </manifest>

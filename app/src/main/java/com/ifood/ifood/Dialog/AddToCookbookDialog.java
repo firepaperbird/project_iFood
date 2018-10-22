@@ -85,7 +85,7 @@ public class AddToCookbookDialog extends DialogFragment {
 
                         Model_Cookbook selectedCookbook = selectedItem;
                         selectedCookbook.setImageId(dish.getImage() + "");
-                        selectedCookbook.increateTotalRecipes();
+                        selectedCookbook.increaseTotalRecipes(1);
                         SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getActivity().getApplicationContext());
                         sqliteCookbookController.updateDataIntoTable(sqliteCookbookController.getTableName(), selectedCookbook,
                                 "Id = ?", new String[] {selectedCookbook.getId().toString()});

@@ -11,6 +11,9 @@ public class Menu {
     private String description;
     private List<Dish> listDish;
 
+    public Menu() {
+    }
+
     public Menu(String id, String name, String description, List<Dish> listDish) {
         this.id = id;
         this.name = name;
@@ -55,7 +58,7 @@ public class Menu {
         this.description = description;
     }
 
-    public  List<Dish> getDalyMenu(){
+    public List<Dish> getDalyMenu(){
         List<String> tags = new ArrayList<>();
         tags.add("High Vitamin C"); tags.add("High Potassium"); tags.add("Main Dishes"); tags.add("Slow Cooking");
         Dish dish_1 = new Dish(11, "CrockPot Goulash", "", "Marina", R.drawable.crockpot_goulash, tags);
@@ -85,7 +88,7 @@ public class Menu {
         return list;
     }
 
-    public  List<Dish> getHealthyMenu(){
+    public List<Dish> getHealthyMenu(){
         List<String> tags = new ArrayList<>();
         tags.add("Quick and easy"); tags.add("Salad");
         Dish dish_1 = new Dish(6, "Autumn Chopped Salad with White Cheddar Dressing", "", "Spoonful of Flavor", R.drawable.autumn_salad, tags);
@@ -115,7 +118,7 @@ public class Menu {
         return list;
     }
 
-    public  List<Dish> getGymMenu(){
+    public List<Dish> getGymMenu(){
         List<String> tags = new ArrayList<>();
         tags.add("Quick and easy"); tags.add("Salad");
         Dish dish_1 = new Dish(1, "Black Bean-Quinoa Buddha Bowl", "", "Eating Well", R.drawable.black_bean_bowl, tags);
@@ -143,5 +146,15 @@ public class Menu {
         list.add(dish_4);
         list.add(dish_5);
         return list;
+    }
+
+    public List<Dish> getAllDish(){
+        List<Dish> allDish = new ArrayList<>();
+
+        allDish.addAll(getGymMenu());
+        allDish.addAll(getHealthyMenu());
+        allDish.addAll(getDalyMenu());
+
+        return allDish;
     }
 }

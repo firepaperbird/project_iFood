@@ -347,7 +347,7 @@ public class detailFoodActivity extends AppCompatActivity {
             itemName.setText(dishItem.getTitle());
 
             LinearLayout shadowLayout = new LinearLayout(this);
-            shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+            shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             shadowLayout.setBackground(getResources().getDrawable(R.drawable.shadow));
             shadowLayout.getBackground().setAlpha(200);
@@ -430,8 +430,12 @@ public class detailFoodActivity extends AppCompatActivity {
 
         final SessionLoginController session = new SessionLoginController(getApplicationContext());
         final Dish dish = (Dish) detailFoodActivity.this.getIntent().getSerializableExtra("dish");
-        final List<Model_Cookbook> listCookbook = getListCookbookByUserId(session);
-
+        final List<Model_Cookbook> listCookbook;
+        if (session.getEmail().isEmpty()){
+            listCookbook = new ArrayList<>();
+        } else {
+            listCookbook = getListCookbookByUserId(session);
+        }
         boolean isAddedSuccessful = getIntent().getBooleanExtra("ADD_COOKBOOK_SUCCESSFUL", false);
         if (isAddedSuccessful){
             haveAction = true;

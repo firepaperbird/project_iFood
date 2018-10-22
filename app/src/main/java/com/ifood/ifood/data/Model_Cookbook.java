@@ -2,7 +2,9 @@ package com.ifood.ifood.data;
 
 import android.support.annotation.Nullable;
 
-public class Model_Cookbook {
+import java.io.Serializable;
+
+public class Model_Cookbook implements Serializable {
     private Integer id;
     private Integer userId;
     private String title;
@@ -27,8 +29,12 @@ public class Model_Cookbook {
         this.totalRecipes = totalRecipes;
     }
 
-    public void increateTotalRecipes(){
-        this.totalRecipes++;
+    public void increaseTotalRecipes(int amount){
+        this.totalRecipes += amount;
+    }
+
+    public void decreaseTotalRecipes(int amount){
+        this.totalRecipes -= amount;
     }
 
     public Integer getId() {

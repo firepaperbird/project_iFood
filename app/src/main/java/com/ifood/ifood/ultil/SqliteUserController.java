@@ -38,6 +38,7 @@ public class SqliteUserController extends SqliteDataController {
             Cursor cs = database.query(TABLE_NAME, null, "Email = ? AND Password = ?", new String[]{email, password}, null, null, null, null);
             if (cs.moveToFirst()) {
                 user = new Model_User();
+                user.setId(Integer.parseInt(cs.getString(COLUMN_ID_INDEX)));
                 user.setUsername(cs.getString(COLUMN_NAME_INDEX));
                 user.setEmail(cs.getString(COLUMN_EMAIL_INDEX));
                 user.setPassword(cs.getString(COLUMN_PASSWORD_INDEX));

@@ -41,9 +41,10 @@ public class UserDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        boolean isEditSuccessful = getIntent().getBooleanExtra("LOGIN_SUCCESSFUL", false);
+        boolean isEditSuccessful = getIntent().getBooleanExtra("EDIT_SUCCESSFUL", false);
         if (isEditSuccessful){
             Toast.makeText(this, "Edit successful. ", Toast.LENGTH_SHORT).show();
+            getIntent().removeExtra("EDIT_SUCCESSFUL");
         }
 
         SqliteUserController sqliteControl = new SqliteUserController(getApplicationContext());
@@ -99,8 +100,10 @@ public class UserDetailActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams layoutParamsCookbook = new LinearLayout.LayoutParams(layoutCookbookWidth, layoutCookbookHeight);
                 layoutParamsCookbook.setMargins(20, 0,0,0);
                 newLayoutCookbook.setLayoutParams(layoutParamsCookbook);
+                newLayoutCookbook.setTag(listCookbook.get(i).getId());
 
                 ImageView newImageCookbook = newLayoutCookbook.findViewById(R.id.imageCookbook);
+                newImageCookbook.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 newImageCookbook.setImageResource(Integer.parseInt(listCookbook.get(i).getImageId()));
 
                 TextView newTxtCookbookTitle = newLayoutCookbook.findViewById(R.id.txtCookbookTitle);
@@ -132,5 +135,18 @@ public class UserDetailActivity extends AppCompatActivity {
     public void addNewCookBook(View view){
         NewCookbookDialog dialog = new NewCookbookDialog();
         dialog.show(getFragmentManager(), "");
+    }
+
+    public void viewDetailCookbook(View view) {
+        View cookbookLayout = (View) view.getParent();
+        String cookbookId = cookbookLayout.getTag().toString();
+
+        SqliteCookbookController sqlite = new SqliteCookbookController(getApplicationContext());
+        Model_Cookbook cookbook = sqlite.getCookbookById(Integer.parseInt(cookbookId));
+        if (cookbook != null){
+            Intent intent = new Intent(this, DetailCookbook.class);
+            intent.putExtra("COOKBOOK_INFO", cookbook);
+            startActivity(intent);
+        }
     }
 }

@@ -36,6 +36,9 @@ public class SessionLoginController {
 
     public int getUserId() {
         String id = prefs.getString("userId","0");
+        if (id.isEmpty() || id == null){
+            return -1;
+        }
         return Integer.parseInt(id);
     }
 

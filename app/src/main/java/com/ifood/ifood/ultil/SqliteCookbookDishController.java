@@ -68,4 +68,28 @@ public class SqliteCookbookDishController extends SqliteDataController {
     public String getTableName(){
         return TABLE_NAME;
     }
+
+    public int deleteListDishInCookbook(String tbName, List<Dish> listDishRemove, int cookbookId) {
+
+        int result = 0;
+        try {
+            openDataBase();
+            database.beginTransaction();
+            for (Dish dish : listDishRemove){
+                result = database.delete(tbName, "DishId = ? AND CookbookId = ?"
+                        , new String[] {dish.getId() + "", cookbookId + ""});
+            }
+            if (result >= 0) {
+                database.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            database.endTransaction();
+            close();
+        } finally {
+            database.endTransaction();
+            close();
+        }
+
+        return result;
+    }
 }
