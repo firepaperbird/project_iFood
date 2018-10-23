@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layoutDishAndIngredient"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:tag="layoutDishInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite">
+
+        <ImageView
+            android:tag="imageDish"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/c3"/>
+
+        <TextView
+            android:tag="txtDishName"
+            android:layout_width="190dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Delicious,Rich and simple chocolate"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <Button
+            android:tag="btnRemoveDish"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/inconbtn"
+            android:onClick="removeDishOutShoppingList"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

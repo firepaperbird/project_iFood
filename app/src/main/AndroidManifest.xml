@@ -27,7 +27,8 @@
         <activity android:name=".CommentActivity" />
         <activity android:name=".ViewCommentActivity" />
         <activity android:name=".EditCookbook" />
-        <activity android:name=".DetailCookbook"></activity>
+        <activity android:name=".DetailCookbook"/>
+        <activity android:name=".ShoppingList"/>
     </application>
 
 </manifest>

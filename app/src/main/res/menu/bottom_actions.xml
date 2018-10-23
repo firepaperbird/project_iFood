@@ -7,8 +7,9 @@
         android:title="Home"/>
     <item
         android:id="@+id/action_favorite"
-        android:icon="@drawable/ic_action_add_cook_book_inactive"
-        android:title="Cookbook" />
+        android:icon="@drawable/ic_action_shopping_cart_inactive"
+        android:title="Shopping List"
+        android:onClick="moveToShoppingList"/>
     <item
         android:id="@+id/action_account"
         android:icon="@drawable/ic_action_account_circle_inactive"

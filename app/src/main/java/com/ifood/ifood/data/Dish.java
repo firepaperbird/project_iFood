@@ -13,6 +13,7 @@ public class Dish implements Serializable{
     private String author;
     private Integer image;
     private List<String> tags;
+    private List<Ingredient> ingredients;
 
     public Dish() {
     }
@@ -74,5 +75,21 @@ public class Dish implements Serializable{
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void increaseIngredient(Ingredient ingredient){
+        if (ingredients == null){
+            ingredients = new ArrayList<>();
+        }
+
+        ingredients.add(ingredient);
     }
 }

@@ -353,4 +353,10 @@ public class mainMenuActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    public void moveToShoppingList(MenuItem item) {
+        Intent intent = new Intent(this, ShoppingList.class);
+        startActivity(intent);
+
+    }
 }
