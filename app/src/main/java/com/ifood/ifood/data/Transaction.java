@@ -6,18 +6,57 @@ import java.util.List;
 public class Transaction {
     private Integer id;
     private int userId;
-    private List<DeleveryInfo> deleveryInfoList;
+    private String name;
+    private String phone;
+    private String address;
     private int typeOfTransaction;
-    private String time;
+    private String orderTime;
+    private int status;
 
-    public Transaction(int userId, List<DeleveryInfo> deleveryInfoList, int typeOfTransaction, String time) {
-        this.userId = userId;
-        this.deleveryInfoList = deleveryInfoList;
-        this.typeOfTransaction = typeOfTransaction;
-        this.time = time;
-    }
 
     public Transaction() {
+    }
+
+    public Transaction(int userId, String name, String phone, String address, int typeOfTransaction, String orderTime, int status) {
+        this.userId = userId;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.typeOfTransaction = typeOfTransaction;
+        this.orderTime = orderTime;
+        this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Integer getId() {
@@ -36,16 +75,6 @@ public class Transaction {
         this.userId = userId;
     }
 
-    public List<DeleveryInfo> getDeleveryInfoList() {
-        if(deleveryInfoList == null){
-            deleveryInfoList = new ArrayList<DeleveryInfo>();
-        }
-        return deleveryInfoList;
-    }
-
-    public void setDeleveryInfoList(List<DeleveryInfo> deleveryInfoList) {
-        this.deleveryInfoList = deleveryInfoList;
-    }
 
     public int getTypeOfTransaction() {
         return typeOfTransaction;
@@ -55,11 +84,11 @@ public class Transaction {
         this.typeOfTransaction = typeOfTransaction;
     }
 
-    public String getTime() {
-        return time;
+    public String getOrderTime() {
+        return orderTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
     }
 }

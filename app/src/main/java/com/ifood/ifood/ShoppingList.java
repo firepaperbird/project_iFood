@@ -23,6 +23,7 @@ import com.ifood.ifood.data.Ingredient;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteShoppingListController;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,7 +171,9 @@ public class ShoppingList extends AppCompatActivity {
             }
         }
 
-        int a = 1;
+        Intent intent = new Intent(this, TransactionAddressActivity.class);
+        intent.putExtra("LISTDISHORDER", (Serializable) listDishOrder);
+        startActivity(intent);
     }
 
     public void removeDishOutShoppingList(View view) {

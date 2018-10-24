@@ -31,6 +31,8 @@
         <activity android:name=".ShoppingList"/>
         <activity android:name=".TransactionAddressActivity"/>
         <activity android:name=".TransactionHistoryActivity"/>
+        <activity android:name=".EditAddressActivity" />
+        <activity android:name=".TransactionConfirmActivity"></activity>
     </application>
 
 </manifest>

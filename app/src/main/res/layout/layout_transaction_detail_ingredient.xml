@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layoutIngredient"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:background="#f0eded">
+
+    <TextView
+        android:tag="edtIngredientAmount"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="sadas"/>
+
+    <TextView
+        android:tag="txtIngredientUnit"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="unit"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:tag="txtIngredientName"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Ingredient"
+        android:gravity="center"
+        android:textSize="18sp" />
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:tag="txtIngredientName"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Price"
+        android:gravity="center"
+        android:textSize="18sp" />
+
+</LinearLayout>

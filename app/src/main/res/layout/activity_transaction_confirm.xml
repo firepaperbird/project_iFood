@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TransactionConfirmActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="--- DELIVERY INFO ---"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:tag="txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bui Quang Huy"
+            android:textStyle="bold"
+            android:textSize="14dp"
+            android:textColor="#000000"/>
+        <TextView
+            android:tag="txtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="01665169260"
+            android:textStyle="bold"
+            android:textSize="12dp"/>
+        <TextView
+            android:tag="txtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="193 Phạm Văn Hai, Phường 5, Quận Tân Bình, TPHCM"
+            android:textStyle="bold"
+            android:textSize="12dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="--- Transaction Type ---"
+        android:gravity="center"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:tag="txtTransactionType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thanh toán tiền mặt khi nhận hàng"
+            android:textStyle="bold"
+            android:textSize="12dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="--- Transaction Detail ---"
+        android:gravity="center"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total"
+            android:textStyle="bold"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:tag="txtTotal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="136.000đ"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            android:gravity="end"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:background="#5493FF"
+        android:text="Accept"/>
+</LinearLayout>
