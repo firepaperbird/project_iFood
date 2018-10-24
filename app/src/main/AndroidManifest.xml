@@ -29,6 +29,7 @@
         <activity android:name=".EditCookbook" />
         <activity android:name=".DetailCookbook"/>
         <activity android:name=".ShoppingList"/>
+        <activity android:name=".TransactionAddressActivity"/>
     </application>
 
 </manifest>
