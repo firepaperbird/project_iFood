@@ -38,7 +38,9 @@ public class ShoppingList extends AppCompatActivity {
         session = new SessionLoginController(this);
         sqlite = new SqliteShoppingListController(getApplicationContext());
 
-        setListMenuWithIngredients();getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setListMenuWithIngredients();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
