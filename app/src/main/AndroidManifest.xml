@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/mainMenu">
-        <activity android:name=".wellcomeActivity">
+        <activity android:name=".TransactionAddressActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,9 +27,11 @@
         <activity android:name=".CommentActivity" />
         <activity android:name=".ViewCommentActivity" />
         <activity android:name=".EditCookbook" />
-        <activity android:name=".DetailCookbook"/>
-        <activity android:name=".ShoppingList"/>
-        <activity android:name=".TransactionAddressActivity"/>
+        <activity android:name=".DetailCookbook" />
+        <activity android:name=".ShoppingList" />
+        <!-- <activity android:name=".TransactionAddressActivity"/> -->
+        <activity android:name=".EditAddressActivity" />
+        <activity android:name=".TransactionConfirmActivity"></activity>
     </application>
 
 </manifest>

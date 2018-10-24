@@ -13,73 +13,34 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="20dp"
-            android:layout_marginTop="15dp">
-            
-            <RadioButton
-                android:id="@+id/radioButton1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" 
-                android:layout_weight="0.1"/>
-            
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.9">
-                
-                <TextView
-                    android:tag="txtName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Bui Quang Huy"
-                    android:textStyle="bold"
-                    android:textSize="14dp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:tag="txtPhone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="01665169260"
-                    android:textStyle="bold"
-                    android:textSize="12dp"/>
-                <TextView
-                    android:tag="txtAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="193 Phạm Văn Hai, Phường 5, Quận Tân Bình, TPHCM"
-                    android:textStyle="bold"
-                    android:textSize="12dp"/>
-            </LinearLayout>
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/edit"/>
-        </LinearLayout>
     </RadioGroup>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:onClick="onClick"
+        android:orientation="vertical"
         android:layout_marginLeft="18dp"
-        android:layout_marginRight="20dp">
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_add_circle_outline"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.9"
-            android:textStyle="bold"
-            android:text="Thêm địa chỉ mới"
-            android:textColor="#2D39EC"
-            android:gravity="center_vertical"/>
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:text="Alibaba"/>
+
+        <EditText
+            android:id="@+id/txtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Phone"/>
+
+        <EditText
+            android:id="@+id/txtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Address"/>
     </LinearLayout>
 
     <Button
@@ -88,6 +49,7 @@
         android:text="Continue"
         android:textColor="@color/colorWhite"
         android:background="#5493FF"
+        android:onClick="onCLick"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"/>
