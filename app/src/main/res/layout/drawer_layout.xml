@@ -162,7 +162,7 @@
             android:orientation="horizontal"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:onClick="moveToMainMenuByCategoryId">
+            android:onClick="moveToTransactionHistory">
 
             <ImageView
                 android:layout_width="@dimen/navigation_item_icon_size"
@@ -173,6 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                android:textStyle="bold"
                 android:text="Transaction" />
 
         </LinearLayout>

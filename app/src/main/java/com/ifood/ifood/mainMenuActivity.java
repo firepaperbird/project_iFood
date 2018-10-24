@@ -359,4 +359,9 @@ public class mainMenuActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    public void moveToTransactionHistory(View view) {
+        Intent intent = new Intent(this, TransactionHistoryActivity.class);
+        startActivity(intent);
+    }
 }

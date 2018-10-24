@@ -30,6 +30,7 @@
         <activity android:name=".DetailCookbook"/>
         <activity android:name=".ShoppingList"/>
         <activity android:name=".TransactionAddressActivity"/>
+        <activity android:name=".TransactionHistoryActivity"/>
     </application>
 
 </manifest>
