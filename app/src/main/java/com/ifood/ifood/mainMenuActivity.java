@@ -225,7 +225,7 @@ public class mainMenuActivity extends AppCompatActivity {
             TextView txtTitle = new TextView(this);
             txtTitle.setLayoutParams(layoutParamsText);
             txtTitle.setTextSize(20);
-            Typeface font = ResourcesCompat.getFont(this, R.font.arrusb);
+            Typeface font = ResourcesCompat.getFont(this, R.font.courgette_regular);
             txtTitle.setTypeface(font, Typeface.BOLD);
             txtTitle.setTextColor(Color.WHITE);
             txtTitle.setText(dish.getTitle());

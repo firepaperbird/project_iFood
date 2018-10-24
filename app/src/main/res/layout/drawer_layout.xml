@@ -91,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                android:textStyle="bold"
                 android:text="@string/menu_gym_food" />
 
         </LinearLayout>
@@ -118,6 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                android:textStyle="bold"
                 android:text="@string/menu_healthy_food" />
 
         </LinearLayout>
@@ -145,6 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                android:textStyle="bold"
                 android:text="@string/menu_daily_food" />
 
         </LinearLayout>
@@ -226,6 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                    android:textStyle="bold"
                     android:text="Sign Out"/>
 
             </LinearLayout>
