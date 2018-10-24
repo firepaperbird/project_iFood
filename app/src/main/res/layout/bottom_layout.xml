@@ -13,7 +13,6 @@
         android:paddingTop="5dp"
         android:layout_alignParentBottom="true"
         app:itemBackground="@color/colorWhite"
-        app:itemTextColor="#FFFFFF"
         app:menu="@menu/bottom_actions" />
 
 </RelativeLayout>

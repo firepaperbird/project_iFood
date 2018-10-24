@@ -553,7 +553,9 @@ public class detailFoodActivity extends AppCompatActivity {
 
             sqlite.insertDataIntoTable(sqlite.getTableName(), shoppingList);
         }
-        Toast.makeText(this,"Add to shopping list successful", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"Add to shopping list successful", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, ShoppingList.class);
+        startActivity(intent);
     }
 
     private List<Model_Cookbook> getListCookbookByUserId(SessionLoginController session){

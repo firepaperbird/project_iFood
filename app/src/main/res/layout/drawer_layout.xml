@@ -91,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                android:textStyle="bold"
                 android:text="@string/menu_gym_food" />
 
         </LinearLayout>
@@ -118,6 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                android:textStyle="bold"
                 android:text="@string/menu_healthy_food" />
 
         </LinearLayout>
@@ -145,7 +147,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                android:textStyle="bold"
                 android:text="@string/menu_daily_food" />
+
+        </LinearLayout>
+
+        <!--Transaction History-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navigation_item_height"
+            android:layout_marginTop="@dimen/padding_tiny_plus_one"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:onClick="moveToMainMenuByCategoryId">
+
+            <ImageView
+                android:layout_width="@dimen/navigation_item_icon_size"
+                android:layout_height="@dimen/navigation_item_icon_size"
+                android:src="@drawable/ic_action_transaction_history" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                android:text="Transaction" />
 
         </LinearLayout>
 
@@ -201,6 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                    android:textStyle="bold"
                     android:text="Sign Out"/>
 
             </LinearLayout>
