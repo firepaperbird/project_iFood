@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textStyle="bold"
-        android:fontFamily="@font/victoria"
+        android:fontFamily="@font/lobster_regular"
         android:textSize="40dp"
         android:layout_marginRight="20dp"
         android:textColor="#FFFFFF" />
