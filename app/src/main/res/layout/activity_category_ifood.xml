@@ -80,7 +80,7 @@
         android:layout_height="100dp"
         android:layout_alignParentRight="true"
         android:background="@null"
-        android:onClick="clickClose"
+         android:onClick="clickClose"
         android:layout_y="-15dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_close"

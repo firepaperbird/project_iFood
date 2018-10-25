@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_action_check_circle_outline"/>
+                     android:src="@drawable/ic_action_check_circle_outline"/>
 
             </RelativeLayout>
 
@@ -141,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_action_cancel"/>
+                     android:src="@drawable/ic_action_cancel"/>
 
             </RelativeLayout>
 
