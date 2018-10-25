@@ -276,6 +276,13 @@ public class mainMenuActivity extends AppCompatActivity {
                 if (isExist){
                     frameLayout.addView(cookbookLayout);
                 }
+                //code cuar quan
+                LinearLayout addDishRow = findViewById(R.id.add_dish);
+                addDishRow.setVisibility(View.VISIBLE);
+                ViewGroup.LayoutParams dishRowLayoutParams = addDishRow.getLayoutParams();
+                dishRowLayoutParams.height=R.dimen.navigation_item_height;
+                addDishRow.setLayoutParams(dishRowLayoutParams);
+
             }
 
             frameLayout.addView(layoutInfo);
@@ -377,6 +384,12 @@ public class mainMenuActivity extends AppCompatActivity {
 
     public void moveToTransactionHistory(View view) {
         Intent intent = new Intent(this, TransactionHistoryActivity.class);
+        startActivity(intent);
+    }
+
+    public void clickToAddNewDish(View view) {
+
+        Intent intent = new Intent(this, CreateDishActivity.class);
         startActivity(intent);
     }
 }
