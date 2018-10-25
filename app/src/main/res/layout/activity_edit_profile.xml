@@ -51,11 +51,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Description"/>
+        android:text="Phone number"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editDescription"
+        android:id="@+id/editPhoneNumber"
         />
     <Button
         android:id="@+id/btnSaveUserInfo"

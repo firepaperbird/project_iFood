@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,8 +16,10 @@ import android.widget.Toast;
 
 import com.ifood.ifood.data.DeleveryInfo;
 import com.ifood.ifood.data.Dish;
+import com.ifood.ifood.data.Model_User;
 import com.ifood.ifood.data.Transaction;
 import com.ifood.ifood.ultil.SessionLoginController;
+import com.ifood.ifood.ultil.SqliteUserController;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,10 +39,24 @@ public class TransactionAddressActivity extends AppCompatActivity {
         txtPhone = findViewById(R.id.txtPhone);
         txtAddress = findViewById(R.id.txtAddress);
 
-//        SessionLoginController session = new SessionLoginController(this);
-//        txtName.setText(session.getUsername());
+        SessionLoginController session = new SessionLoginController(this);
+        SqliteUserController sqliteUser = new SqliteUserController(getApplicationContext());
+        Model_User user = sqliteUser.getUserByEmail(session.getEmail());
+        txtName.setText(user.getUsername());
+        txtPhone.setText(user.getPhoneNumber());
+        txtAddress.setText(user.getAddress());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void onCLick(View view) {
@@ -66,7 +83,7 @@ public class TransactionAddressActivity extends AppCompatActivity {
         List<Dish> listDishOrder = (List<Dish>)intent.getSerializableExtra("LISTDISHORDER");
         intent = new Intent(this, TransactionConfirmActivity.class);
         intent.putExtra("LISTORDERS" , (Serializable) listDishOrder);
-        intent.putExtra("TRANSACTION", (Serializable) transaction);
+        intent.putExtra("TRANSACTION", transaction);
         startActivity(intent);
     }
 }

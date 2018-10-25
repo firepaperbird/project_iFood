@@ -31,8 +31,8 @@ public class EditProfileActivity extends AppCompatActivity {
         final EditText edtAddress = findViewById(R.id.editAddress);
         edtAddress.setText(user.getAddress());
 
-        final EditText edtDescription = findViewById(R.id.editDescription);
-        edtDescription.setText(user.getDescription());
+        final EditText edtPhoneNumber = findViewById(R.id.editPhoneNumber);
+        edtPhoneNumber.setText(user.getPhoneNumber());
 
         Button btnSave = findViewById(R.id.btnSaveUserInfo);
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +42,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 Model_User edtUser = user;
                 edtUser.setUsername(edtName.getText().toString());
                 edtUser.setAddress(edtAddress.getText().toString());
-                edtUser.setDescription(edtDescription.getText().toString());
+                edtUser.setPhoneNumber(edtPhoneNumber.getText().toString());
 
                 SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
                 sqlite.updateDataIntoTable(sqlite.getTableName(), edtUser, "Id = ?", new String[] {user.getId().toString()});

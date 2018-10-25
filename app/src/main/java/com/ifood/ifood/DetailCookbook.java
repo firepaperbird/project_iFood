@@ -84,6 +84,10 @@ public class DetailCookbook extends AppCompatActivity {
         Intent intent = getIntent();
         cookbook = (Model_Cookbook) intent.getSerializableExtra("COOKBOOK_INFO");
         haveAction = intent.getBooleanExtra("UPDATE_COOKBOOK_SUCCESSFUL", false);
+        boolean isAddCookbookSusccessful = intent.getBooleanExtra("ADD_COOKBOOK_SUCCESSFUL", false);
+        if (isAddCookbookSusccessful){
+            Toast.makeText(this, "Add cookbook successful", Toast.LENGTH_SHORT).show();
+        }
 
         ImageView imageCookbook = findViewById(R.id.detailCookbookImage);
         imageCookbook.setScaleType(ImageView.ScaleType.FIT_CENTER);

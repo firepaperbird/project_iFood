@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.ifood.ifood.Dialog.AddToCookbookDialog;
 import com.ifood.ifood.data.Comment_User;
+import com.ifood.ifood.data.ConstantStatusTransaction;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Ingredient;
 import com.ifood.ifood.data.Model_Cookbook;
@@ -175,7 +176,7 @@ public class detailFoodActivity extends AppCompatActivity {
         TextView rec = new TextView(this);
         rec.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
         rec.setGravity(Gravity.CENTER_VERTICAL);
-        rec.setText("Các bước thực hiện");
+        rec.setText("Recipes");
         rec.setTypeface(null, Typeface.BOLD);
         rec.setTextSize(18);
         rec.setPadding(30,0,0,0);
@@ -359,7 +360,7 @@ public class detailFoodActivity extends AppCompatActivity {
         menu.setOrientation(LinearLayout.HORIZONTAL);
 
         for (final Dish dishItem:dishList) {
-            if(dish.getId() == dishItem.getId()){
+            if(dish.getId().intValue() == dishItem.getId().intValue()){
                 continue;
             }
 
@@ -550,11 +551,12 @@ public class detailFoodActivity extends AppCompatActivity {
             shoppingList.setIngredientName(ingredient.getName());
             shoppingList.setIngredientAmount(ingredient.getAmount());
             shoppingList.setIngredientUnit(ingredient.getUnit());
-
+            shoppingList.setStatus(ConstantStatusTransaction.PENDING);
             sqlite.insertDataIntoTable(sqlite.getTableName(), shoppingList);
         }
         //Toast.makeText(this,"Add to shopping list successful", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, ShoppingList.class);
+        intent.putExtra("ADD_SHOPPINGLIST_SUCCESSFUL", true);
         startActivity(intent);
     }
 

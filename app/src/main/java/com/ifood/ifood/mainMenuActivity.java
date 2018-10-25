@@ -213,7 +213,8 @@ public class mainMenuActivity extends AppCompatActivity {
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(layoutMenu);
             BitmapDrawable image = ConfigImageQuality.getBitmapImage(getResources(), dish.getImage());
-            layout.setBackground(image);  ;
+            layout.setBackground(image);
+            layout.setAlpha(Float.parseFloat("150"));
 
             LinearLayout layoutInfo = new LinearLayout(this);
             layoutInfo.setLayoutParams(layoutParamsInfo);
@@ -338,6 +339,20 @@ public class mainMenuActivity extends AppCompatActivity {
 
             isLogin = false;
         }
+    }
+
+    private LinearLayout getRandomTag(){
+        LinearLayout tagLayout = new LinearLayout(this);
+        tagLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        tagLayout.setGravity(Gravity.LEFT);
+        tagLayout.setPadding(0,10,10,0);
+        ImageButton tagImg = new ImageButton(this);
+        tagImg.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_cook_book_icon));
+        tagImg.setBackgroundColor(Color.TRANSPARENT);
+        tagLayout.addView(tagImg);
+
+        return tagLayout;
     }
 
     public void moveToLoginView(View view) {

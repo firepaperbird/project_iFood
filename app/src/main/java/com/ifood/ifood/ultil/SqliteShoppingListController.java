@@ -106,8 +106,8 @@ public class SqliteShoppingListController extends SqliteDataController {
     public boolean isDishExistInShoppingList(int userId, int dishId) {
         try {
             openDataBase();
-            Cursor cs = database.query(TABLE_NAME, null, "UserId = ? AND DishId = ?"
-                    , new String[]{userId + "", dishId + ""}, null, null, "DishId", null);
+            Cursor cs = database.query(TABLE_NAME, null, "UserId = ? AND DishId = ? AND Status = ?"
+                    , new String[]{userId + "", dishId + "", ConstantStatusTransaction.PENDING + ""}, null, null, "DishId", null);
             if (cs.moveToFirst()) {
                 return true;
             }

@@ -1,9 +1,10 @@
 package com.ifood.ifood.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ingredient {
+public class Ingredient implements Serializable {
     private int id;
     private String name;
     private String amount;

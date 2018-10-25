@@ -10,11 +10,12 @@ public class Model_ShoppingList {
     private String IngredientName;
     private String IngredientAmount;
     private String IngredientUnit;
+    private int Status;
 
     public Model_ShoppingList() {
     }
 
-    public Model_ShoppingList(int transactionId, int userId, int dishId, String dishName, int ingredientId, String ingredientName, String ingredientAmount, String ingredientUnit) {
+    public Model_ShoppingList(int transactionId, int userId, int dishId, String dishName, int ingredientId, String ingredientName, String ingredientAmount, String ingredientUnit, int status) {
         TransactionId = transactionId;
         UserId = userId;
         DishId = dishId;
@@ -23,6 +24,7 @@ public class Model_ShoppingList {
         IngredientName = ingredientName;
         IngredientAmount = ingredientAmount;
         IngredientUnit = ingredientUnit;
+        Status = status;
     }
 
     public Integer getId() {
@@ -95,5 +97,13 @@ public class Model_ShoppingList {
 
     public void setIngredientUnit(String ingredientUnit) {
         IngredientUnit = ingredientUnit;
+    }
+
+    public int getStatus() {
+        return Status;
+    }
+
+    public void setStatus(int status) {
+        Status = status;
     }
 }

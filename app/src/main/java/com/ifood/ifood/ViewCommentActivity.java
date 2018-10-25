@@ -34,11 +34,11 @@ public class ViewCommentActivity extends AppCompatActivity {
             comment.setPadding(20,0,0,0);
 
             TextView user_img = new TextView(this);
-            user_img.setLayoutParams(new LinearLayout.LayoutParams(80, 80));
+            user_img.setLayoutParams(new LinearLayout.LayoutParams(80, ViewGroup.LayoutParams.WRAP_CONTENT));
             user_img.setBackgroundResource(R.drawable.icon_user_50);
 
             LinearLayout userInfo = new LinearLayout(this);
-            userInfo.setLayoutParams(new LinearLayout.LayoutParams(450, 80));
+            userInfo.setLayoutParams(new LinearLayout.LayoutParams(450, ViewGroup.LayoutParams.WRAP_CONTENT));
             userInfo.setOrientation(LinearLayout.VERTICAL);
 
             TextView username = new TextView(this);
@@ -51,7 +51,7 @@ public class ViewCommentActivity extends AppCompatActivity {
             time.setText(commentUser.getTime());
 
             RatingBar rating = new RatingBar(this,null,android.R.attr.ratingBarStyleSmall);
-            rating.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80));
+            rating.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             rating.setNumStars(5);
             rating.setRating(commentUser.getStar());
             rating.setClickable(false);

@@ -26,7 +26,7 @@
             android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:hint="Name(*)"
             android:text="Alibaba"/>
 
         <EditText
@@ -34,13 +34,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:hint="Phone"/>
+            android:hint="Phone(*)"/>
 
         <EditText
             android:id="@+id/txtAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Address"/>
+            android:hint="Address(*)"/>
     </LinearLayout>
 
     <Button

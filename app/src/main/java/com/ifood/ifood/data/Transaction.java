@@ -1,9 +1,10 @@
 package com.ifood.ifood.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Transaction {
+public class Transaction implements Serializable {
     private Integer id;
     private int userId;
     private String name;

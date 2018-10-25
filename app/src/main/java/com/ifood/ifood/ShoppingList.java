@@ -42,6 +42,11 @@ public class ShoppingList extends AppCompatActivity {
         setListMenuWithIngredients();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        boolean isAddSuccessful = getIntent().getBooleanExtra("ADD_SHOPPINGLIST_SUCCESSFUL", false);
+        if (isAddSuccessful){
+            Toast.makeText(this, "Add shopping list successful", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -156,6 +161,7 @@ public class ShoppingList extends AppCompatActivity {
         LinearLayout layoutDish = findViewById(R.id.layoutDishShoppingList);
         if (dishList.size() == 0){
             Toast.makeText(this,"Shopping list is empty, please add more dishes", Toast.LENGTH_SHORT).show();
+            return;
         } else {
             for (Dish dish : dishList){
                 for (Ingredient ingredient : dish.getIngredients()){
@@ -169,11 +175,10 @@ public class ShoppingList extends AppCompatActivity {
                 dish.setIngredients(listIngredientsChoice);
                 listDishOrder.add(dish);
             }
+            Intent intent = new Intent(this, TransactionAddressActivity.class);
+            intent.putExtra("LISTDISHORDER", (Serializable) listDishOrder);
+            startActivity(intent);
         }
-
-        Intent intent = new Intent(this, TransactionAddressActivity.class);
-        intent.putExtra("LISTDISHORDER", (Serializable) listDishOrder);
-        startActivity(intent);
     }
 
     public void removeDishOutShoppingList(View view) {
