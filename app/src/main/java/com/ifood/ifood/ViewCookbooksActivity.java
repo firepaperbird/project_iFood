@@ -42,13 +42,18 @@ public class ViewCookbooksActivity extends AppCompatActivity {
     }
 
     private void setCookbooksLayout(){
+        SqliteCookbookController sqlite = new SqliteCookbookController(getApplicationContext());
+        SessionLoginController session = new SessionLoginController(this);
+        if (session.getEmail().isEmpty()){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         int layoutCookbookWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
         int layoutCookbookHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
 
         LinearLayout mainLayoutCookbooks = findViewById(R.id.mainLayoutCookbook);
-
-        SqliteCookbookController sqlite = new SqliteCookbookController(getApplicationContext());
-        SessionLoginController session = new SessionLoginController(this);
 
         List<Model_Cookbook> listCookbook = sqlite.getCookbookByUserId(session.getUserId());
         if (listCookbook.size() != 0){

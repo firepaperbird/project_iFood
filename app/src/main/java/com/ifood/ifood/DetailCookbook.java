@@ -91,7 +91,7 @@ public class DetailCookbook extends AppCompatActivity {
 
         ImageView imageCookbook = findViewById(R.id.detailCookbookImage);
         imageCookbook.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageCookbook.setImageResource(Integer.parseInt(cookbook.getImageId()));
+        imageCookbook.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), Integer.parseInt(cookbook.getImageId())));
 
         TextView txtTitle = findViewById(R.id.detailCookbookTitle);
         txtTitle.setText(cookbook.getTitle());

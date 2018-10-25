@@ -64,6 +64,7 @@ public class ShoppingList extends AppCompatActivity {
         if (session.getEmail().isEmpty()){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
             return;
         }
         LinearLayout layoutDish = findViewById(R.id.layoutDishShoppingList);
