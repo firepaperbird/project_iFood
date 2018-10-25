@@ -174,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_extra_extra_large"
                 android:textStyle="bold"
-                android:text="Transaction" />
+                android:text="Transactions" />
 
         </LinearLayout>
 

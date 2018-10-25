@@ -27,12 +27,14 @@
         <activity android:name=".CommentActivity" />
         <activity android:name=".ViewCommentActivity" />
         <activity android:name=".EditCookbook" />
-        <activity android:name=".DetailCookbook"/>
-        <activity android:name=".ShoppingList"/>
-        <activity android:name=".TransactionAddressActivity"/>
-        <activity android:name=".TransactionHistoryActivity"/>
+        <activity android:name=".DetailCookbook" />
+        <activity android:name=".ShoppingList" />
+        <activity android:name=".TransactionAddressActivity" />
+        <activity android:name=".TransactionHistoryActivity" />
         <activity android:name=".EditAddressActivity" />
-        <activity android:name=".TransactionConfirmActivity"></activity>
+        <activity android:name=".TransactionConfirmActivity" />
+        <activity android:name=".ViewRecipesActivity" />
+        <activity android:name=".ViewCookbooksActivity"></activity>
     </application>
 
 </manifest>

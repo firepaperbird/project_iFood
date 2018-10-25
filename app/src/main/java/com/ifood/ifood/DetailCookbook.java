@@ -69,7 +69,7 @@ public class DetailCookbook extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (haveAction){
-                    Intent intent = new Intent(this, UserDetailActivity.class);
+                    Intent intent = new Intent(this, ViewCookbooksActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }

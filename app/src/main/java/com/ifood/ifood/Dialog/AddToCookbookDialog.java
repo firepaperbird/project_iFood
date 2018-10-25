@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.ifood.ifood.DetailCookbook;
 import com.ifood.ifood.R;
 import com.ifood.ifood.UserDetailActivity;
+import com.ifood.ifood.ViewCookbooksActivity;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.data.Model_Cookbook_Dish;
@@ -54,7 +55,7 @@ public class AddToCookbookDialog extends DialogFragment {
             builder.setNegativeButton("Create Cookbook", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(getActivity(), UserDetailActivity.class);
+                    Intent intent = new Intent(getActivity(), ViewCookbooksActivity.class);
                     getActivity().startActivity(intent);
                 }
             });
