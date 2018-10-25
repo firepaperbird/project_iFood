@@ -24,7 +24,7 @@
             android:layout_marginTop="70dp"
             android:background="@drawable/button_signup"
             android:hint="Email"
-            android:padding="@dimen/padding_medium"
+            android:inputType="" android:padding="@dimen/padding_medium"
             android:textColor="@android:color/darker_gray"
             android:textSize="18dp" />
 
@@ -66,7 +66,7 @@
             android:layout_marginTop="280dp"
             android:background="@drawable/button_signup"
             android:hint="Display Name"
-            android:padding="@dimen/padding_medium"
+            android:inputType="" android:padding="@dimen/padding_medium"
             android:textColor="@android:color/black"
             android:textSize="18dp" />
 

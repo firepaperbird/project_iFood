@@ -8,23 +8,22 @@
     tools:context=".EditAddressActivity">
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="match_parent" android:inputType="" 
         android:layout_height="wrap_content"
         android:hint="Name"/>
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="match_parent" android:inputType="" 
         android:layout_height="wrap_content"
         android:hint="Phone "/>
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="match_parent" android:inputType="" 
         android:layout_height="wrap_content"
         android:hint="Address"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit"
-        android:onClick="onClick"/>
+        android:text="Submit"/>
 </LinearLayout>

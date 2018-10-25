@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name(*)"
-            android:text="Alibaba"/>
+            android:inputType="" android:text="Alibaba"/>
 
         <EditText
             android:id="@+id/txtPhone"
@@ -38,7 +38,7 @@
 
         <EditText
             android:id="@+id/txtAddress"
-            android:layout_width="match_parent"
+            android:layout_width="match_parent" android:inputType="" 
             android:layout_height="wrap_content"
             android:hint="Address(*)"/>
     </LinearLayout>

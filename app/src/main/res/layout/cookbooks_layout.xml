@@ -40,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
                     android:src="@drawable/create_new_cookbook"
-                    android:onClick="addNewCookBook"/>
+                     android:onClick="addNewCookBook"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

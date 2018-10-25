@@ -21,7 +21,7 @@
         android:background="#E5EAE5"
         android:hint="How did it turn out?"
         android:gravity="start"
-        android:paddingLeft="10dp"
+        android:inputType="" android:paddingLeft="10dp"
         android:paddingRight="10dp"/>
     <Button
         android:layout_marginTop="10dp"
