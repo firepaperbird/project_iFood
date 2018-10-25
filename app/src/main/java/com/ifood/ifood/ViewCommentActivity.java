@@ -34,7 +34,7 @@ public class ViewCommentActivity extends AppCompatActivity {
             comment.setPadding(20,0,0,0);
 
             TextView user_img = new TextView(this);
-            user_img.setLayoutParams(new LinearLayout.LayoutParams(80, ViewGroup.LayoutParams.WRAP_CONTENT));
+            user_img.setLayoutParams(new LinearLayout.LayoutParams(80, 80));
             user_img.setBackgroundResource(R.drawable.icon_user_50);
 
             LinearLayout userInfo = new LinearLayout(this);

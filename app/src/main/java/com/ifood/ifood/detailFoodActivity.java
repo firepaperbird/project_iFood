@@ -1,5 +1,6 @@
 package com.ifood.ifood;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -18,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -115,8 +117,26 @@ public class detailFoodActivity extends AppCompatActivity {
         ratingFood.setRating(4);
         ratingFood.setClickable(false);
 
+        LinearLayout timeCooking = new LinearLayout(this);
+        LinearLayout.LayoutParams timeCookingParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        timeCookingParams.setMargins(0,5,0,0);
+        timeCooking.setLayoutParams(timeCookingParams);
+        timeCooking.setOrientation(LinearLayout.HORIZONTAL);
+        ImageView clock = new ImageView(this);
+        clock.setImageResource(R.drawable.ic_action_access_alarm);
+        clock.setLayoutParams(new LinearLayout.LayoutParams(50, 50));
+        TextView txtTimeCooking = new TextView(this);
+        txtTimeCooking.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 50));
+        txtTimeCooking.setText("1 hr 5 min");
+        txtTimeCooking.setTextColor(Color.WHITE);
+        txtTimeCooking.setPadding(5,0,0,5);
+
+        timeCooking.addView(clock);
+        timeCooking.addView(txtTimeCooking);
+
         content.addView(nameFood);
         content.addView(ratingFood);
+        content.addView(timeCooking);
 
         LinearLayout detail = findViewById(R.id.layout);
 
@@ -143,9 +163,8 @@ public class detailFoodActivity extends AppCompatActivity {
             ingredient.setColumnCount(3);
 
             TextView quantity = new TextView(this);
-            quantity.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/5, 60));
+            quantity.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/6, 60));
             quantity.setText(ingredientItem.getAmount());
-            quantity.setTextSize(10);
             quantity.setPadding(30,0,0,0);
             quantity.setGravity(Gravity.CENTER_VERTICAL);
 
@@ -185,20 +204,17 @@ public class detailFoodActivity extends AppCompatActivity {
         detail.addView(rec);
 
         //Recipe
-
-
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 3; i++){
             GridLayout recipe = new GridLayout(this);
             recipe.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             recipe.setColumnCount(2);
             recipe.setPadding(20,20,20,0);
 
-            TextView imgR = new TextView(this);
-            imgR.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/6, 100));
-            imgR.setBackgroundResource(R.drawable.mon_ca_ri_ga);
-
+            ImageView imgR = new ImageView(this);
+            imgR.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/6, 180));
+            imgR.setScaleType(ImageView.ScaleType.FIT_XY);
             LinearLayout step = new LinearLayout(this);
-            step.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            step.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 180));
             step.setOrientation(LinearLayout.VERTICAL);
             step.setPadding(20,10,0,0);
             step.setBackgroundColor(Color.parseColor("#C6E2FF"));
@@ -211,7 +227,20 @@ public class detailFoodActivity extends AppCompatActivity {
 
             TextView stepDetail = new TextView(this);
             stepDetail.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            stepDetail.setText("Do something");
+            switch (i){
+                case 0:
+                    imgR.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.step_1));
+                    stepDetail.setText("Pierce the skin of each of the little potato, ...");
+                    break;
+                case 1:
+                    imgR.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.step_2));
+                    stepDetail.setText("In a large non-stick skillet, heat coconut oil (1 Tbsp) ...");
+                    break;
+                case 2:
+                    imgR.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.step_3));
+                    stepDetail.setText("In the same skillet, heat the remaining coconut oil (1/2 tsp) ...");
+                    break;
+            }
             stepDetail.setGravity(Gravity.CENTER_VERTICAL);
 
             step.addView(stepTitle);
@@ -222,6 +251,21 @@ public class detailFoodActivity extends AppCompatActivity {
 
             detail.addView(recipe);
         }
+        //ViewMore Recipes
+        Button moreRecipes = new Button(this);
+        moreRecipes.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+        moreRecipes.setText("2 MORE RECIPES");
+        moreRecipes.setTypeface(null,Typeface.BOLD);
+        moreRecipes.setBackgroundColor(Color.parseColor("#E5EAE5"));
+        moreRecipes.setPadding(0,0,30,0);
+        moreRecipes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent moreRecipes = new Intent(detailFoodActivity.this,ViewRecipesActivity.class);
+                startActivity(moreRecipes);
+            }
+        });
+        detail.addView(moreRecipes);
 
         //Review Title
         TextView reviewTitle = new TextView(this);

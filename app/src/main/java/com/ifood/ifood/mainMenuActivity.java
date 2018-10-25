@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -118,7 +119,12 @@ public class mainMenuActivity extends AppCompatActivity {
     }
 
     public void moveToUserDetail(MenuItem item) {
-        Intent intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
+        Intent intent = new Intent();
+        if (isLogin == false){
+            intent = new Intent(this,LoginActivity.class);
+        } else {
+            intent = new Intent(this,UserDetailActivity.class);
+        }
         startActivity(intent);
     }
 
@@ -146,8 +152,8 @@ public class mainMenuActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
-        /*BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);*/
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -155,6 +161,7 @@ public class mainMenuActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
     }
 
     private void setMainMenuByCategoryId(int categoryId){
@@ -390,6 +397,11 @@ public class mainMenuActivity extends AppCompatActivity {
     public void clickToAddNewDish(View view) {
 
         Intent intent = new Intent(this, CreateDishActivity.class);
+        startActivity(intent);
+    }
+
+    public void moveToCookbook(MenuItem item) {
+        Intent intent = new Intent(this, ViewCookbooksActivity.class);
         startActivity(intent);
     }
 }

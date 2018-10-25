@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.ifood.ifood.R;
 import com.ifood.ifood.UserDetailActivity;
+import com.ifood.ifood.ViewCookbooksActivity;
 import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
@@ -28,7 +29,7 @@ public class ConfirmDeleteCookbookDialog extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 SqliteCookbookController sqlite = new SqliteCookbookController(getActivity().getApplicationContext());
                 sqlite.deleteData_From_Table(sqlite.getTableName(), "Id = ?", new String[] {cookbook.getId() + ""});
-                Intent intent = new Intent(getActivity(), UserDetailActivity.class);
+                Intent intent = new Intent(getActivity(), ViewCookbooksActivity.class);
                 intent.putExtra("DELETE_COOKBOOK_SUCCESSFUL", true);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().startActivity(intent);
