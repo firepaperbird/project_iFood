@@ -8,7 +8,8 @@
     tools:context=".CreateDishActivity">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -17,7 +18,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="70dp"
                 android:id="@+id/topCamera"
-                android:src="@drawable/icon_camera"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:onClick="clickToAddImage"/>

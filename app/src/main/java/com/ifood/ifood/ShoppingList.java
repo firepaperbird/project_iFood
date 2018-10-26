@@ -46,6 +46,7 @@ public class ShoppingList extends AppCompatActivity {
         boolean isAddSuccessful = getIntent().getBooleanExtra("ADD_SHOPPINGLIST_SUCCESSFUL", false);
         if (isAddSuccessful){
             Toast.makeText(this, "Add shopping list successful", Toast.LENGTH_SHORT).show();
+            getIntent().removeExtra("ADD_SHOPPINGLIST_SUCCESSFUL");
         }
     }
 

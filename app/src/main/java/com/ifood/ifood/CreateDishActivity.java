@@ -14,11 +14,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.ifood.ifood.ultil.ConfigImageQuality;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class CreateDishActivity extends AppCompatActivity {
     private final int PICK_IMAGE = 1832;
+    ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,9 @@ public class CreateDishActivity extends AppCompatActivity {
         ActionBar actionBar = this.getSupportActionBar();
         if(actionBar!=null)
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        imageView = findViewById(R.id.topCamera);
+        imageView.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.icon_camera));
     }
 
     public void clickToAddImage(View view) {
@@ -42,8 +48,6 @@ public class CreateDishActivity extends AppCompatActivity {
             if (data != null) {
                 try {
                     InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(data.getData());
-
-                    ImageView imageView = findViewById(R.id.topCamera);
 
                     imageView.setImageBitmap(BitmapFactory.decodeStream(inputStream));
                 } catch (FileNotFoundException e) {
