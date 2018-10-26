@@ -32,7 +32,7 @@ public class CreateDishActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         imageView = findViewById(R.id.topCamera);
-        imageView.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.icon_camera));
+        imageView.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.add_image_dish));
     }
 
     public void clickToAddImage(View view) {

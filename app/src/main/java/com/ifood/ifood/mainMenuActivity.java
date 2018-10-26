@@ -1,5 +1,6 @@
 package com.ifood.ifood;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,18 +13,22 @@ import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -56,7 +61,7 @@ public class mainMenuActivity extends AppCompatActivity {
     final int GYM_FOOD_CATEGORY_ID = 1;
     final int HEALTHY_FOOD_CATEGORY_ID = 2;
     final int DAILY_FOOD_CATEGORY_ID = 3;
-    final int NONE_FOOD_CATEGORY_ID = 0;
+    final int SEARCH_FOOD_CATEGORY_ID = 4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +95,42 @@ public class mainMenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_actions, menu);
+        MenuItem searchItem = (MenuItem) (menu.findItem(R.id.btnSearch));
+        if (searchItem != null){
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    return false;
+                }
+            });
+            EditText searchPlate = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+            searchPlate.setHint("Search");
+            View searchPlateView = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+            searchPlateView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.transparent));
+            // use this method for search process
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    // use this method when query submitted
+                    if (query.contains("au")){
+                        Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
+                        intent.putExtra("SEARCH_DISH_ITEM", true);
+                        startActivity(intent);
+                    }
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    // use this method for auto complete search process
+                    return false;
+                }
+            });
+            SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -99,17 +140,11 @@ public class mainMenuActivity extends AppCompatActivity {
             return true;
         }
 
-        /*switch (item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.btnSearch:
                 Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.btnAbout:
-                Toast.makeText(this, "About button selected", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.btnHelp:
-                Toast.makeText(this, "Help button selected", Toast.LENGTH_SHORT).show();
-                return true;
-        }*/
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -119,7 +154,7 @@ public class mainMenuActivity extends AppCompatActivity {
     }
 
     public void moveToUserDetail(MenuItem item) {
-        Intent intent = new Intent();
+        Intent intent;
         if (isLogin == false){
             intent = new Intent(this,LoginActivity.class);
         } else {
@@ -149,7 +184,7 @@ public class mainMenuActivity extends AppCompatActivity {
     }
 
     private void setDrawerLayout(){
-        drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer);
+        drawerLayout = findViewById(R.id.activity_main_drawer);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
@@ -181,6 +216,10 @@ public class mainMenuActivity extends AppCompatActivity {
                 txtTitle.setText(getResources().getString(R.string.menu_daily_food));
                 menu.setListDish(menu.getDalyMenu());
                 break;
+            case SEARCH_FOOD_CATEGORY_ID:
+                txtTitle.setText("");
+                menu.setListDish(menu.getSearchList());
+                break;
             default:
                 txtTitle.setText(getResources().getString(R.string.menu_daily_food));
                 menu.setListDish(menu.getDalyMenu());
@@ -191,6 +230,10 @@ public class mainMenuActivity extends AppCompatActivity {
     private void setListMenu(){
         SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
         int categoryId = sessionCategoryController.getCurrentCategory();
+        boolean isSearching = getIntent().getBooleanExtra("SEARCH_DISH_ITEM", false);
+        if (isSearching){
+            categoryId = SEARCH_FOOD_CATEGORY_ID;
+        }
         setMainMenuByCategoryId(categoryId);
 
         LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

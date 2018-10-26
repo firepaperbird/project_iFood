@@ -48,10 +48,10 @@
                 android:text="Pierce the skin of each of the little potato, little charmers red creamer potatoes (3 cups) 2 - 3 times before microwaving on high for 4-6 minutes or until tender. Leave the cool before cutting each potato into quarters"/>
 
             <ImageView
+                android:id="@+id/image_recipe_1"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/step_1"/>
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 
@@ -72,10 +72,10 @@
                 android:layout_height="wrap_content"
                 android:text="In a large non-stick skillet, heat coconut oil (1 Tbsp) over medium high heat. Add the extra firm tofu (1 block) and cook until golden-brown and crisp on at least 3-4 sides. Set aside."/>
             <ImageView
+                android:id="@+id/image_recipe_2"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/step_2"/>
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 
@@ -115,10 +115,10 @@
                 android:text="Taste, thin with vegetable stock if needed and adjust seasoning."
                 />
             <ImageView
+                android:id="@+id/image_recipe_3"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/step_3"/>
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 

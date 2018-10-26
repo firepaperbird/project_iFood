@@ -50,10 +50,13 @@ public class SqliteCookbookDishController extends SqliteDataController {
      public boolean checkDishIsAdded(List<Model_Cookbook> listCookbook, int dishId){
         try {
             openDataBase();
+            if (listCookbook == null || listCookbook.size() == 0){
+                return false;
+            }
             for (Model_Cookbook cookbook : listCookbook){
                 Cursor cs = database.query(TABLE_NAME, null, "DishId = ? AND CookbookId = ?"
                         , new String[]{dishId + "" , cookbook.getId() + ""}, null, null, null, null);
-                if (cs.moveToFirst()) {
+                if (cs.moveToNext()) {
                     return true;
                 }
             }

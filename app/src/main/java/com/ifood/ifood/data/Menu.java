@@ -148,6 +148,20 @@ public class Menu {
         return list;
     }
 
+    public List<Dish> getSearchList(){
+        List<String> tags = new ArrayList<>();
+        tags.add("Quick and easy"); tags.add("Salad");
+        Dish dish_1 = new Dish(6, "Autumn Chopped Salad with White Cheddar Dressing", "", "Spoonful of Flavor", R.drawable.autumn_salad, tags);
+        tags = new ArrayList<>();
+        tags.add("Green Salad"); tags.add("Oven"); tags.add("Fall");
+        Dish dish_2 = new Dish(8, "Autumn Pearl Couscous Salad with Roasted Butternut Squash", "", "Little Spice JAR", R.drawable.pearl_couscous_salad, tags);
+
+        List<Dish> list = new ArrayList<>();
+        list.add(dish_1);
+        list.add(dish_2);
+        return list;
+    }
+
     public List<Dish> getAllDish(){
         List<Dish> allDish = new ArrayList<>();
 
