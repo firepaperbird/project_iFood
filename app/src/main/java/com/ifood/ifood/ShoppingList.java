@@ -166,6 +166,7 @@ public class ShoppingList extends AppCompatActivity {
             return;
         } else {
             for (Dish dish : dishList){
+                listIngredientsChoice = new ArrayList<Ingredient>();
                 for (Ingredient ingredient : dish.getIngredients()){
                     CheckBox checkBoxChoice = layoutDish.findViewWithTag("checkbox_" + dish.getId() + "_" + ingredient.getId());
                     if (checkBoxChoice.isChecked()){

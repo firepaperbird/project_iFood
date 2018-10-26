@@ -64,7 +64,9 @@ public class TransactionConfirmActivity extends AppCompatActivity {
         SessionLoginController session = new SessionLoginController(this);
         Intent intent = getIntent();
 
-        List<Dish> dishList = (List<Dish>)intent.getSerializableExtra("LISTORDERS");
+        List<Dish> dishList = (List<Dish>)intent.getSerializableExtra("LISTDISHORDER");
+        intent.removeExtra("LISTDISHORDER");
+
         double total = 0;
 
         for (Dish dish:dishList) {
