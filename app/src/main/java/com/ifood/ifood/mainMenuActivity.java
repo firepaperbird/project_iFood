@@ -287,7 +287,8 @@ public class mainMenuActivity extends AppCompatActivity {
                 LinearLayout addDishRow = findViewById(R.id.add_dish);
                 addDishRow.setVisibility(View.VISIBLE);
                 ViewGroup.LayoutParams dishRowLayoutParams = addDishRow.getLayoutParams();
-                dishRowLayoutParams.height=R.dimen.navigation_item_height;
+                final float scale = getApplicationContext().getResources().getDisplayMetrics().density;
+                dishRowLayoutParams.height=(int)(48 * scale + 0.5f);
                 addDishRow.setLayoutParams(dishRowLayoutParams);
 
             }

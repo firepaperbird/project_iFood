@@ -163,18 +163,18 @@ public class detailFoodActivity extends AppCompatActivity {
             ingredient.setColumnCount(3);
 
             TextView quantity = new TextView(this);
-            quantity.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/6, 60));
+            quantity.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/6, ViewGroup.LayoutParams.WRAP_CONTENT));
             quantity.setText(ingredientItem.getAmount());
             quantity.setPadding(30,0,0,0);
             quantity.setGravity(Gravity.CENTER_VERTICAL);
 
             TextView unit = new TextView(this);
-            unit.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/5, 60));
+            unit.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/5, ViewGroup.LayoutParams.WRAP_CONTENT));
             unit.setText(ingredientItem.getUnit());
             unit.setGravity(Gravity.CENTER_VERTICAL);
 
             TextView name = new TextView(this);
-            name.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 60));
+            name.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             name.setText(ingredientItem.getName());
             name.setGravity(Gravity.CENTER_VERTICAL);
 

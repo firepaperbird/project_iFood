@@ -1,13 +1,18 @@
 package com.ifood.ifood;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -18,7 +23,8 @@ public class CreateDishActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_dish);
-        ActionBar actionBar = getActionBar();
+
+        ActionBar actionBar = this.getSupportActionBar();
         if(actionBar!=null)
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
@@ -46,5 +52,43 @@ public class CreateDishActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (true){
+                    Intent intent = new Intent(this, mainMenuActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void clickToSaveDish(View view) {
+        Toast.makeText(this,"Yor dish has save", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, mainMenuActivity.class);
+        startActivity(intent);
+    }
+
+    public void clickToAddStep(View view) {
+        LinearLayout linearLayout = findViewById(R.id.layoutRecipes);
+        EditText myEditText = new EditText(this);
+        myEditText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        myEditText.setHint("Describe the cook step");
+        linearLayout.addView(myEditText);
+    }
+
+    public void clickToAddIngredient(View view) {
+        LinearLayout linearLayout = findViewById(R.id.layoutIngredients);
+        EditText myEditText = new EditText(this);
+        myEditText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        myEditText.setHint("Describe ingredient");
+        linearLayout.addView(myEditText);
     }
 }

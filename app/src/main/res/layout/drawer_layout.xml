@@ -71,7 +71,7 @@
         <LinearLayout
             android:id="@+id/add_dish"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_tiny_plus_one"
             android:background="@android:color/white"
             android:gravity="center_vertical"
