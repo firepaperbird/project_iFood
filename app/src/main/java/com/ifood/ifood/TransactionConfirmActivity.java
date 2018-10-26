@@ -6,21 +6,26 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Ingredient;
+import com.ifood.ifood.data.Transaction;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteShoppingListController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionConfirmActivity extends AppCompatActivity {
 
-//    Ingredient ingredient = new Ingredient(1, "Hanh cu", "1", "qua" );
+//    Ingredient ingredient = new Ingredient(1, "Hanh cu", "1", "qua", 20000);
 //    List<Ingredient> ingredientList = new ArrayList<Ingredient>();
 //    Dish dish = new Dish(1, "Mon ngon chua ngot ", " ngon", "huy", R.drawable.black_bean_bowl, null);
 //    List<Dish> dishList = new ArrayList<Dish>();
@@ -30,9 +35,9 @@ public class TransactionConfirmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_confirm);
 
-        //        ingredientList.add(ingredient);
-        //        dish.setIngredients(ingredientList);
-        //        dishList.add(dish);
+//        ingredientList = ingredient.getListIngredient();
+//        dish.setIngredients(ingredientList);
+//        dishList.add(dish);
 
         setContent();
 
@@ -60,6 +65,7 @@ public class TransactionConfirmActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         List<Dish> dishList = (List<Dish>)intent.getSerializableExtra("LISTORDERS");
+        double total = 0;
 
         for (Dish dish:dishList) {
             LinearLayout layout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.layout_transaction_detail_dish, null);
@@ -68,9 +74,11 @@ public class TransactionConfirmActivity extends AppCompatActivity {
             TextView txtDishName = layout.findViewWithTag("txtDishName");
             txtDishName.setText(dish.getTitle());
 
+
+
             for (Ingredient ingredient: dish.getIngredients()) {
-                LinearLayout ingredientLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.layout_transaction_detail_ingredient, null);
-                ingredientLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                RelativeLayout ingredientLayout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.layout_transaction_detail_ingredient, null);
+                ingredientLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
 
                 TextView edtIngredientAmount = ingredientLayout.findViewWithTag("edtIngredientAmount");
                 edtIngredientAmount.setText(ingredient.getAmount());
@@ -85,9 +93,24 @@ public class TransactionConfirmActivity extends AppCompatActivity {
                 txtIngredientName.setText(ingredient.getName());
                 txtIngredientName.setTag("IngredientName_" + dish.getId() + "_" + ingredient.getId());
 
+                TextView txtIngredientPrice = ingredientLayout.findViewWithTag("txtIngredientPrice");
+                txtIngredientPrice.setText(ingredient.getPrice()+" d");
+                txtIngredientPrice.setTag("IngredientPrice_" + dish.getId() + "_" + ingredient.getId());
+
                 layout.addView(ingredientLayout);
+
+                total += ingredient.getPrice();
             }
             content.addView(layout);
         }
+
+        TextView txtTotal = findViewById(R.id.txtTotal);
+        txtTotal.setText(total + " d");
+    }
+
+    public void onCLick(View view) {
+        Toast.makeText(this, "Order successful", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, mainMenuActivity.class);
+        startActivity(intent);
     }
 }

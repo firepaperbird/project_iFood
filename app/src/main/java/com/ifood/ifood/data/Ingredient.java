@@ -9,15 +9,25 @@ public class Ingredient implements Serializable {
     private String name;
     private String amount;
     private String unit;
+    private double price;
 
     public Ingredient() {
     }
 
-    public Ingredient(int id, String name, String amount, String unit) {
+    public Ingredient(int id, String name, String amount, String unit, double price) {
         this.id = id;
         this.name = name;
         this.amount = amount;
         this.unit = unit;
+        this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public int getId() {
@@ -54,13 +64,13 @@ public class Ingredient implements Serializable {
 
     public List<Ingredient> getListIngredient(){
         List<Ingredient> ingredientList = new ArrayList<>();
-        Ingredient ingredient = new Ingredient(1, "potatoes", "454", "grams");
+        Ingredient ingredient = new Ingredient(1, "potatoes", "454", "grams", 45000);
         ingredientList.add(ingredient);
-        ingredient = new Ingredient(2,"garlic powder", "0.5", "tps");
+        ingredient = new Ingredient(2,"garlic powder", "0.5", "tps", 30000);
         ingredientList.add(ingredient);
-        ingredient = new Ingredient(3,"milk", "100", "ml");
+        ingredient = new Ingredient(3,"milk", "100", "ml", 16000);
         ingredientList.add(ingredient);
-        ingredient = new Ingredient(4,"pork", "200", "grams");
+        ingredient = new Ingredient(4,"pork", "200", "grams",27000);
         ingredientList.add(ingredient);
 
         return ingredientList;

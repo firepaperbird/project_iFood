@@ -46,30 +46,30 @@
             android:textSize="12dp"/>
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:text="--- Transaction Type ---"
-        android:gravity="center"
-        android:layout_marginTop="20dp"/>
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="#000000"-->
+        <!--android:textStyle="bold"-->
+        <!--android:text="-&#45;&#45; Transaction Type -&#45;&#45;"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginTop="20dp"/>-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="20dp">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:paddingLeft="20dp">-->
 
-        <TextView
-            android:tag="txtTransactionType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Thanh toán tiền mặt khi nhận hàng"
-            android:textStyle="bold"
-            android:textSize="12dp"/>
-    </LinearLayout>
+        <!--<TextView-->
+            <!--android:tag="txtTransactionType"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Thanh toán tiền mặt khi nhận hàng"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textSize="12dp"/>-->
+    <!--</LinearLayout>-->
 
     <TextView
         android:layout_width="match_parent"
@@ -103,15 +103,15 @@
             android:layout_height="wrap_content"
             android:text="Total"
             android:textStyle="bold"
-            android:textSize="12dp"/>
+            android:textSize="20dp"/>
 
         <TextView
-            android:tag="txtTotal"
+            android:id="@+id/txtTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="136.000đ"
             android:textStyle="bold"
-            android:textSize="12dp"
+            android:textSize="20dp"
             android:gravity="end"/>
     </LinearLayout>
 
@@ -120,5 +120,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorWhite"
         android:background="#5493FF"
-        android:text="Accept"/>
+        android:text="Accept"
+        android:onClick="onCLick"/>
 </LinearLayout>
