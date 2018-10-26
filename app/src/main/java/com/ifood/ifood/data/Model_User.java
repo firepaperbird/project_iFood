@@ -9,16 +9,18 @@ public class Model_User implements Serializable {
     private String address;
     private String description;
     private String password;
+    private String phoneNumber;
 
     public Model_User() {
     }
 
-    public Model_User(String username, String email, String address, String description, String password) {
+    public Model_User(String username, String email, String address, String description, String password, String phoneNumber) {
         this.username = username;
         this.email = email;
         this.address = address;
         this.description = description;
         this.password = password;
+        this.phoneNumber = phoneNumber;
     }
 
     public Integer getId() {
@@ -67,5 +69,13 @@ public class Model_User implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

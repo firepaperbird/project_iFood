@@ -60,7 +60,7 @@ public class Register extends AppCompatActivity {
         if (!password.equals(confirmPassword)){
             Toast.makeText(this, "Password does not match the confirm password! ", Toast.LENGTH_SHORT).show();
         }
-        Model_User user = new Model_User(username, email, "", "", password);
+        Model_User user = new Model_User(username, email, "", "", password, "");
         SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
         sqlite.insertDataIntoTable(sqlite.getTableName(), user);
 

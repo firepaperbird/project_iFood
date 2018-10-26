@@ -69,7 +69,7 @@ public class DetailCookbook extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (haveAction){
-                    Intent intent = new Intent(this, UserDetailActivity.class);
+                    Intent intent = new Intent(this, ViewCookbooksActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
@@ -84,10 +84,14 @@ public class DetailCookbook extends AppCompatActivity {
         Intent intent = getIntent();
         cookbook = (Model_Cookbook) intent.getSerializableExtra("COOKBOOK_INFO");
         haveAction = intent.getBooleanExtra("UPDATE_COOKBOOK_SUCCESSFUL", false);
+        boolean isAddCookbookSusccessful = intent.getBooleanExtra("ADD_COOKBOOK_SUCCESSFUL", false);
+        if (isAddCookbookSusccessful){
+            Toast.makeText(this, "Add cookbook successful", Toast.LENGTH_SHORT).show();
+        }
 
         ImageView imageCookbook = findViewById(R.id.detailCookbookImage);
         imageCookbook.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageCookbook.setImageResource(Integer.parseInt(cookbook.getImageId()));
+        imageCookbook.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), Integer.parseInt(cookbook.getImageId())));
 
         TextView txtTitle = findViewById(R.id.detailCookbookTitle);
         txtTitle.setText(cookbook.getTitle());

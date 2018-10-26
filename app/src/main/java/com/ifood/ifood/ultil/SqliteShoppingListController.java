@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 
+import com.ifood.ifood.data.ConstantStatusTransaction;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Ingredient;
 
@@ -66,11 +67,47 @@ public class SqliteShoppingListController extends SqliteDataController {
         return listDish;
     }
 
+    public List<Dish> getDishByTransactionId(int transactionId, int userId) {
+        List<Dish> listDish = new ArrayList<>();
+        Dish dish = new Dish();
+        boolean isCallBack = false;
+        try {
+
+            openDataBase();
+            Cursor cs = database.query(TABLE_NAME, null, "TransactionId = ? AND UserId = ? AND Status = ?",
+                    new String[]{transactionId + "", userId + "", ConstantStatusTransaction.SUCCESSFUL + ""}, null, null, "DishId ASC", null);
+            while (cs.moveToNext()) {
+                Ingredient ingredient = new Ingredient();
+                ingredient.setId(Integer.parseInt(cs.getString(COLUMN_INGREDIENT_ID_INDEX)));
+                ingredient.setName(cs.getString(COLUMN_INGREDIENT_NAME_INDEX));
+                ingredient.setAmount(cs.getString(COLUMN_INGREDIENT_AMOUNT_INDEX));
+                ingredient.setUnit(cs.getString(COLUMN_INGREDIENT_UNIT_INDEX));
+
+                dish.setId(cs.getInt(COLUMN_DISH_ID_INDEX));
+                dish.setTitle(cs.getString(COLUMN_DISH_NAME_INDEX));
+
+
+                if (listDish.size() == 0 || listDish.get(listDish.size() - 1).getId().intValue() != dish.getId().intValue()){
+                    listDish.add(dish);
+                    dish = new Dish();
+                }
+
+                listDish.get(listDish.size() - 1).increaseIngredient(ingredient);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+
+        return listDish;
+    }
+
     public boolean isDishExistInShoppingList(int userId, int dishId) {
         try {
             openDataBase();
-            Cursor cs = database.query(TABLE_NAME, null, "UserId = ? AND DishId = ?"
-                    , new String[]{userId + "", dishId + ""}, null, null, "DishId", null);
+            Cursor cs = database.query(TABLE_NAME, null, "UserId = ? AND DishId = ? AND Status = ?"
+                    , new String[]{userId + "", dishId + "", ConstantStatusTransaction.PENDING + ""}, null, null, "DishId", null);
             if (cs.moveToFirst()) {
                 return true;
             }

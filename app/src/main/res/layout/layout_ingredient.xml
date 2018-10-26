@@ -15,7 +15,7 @@
         android:checked="true"/>
 
     <EditText
-        android:tag="edtIngredientAmount"
+        android:inputType="" android:tag="edtIngredientAmount"
         android:layout_width="60dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="30dp"

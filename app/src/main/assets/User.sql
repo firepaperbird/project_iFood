@@ -5,7 +5,8 @@ CREATE TABLE User (
 	Email	varchar(50),
 	Password	varchar(50),
 	Address	varchar(250),
-	Description	varchar(50)
+	Description	varchar(50),
+	PhoneNumber varchar(50)
 );
 
 

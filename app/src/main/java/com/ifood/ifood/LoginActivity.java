@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void OnClickSignUp_Login(View view){
         startActivity(new Intent(this, Register.class));
-        finish();
     }
 
 

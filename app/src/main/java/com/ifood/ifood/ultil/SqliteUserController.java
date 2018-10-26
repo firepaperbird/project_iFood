@@ -22,6 +22,7 @@ public class SqliteUserController extends SqliteDataController {
     private final int COLUMN_PASSWORD_INDEX = 3;
     private final int COLUMN_ADDRESS_INDEX = 4;
     private final int COLUMN_DESCRIPTION_INDEX = 5;
+    private final int COLUMN_PHONE_NUMBER_INDEX = 6;
 
     private final String TABLE_NAME = "User";
 
@@ -44,6 +45,7 @@ public class SqliteUserController extends SqliteDataController {
                 user.setPassword(cs.getString(COLUMN_PASSWORD_INDEX));
                 user.setAddress(cs.getString(COLUMN_ADDRESS_INDEX));
                 user.setDescription(cs.getString(COLUMN_DESCRIPTION_INDEX));
+                user.setPhoneNumber(cs.getString(COLUMN_PHONE_NUMBER_INDEX));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,6 +69,7 @@ public class SqliteUserController extends SqliteDataController {
                 user.setPassword(cs.getString(COLUMN_PASSWORD_INDEX));
                 user.setAddress(cs.getString(COLUMN_ADDRESS_INDEX));
                 user.setDescription(cs.getString(COLUMN_DESCRIPTION_INDEX));
+                user.setPhoneNumber(cs.getString(COLUMN_PHONE_NUMBER_INDEX));
             }
         } catch (SQLException e) {
             e.printStackTrace();

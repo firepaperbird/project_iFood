@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.ifood.ifood.DetailCookbook;
 import com.ifood.ifood.R;
+import com.ifood.ifood.UserDetailActivity;
+import com.ifood.ifood.ViewCookbooksActivity;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.data.Model_Cookbook_Dish;
@@ -44,10 +46,17 @@ public class AddToCookbookDialog extends DialogFragment {
 
         if (listCookbook.size() == 0){
             builder.setTitle("Empty Cookbook.");
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
+                }
+            });
+            builder.setNegativeButton("Create Cookbook", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(getActivity(), ViewCookbooksActivity.class);
+                    getActivity().startActivity(intent);
                 }
             });
         } else {
@@ -91,8 +100,8 @@ public class AddToCookbookDialog extends DialogFragment {
                         sqliteCookbookController.updateDataIntoTable(sqliteCookbookController.getTableName(), selectedCookbook,
                                 "Id = ?", new String[] {selectedCookbook.getId().toString()});
 
-                        //Toast.makeText(getActivity().getApplicationContext(), "Add into cookbook successful", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getActivity(), DetailCookbook.class);
+                        intent.putExtra("ADD_COOKBOOK_SUCCESSFUL", true);
                         intent.putExtra("COOKBOOK_INFO", selectedCookbook);
                         getActivity().startActivity(intent);
                     }

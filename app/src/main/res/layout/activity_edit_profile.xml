@@ -10,7 +10,7 @@
     tools:context=".EditProfileActivity">
 
     <ImageView
-        android:paddingTop="10dp"
+         android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:text="Name"/>
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="match_parent" android:inputType="" 
         android:layout_height="wrap_content"
         android:id="@+id/editName"
         />
@@ -44,18 +44,18 @@
         android:layout_height="wrap_content"
         android:text="Address"/>
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="match_parent" android:inputType="" 
         android:layout_height="wrap_content"
         android:id="@+id/editAddress"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Description"/>
+        android:text="Phone number"/>
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="match_parent" android:inputType="" 
         android:layout_height="wrap_content"
-        android:id="@+id/editDescription"
+        android:id="@+id/editPhoneNumber"
         />
     <Button
         android:id="@+id/btnSaveUserInfo"

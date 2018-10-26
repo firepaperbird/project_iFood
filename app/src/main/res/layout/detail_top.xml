@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:paddingTop="10dp"
+         android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="-10dp"
         android:textColor="#ff6060"
         android:textSize="50dp"
         android:text="UserName"/>
@@ -23,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_marginTop="-10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -51,7 +53,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:paddingTop="5dp">
         <Button

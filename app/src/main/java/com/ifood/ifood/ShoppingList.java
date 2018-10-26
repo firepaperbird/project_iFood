@@ -42,6 +42,11 @@ public class ShoppingList extends AppCompatActivity {
         setListMenuWithIngredients();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        boolean isAddSuccessful = getIntent().getBooleanExtra("ADD_SHOPPINGLIST_SUCCESSFUL", false);
+        if (isAddSuccessful){
+            Toast.makeText(this, "Add shopping list successful", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -59,6 +64,7 @@ public class ShoppingList extends AppCompatActivity {
         if (session.getEmail().isEmpty()){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
             return;
         }
         LinearLayout layoutDish = findViewById(R.id.layoutDishShoppingList);
@@ -105,14 +111,18 @@ public class ShoppingList extends AppCompatActivity {
                             String chkTag = buttonView.getTag().toString();
                             String edtAmountTag = chkTag.replace("checkbox_", "IngredientAmount_");
                             EditText edtAmount = newLayoutIngredient.findViewWithTag(edtAmountTag);
+                            String txtUnitTag = chkTag.replace("checkbox_", "IngredientUnit_");
+                            TextView txtUnit = newLayoutIngredient.findViewWithTag(txtUnitTag);
+                            String txtNameTag = chkTag.replace("checkbox_", "IngredientName_");
+                            TextView txtName = newLayoutIngredient.findViewWithTag(txtNameTag);
                             if (isChecked){
                                 edtAmount.setEnabled(true);
-                                edtAmount.setFocusable(true);
-                                edtAmount.setFocusableInTouchMode(true);
+                                txtUnit.setEnabled(true);
+                                txtName.setEnabled(true);
                             } else {
                                 edtAmount.setEnabled(false);
-                                edtAmount.setFocusable(false);
-                                edtAmount.setFocusableInTouchMode(false);
+                                txtUnit.setEnabled(false);
+                                txtName.setEnabled(false);
                             }
                         }
                     });
@@ -121,6 +131,13 @@ public class ShoppingList extends AppCompatActivity {
                     edtIngredientAmount.setText(ingredient.getAmount());
                     edtIngredientAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                     edtIngredientAmount.setTag("IngredientAmount_" + dish.getId() + "_" + ingredient.getId());
+                    edtIngredientAmount.setFocusableInTouchMode(false);
+                    edtIngredientAmount.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            v.setFocusableInTouchMode(true);
+                        }
+                    });
 
                     TextView txtIngredientUnit = newLayoutIngredient.findViewWithTag("txtIngredientUnit");
                     txtIngredientUnit.setText(ingredient.getUnit());
@@ -145,6 +162,7 @@ public class ShoppingList extends AppCompatActivity {
         LinearLayout layoutDish = findViewById(R.id.layoutDishShoppingList);
         if (dishList.size() == 0){
             Toast.makeText(this,"Shopping list is empty, please add more dishes", Toast.LENGTH_SHORT).show();
+            return;
         } else {
             for (Dish dish : dishList){
                 for (Ingredient ingredient : dish.getIngredients()){
@@ -158,11 +176,10 @@ public class ShoppingList extends AppCompatActivity {
                 dish.setIngredients(listIngredientsChoice);
                 listDishOrder.add(dish);
             }
+            Intent intent = new Intent(this, TransactionAddressActivity.class);
+            intent.putExtra("LISTDISHORDER", (Serializable) listDishOrder);
+            startActivity(intent);
         }
-
-        Intent intent = new Intent(this, TransactionAddressActivity.class);
-        intent.putExtra("LISTDISHORDER", (Serializable) listDishOrder);
-        startActivity(intent);
     }
 
     public void removeDishOutShoppingList(View view) {

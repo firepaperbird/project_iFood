@@ -7,5 +7,6 @@ CREATE TABLE ShoppingList (
 	IngredientId int,
 	IngredientName varchar(50),
 	IngredientAmount varchar(50),
-	IngredientUnit varchar(50)
+	IngredientUnit varchar(50),
+	Status int
 );

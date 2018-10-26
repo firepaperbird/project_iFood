@@ -5,17 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:scrollbars="vertical"
-    tools:context=".UserDetailActivity">
+    tools:context=".ViewCookbooksActivity">
 
-
-    <include layout="@layout/detail_top"/>
-
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/colorDarkerGray">
-    </LinearLayout>-->
+    <include layout="@layout/cookbooks_layout"/>
 
 </LinearLayout>

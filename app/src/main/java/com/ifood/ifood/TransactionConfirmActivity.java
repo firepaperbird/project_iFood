@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -15,7 +16,6 @@ import com.ifood.ifood.data.Ingredient;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteShoppingListController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionConfirmActivity extends AppCompatActivity {
@@ -30,11 +30,24 @@ public class TransactionConfirmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_confirm);
 
-//        ingredientList.add(ingredient);
-//        dish.setIngredients(ingredientList);
-//        dishList.add(dish);
+        //        ingredientList.add(ingredient);
+        //        dish.setIngredients(ingredientList);
+        //        dishList.add(dish);
 
         setContent();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
