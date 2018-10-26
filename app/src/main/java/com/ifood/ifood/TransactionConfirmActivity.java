@@ -96,18 +96,18 @@ public class TransactionConfirmActivity extends AppCompatActivity {
                 txtIngredientName.setTag("IngredientName_" + dish.getId() + "_" + ingredient.getId());
 
                 TextView txtIngredientPrice = ingredientLayout.findViewWithTag("txtIngredientPrice");
-                txtIngredientPrice.setText(ingredient.getPrice()+" d");
+                txtIngredientPrice.setText(5+"$");
                 txtIngredientPrice.setTag("IngredientPrice_" + dish.getId() + "_" + ingredient.getId());
 
                 layout.addView(ingredientLayout);
 
-                total += ingredient.getPrice();
+                total += 5;
             }
             content.addView(layout);
         }
 
         TextView txtTotal = findViewById(R.id.txtTotal);
-        txtTotal.setText(total + " d");
+        txtTotal.setText(total + "$");
     }
 
     public void onCLick(View view) {
