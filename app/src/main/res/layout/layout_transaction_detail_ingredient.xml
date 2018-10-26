@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:tag="layoutIngredient"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:orientation="horizontal"
     android:background="#f0eded">
 
     <TextView
+        android:layout_alignParentStart="true"
+        android:id="@+id/edtIngredientAmount"
         android:tag="edtIngredientAmount"
         android:layout_width="60dp"
         android:layout_height="match_parent"
@@ -17,6 +18,8 @@
         android:text="sadas"/>
 
     <TextView
+        android:layout_toRightOf="@id/edtIngredientAmount"
+        android:id="@+id/txtIngredientUnit"
         android:tag="txtIngredientUnit"
         android:layout_width="60dp"
         android:layout_height="match_parent"
@@ -25,6 +28,7 @@
         android:textSize="18sp"/>
 
     <TextView
+        android:layout_toRightOf="@id/txtIngredientUnit"
         android:layout_marginLeft="20dp"
         android:tag="txtIngredientName"
         android:layout_width="wrap_content"
@@ -33,12 +37,14 @@
         android:gravity="center"
         android:textSize="18sp" />
     <TextView
+        android:layout_alignParentEnd="true"
         android:layout_marginLeft="20dp"
         android:tag="txtIngredientPrice"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="Price"
         android:gravity="center"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_marginRight="20dp"/>
 
-</LinearLayout>
+</RelativeLayout>
