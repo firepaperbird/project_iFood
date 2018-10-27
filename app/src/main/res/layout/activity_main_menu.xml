@@ -9,8 +9,6 @@
 
     <!-- Content -->
 
-
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -22,6 +20,62 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/listMenu"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/searching_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/type_of_search"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tags "/>
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/layout_tags_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/add_new_tag_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/edt_other_tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13sp"
+                                android:hint="other tag"/>
+
+                            <ImageButton
+                                android:id="@+id/btn_add_other_tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="@color/trans"
+                                android:src="@drawable/ic_add_circle_outline"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtNoResultsWereFound"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:visibility="visible"
+                    android:text="Sorry, no result were found"/>
 
             </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -31,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,7 +48,12 @@ import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
 import com.ifood.ifood.ultil.SqliteCookbookDishController;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -114,11 +121,10 @@ public class mainMenuActivity extends AppCompatActivity {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     // use this method when query submitted
-                    if (query.contains("au")){
-                        Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
-                        intent.putExtra("SEARCH_DISH_ITEM", true);
-                        startActivity(intent);
-                    }
+                    Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
+                    intent.putExtra("SEARCH_DISH_ITEM", query);
+                    intent.putExtra("SEARCH_TYPE", "Searches");
+                    startActivity(intent);
                     return false;
                 }
 
@@ -216,10 +222,6 @@ public class mainMenuActivity extends AppCompatActivity {
                 txtTitle.setText(getResources().getString(R.string.menu_daily_food));
                 menu.setListDish(menu.getDalyMenu());
                 break;
-            case SEARCH_FOOD_CATEGORY_ID:
-                txtTitle.setText("");
-                menu.setListDish(menu.getSearchList());
-                break;
             default:
                 txtTitle.setText(getResources().getString(R.string.menu_daily_food));
                 menu.setListDish(menu.getDalyMenu());
@@ -228,14 +230,6 @@ public class mainMenuActivity extends AppCompatActivity {
     }
 
     private void setListMenu(){
-        SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
-        int categoryId = sessionCategoryController.getCurrentCategory();
-        boolean isSearching = getIntent().getBooleanExtra("SEARCH_DISH_ITEM", false);
-        if (isSearching){
-            categoryId = SEARCH_FOOD_CATEGORY_ID;
-        }
-        setMainMenuByCategoryId(categoryId);
-
         LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 LAYOUT_DISH_HEIGHT);
 
@@ -256,7 +250,82 @@ public class mainMenuActivity extends AppCompatActivity {
         layoutParamsTag.addRule(RelativeLayout.ALIGN_PARENT_END);
         layoutParamsTag.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
+        LinearLayout.LayoutParams layoutParamsSearchTag = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParamsSearchTag.gravity = Gravity.CENTER_VERTICAL;
+        layoutParamsSearchTag.setMargins(0,0,5,0);
+
         listMenu = findViewById(R.id.listMenu);
+        SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
+        int categoryId = sessionCategoryController.getCurrentCategory();
+        final String search_dish_item = getIntent().getStringExtra("SEARCH_DISH_ITEM");
+        final String search_type = getIntent().getStringExtra("SEARCH_TYPE");
+        setMainMenuByCategoryId(categoryId);
+        List<Dish> dishListSearch = menu.getListDish();
+        if (search_dish_item != null && search_type != null){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                final List<String> tags = Arrays.asList(search_dish_item.split("-"));
+                dishListSearch.removeIf(new Predicate<Dish>() {
+                    @Override
+                    public boolean test(Dish dish) {
+                        boolean isFound = false;
+                        if (search_type.equals("Tags")){
+                            isFound = !dish.getTags().containsAll(tags);
+                        } else {
+                            isFound = !dish.getTitle().toLowerCase().contains(search_dish_item.toLowerCase());
+                        }
+                        return isFound;
+                    }
+                });
+                LinearLayout layout_tags_search = findViewById(R.id.layout_tags_search);
+                TextView txtSearching_type = findViewById(R.id.type_of_search);
+                txtSearching_type.setText(search_type);
+                TextView txtSearchValue = new TextView(this);
+                txtSearchValue.setLayoutParams(layoutParamsSearchTag);
+                txtSearchValue.setBackgroundResource(R.drawable.border_tag);
+
+                if (search_type.equals("Tags") && tags.size() > 1){
+                    for (String tagStr : tags){
+                        TextView anotherTag = new TextView(this);
+                        anotherTag.setLayoutParams(layoutParamsSearchTag);
+                        anotherTag.setBackgroundResource(R.drawable.border_tag);
+                        anotherTag.setText(tagStr);
+                        layout_tags_search.addView(anotherTag, 0);
+                    }
+                } else {
+                    txtSearchValue.setText(search_dish_item);
+                    layout_tags_search.addView(txtSearchValue, 0);
+                }
+
+                if (!search_type.equals("Tags")){
+                    LinearLayout add_new_tag_layout = findViewById(R.id.add_new_tag_layout);
+                    layout_tags_search.removeView(add_new_tag_layout);
+                } else {
+                    ImageView btnAddOtherTag = findViewById(R.id.btn_add_other_tag);
+                    btnAddOtherTag.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EditText otherTag = findViewById(R.id.edt_other_tag);
+                            String SearchingTags = search_dish_item + "-" + otherTag.getText().toString();
+                            Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
+                            intent.putExtra("SEARCH_DISH_ITEM", SearchingTags);
+                            intent.putExtra("SEARCH_TYPE", "Tags");
+                            startActivity(intent);
+                        }
+                    });
+                }
+            }
+        } else {
+            LinearLayout searchingLayout = findViewById(R.id.searching_layout);
+            listMenu.removeView(searchingLayout);
+        }
+        menu.setListDish(dishListSearch);
+
+        if (menu.getListDish().size() > 0){
+            TextView noResultsWereFound = findViewById(R.id.txtNoResultsWereFound);
+            listMenu.removeView(noResultsWereFound);
+        } else {
+            return;
+        }
 
         for ( final Dish dish: menu.getListDish()){
             LinearLayout layout = new LinearLayout(this);
@@ -295,6 +364,16 @@ public class mainMenuActivity extends AppCompatActivity {
                 tag.setLayoutParams(layoutParamsText);
                 tag.setText(dish.getTags().get(k));
                 tag.setBackgroundResource(R.drawable.border_tag);
+                tag.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TextView tagOnclick = (TextView) v;
+                        Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
+                        intent.putExtra("SEARCH_DISH_ITEM", tagOnclick.getText().toString());
+                        intent.putExtra("SEARCH_TYPE", "Tags");
+                        startActivity(intent);
+                    }
+                });
                 tagLayout.addView(tag);
             }
 
