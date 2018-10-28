@@ -1,11 +1,13 @@
 package com.ifood.ifood;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -22,6 +24,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,6 +92,7 @@ public class detailFoodActivity extends AppCompatActivity {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setDetail(){
 
         LinearLayout.LayoutParams borderParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
@@ -124,9 +129,9 @@ public class detailFoodActivity extends AppCompatActivity {
         timeCooking.setOrientation(LinearLayout.HORIZONTAL);
         ImageView clock = new ImageView(this);
         clock.setImageResource(R.drawable.ic_action_access_alarm);
-        clock.setLayoutParams(new LinearLayout.LayoutParams(50, 50));
+        clock.setLayoutParams(new LinearLayout.LayoutParams(50, 90));
         TextView txtTimeCooking = new TextView(this);
-        txtTimeCooking.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 50));
+        txtTimeCooking.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         txtTimeCooking.setText("1 hr 5 min");
         txtTimeCooking.setTextColor(Color.WHITE);
         txtTimeCooking.setPadding(5,0,0,5);
@@ -157,45 +162,55 @@ public class detailFoodActivity extends AppCompatActivity {
         //Ingredients
         Ingredient ingredients = new Ingredient();
         listIngredient = ingredients.getListIngredient();
+
+        TableLayout ingredient = new TableLayout(this);
+        ingredient.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        ingredient.setPadding(20,10,20,10);
+        TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         for (Ingredient ingredientItem : listIngredient){
-            GridLayout ingredient = new GridLayout(this);
-            ingredient.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            ingredient.setColumnCount(3);
+            TableRow tableRow = new TableRow(this);
+            tableRow.setLayoutParams(tableParams);
 
             TextView quantity = new TextView(this);
-            quantity.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/6, ViewGroup.LayoutParams.WRAP_CONTENT));
+            quantity.setLayoutParams(rowParams);
             quantity.setText(ingredientItem.getAmount());
             quantity.setPadding(30,0,0,0);
             quantity.setGravity(Gravity.CENTER_VERTICAL);
+            quantity.setPadding(5,5,5,5);
 
             TextView unit = new TextView(this);
-            unit.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/5, ViewGroup.LayoutParams.WRAP_CONTENT));
+            unit.setLayoutParams(rowParams);
             unit.setText(ingredientItem.getUnit());
             unit.setGravity(Gravity.CENTER_VERTICAL);
+            unit.setPadding(5,5,5,5);
 
             TextView name = new TextView(this);
-            name.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            name.setLayoutParams(rowParams);
             name.setText(ingredientItem.getName());
             name.setGravity(Gravity.CENTER_VERTICAL);
+            name.setPadding(5,5,125,5);
 
             //border
             TextView border = new TextView(this);
             border.setLayoutParams(borderParams);
             border.setBackgroundColor(Color.LTGRAY);
 
-            ingredient.addView(quantity,0);
-            ingredient.addView(unit, 1);
-            ingredient.addView(name,2);
+            tableRow.addView(name);
+            tableRow.addView(quantity);
+            tableRow.addView(unit);
 
-            detail.addView(ingredient);
-            detail.addView(border);
+//            detail.addView(border);
+            ingredient.addView(tableRow);
         }
+
+        detail.addView(ingredient);
 
         //Recipe Title
         TextView rec = new TextView(this);
         rec.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
         rec.setGravity(Gravity.CENTER_VERTICAL);
-        rec.setText("Recipes");
+        rec.setText("Method");
         rec.setTypeface(null, Typeface.BOLD);
         rec.setTextSize(18);
         rec.setPadding(30,0,0,0);
@@ -254,7 +269,7 @@ public class detailFoodActivity extends AppCompatActivity {
         //ViewMore Recipes
         Button moreRecipes = new Button(this);
         moreRecipes.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
-        moreRecipes.setText("2 MORE RECIPES");
+        moreRecipes.setText("VIEW ALL STEP");
         moreRecipes.setTypeface(null,Typeface.BOLD);
         moreRecipes.setBackgroundColor(Color.parseColor("#E5EAE5"));
         moreRecipes.setPadding(0,0,30,0);
