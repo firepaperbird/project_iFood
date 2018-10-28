@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,15 +73,17 @@ public class TransactionConfirmActivity extends AppCompatActivity {
 
         for (Dish dish:dishList) {
             LinearLayout layout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.layout_transaction_detail_dish, null);
-            layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(0,20,0,20);
+            layout.setLayoutParams(layoutParams);
 
             TextView txtDishName = layout.findViewWithTag("txtDishName");
             txtDishName.setText(dish.getTitle());
 
-
-
+            TableLayout tableLayout = new TableLayout(this);
+            tableLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             for (Ingredient ingredient: dish.getIngredients()) {
-                RelativeLayout ingredientLayout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.layout_transaction_detail_ingredient, null);
+                TableRow ingredientLayout = (TableRow) LayoutInflater.from(this).inflate(R.layout.layout_transaction_detail_ingredient, null);
                 ingredientLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
 
                 TextView edtIngredientAmount = ingredientLayout.findViewWithTag("edtIngredientAmount");
@@ -99,10 +103,11 @@ public class TransactionConfirmActivity extends AppCompatActivity {
                 txtIngredientPrice.setText(5+"$");
                 txtIngredientPrice.setTag("IngredientPrice_" + dish.getId() + "_" + ingredient.getId());
 
-                layout.addView(ingredientLayout);
+                tableLayout.addView(ingredientLayout);
 
                 total += 5;
             }
+            layout.addView(tableLayout);
             content.addView(layout);
         }
 
