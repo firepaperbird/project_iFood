@@ -17,9 +17,9 @@
 
         <ImageView
             android:tag="imageDish"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:background="@drawable/c3"/>
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@drawable/icon_dish"/>
 
         <TextView
             android:tag="txtDishName"
