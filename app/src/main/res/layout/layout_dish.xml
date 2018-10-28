@@ -15,10 +15,9 @@
         android:background="@color/colorWhite">
 
         <ImageView
-             android:tag="imageDish"
+            android:tag="imageDish"
             android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/c3"/>
+            android:layout_height="match_parent"/>
 
         <TextView
             android:tag="txtDishName"

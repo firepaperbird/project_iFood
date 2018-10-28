@@ -6,6 +6,7 @@ public class Model_ShoppingList {
     private int UserId;
     private int DishId;
     private String DishName;
+    private int DishImage;
     private int IngredientId;
     private String IngredientName;
     private String IngredientAmount;
@@ -15,11 +16,12 @@ public class Model_ShoppingList {
     public Model_ShoppingList() {
     }
 
-    public Model_ShoppingList(int transactionId, int userId, int dishId, String dishName, int ingredientId, String ingredientName, String ingredientAmount, String ingredientUnit, int status) {
+    public Model_ShoppingList(int transactionId, int userId, int dishId, String dishName, int dishImage, int ingredientId, String ingredientName, String ingredientAmount, String ingredientUnit, int status) {
         TransactionId = transactionId;
         UserId = userId;
         DishId = dishId;
         DishName = dishName;
+        DishImage = dishImage;
         IngredientId = ingredientId;
         IngredientName = ingredientName;
         IngredientAmount = ingredientAmount;
@@ -61,6 +63,14 @@ public class Model_ShoppingList {
 
     public String getDishName() {
         return DishName;
+    }
+
+    public int getDishImage() {
+        return DishImage;
+    }
+
+    public void setDishImage(int dishImage) {
+        DishImage = dishImage;
     }
 
     public void setDishName(String dishName) {

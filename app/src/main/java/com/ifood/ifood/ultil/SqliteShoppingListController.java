@@ -18,10 +18,11 @@ public class SqliteShoppingListController extends SqliteDataController {
     private final int COLUMN_USER_ID_INDEX = 2;
     private final int COLUMN_DISH_ID_INDEX = 3;
     private final int COLUMN_DISH_NAME_INDEX = 4;
-    private final int COLUMN_INGREDIENT_ID_INDEX = 5;
-    private final int COLUMN_INGREDIENT_NAME_INDEX = 6;
-    private final int COLUMN_INGREDIENT_AMOUNT_INDEX = 7;
-    private final int COLUMN_INGREDIENT_UNIT_INDEX = 8;
+    private final int COLUMN_DISH_IMAGE_INDEX = 5;
+    private final int COLUMN_INGREDIENT_ID_INDEX = 6;
+    private final int COLUMN_INGREDIENT_NAME_INDEX = 7;
+    private final int COLUMN_INGREDIENT_AMOUNT_INDEX = 8;
+    private final int COLUMN_INGREDIENT_UNIT_INDEX = 9;
 
     private final String TABLE_NAME = "ShoppingList";
 
@@ -49,6 +50,7 @@ public class SqliteShoppingListController extends SqliteDataController {
 
                 dish.setId(cs.getInt(COLUMN_DISH_ID_INDEX));
                 dish.setTitle(cs.getString(COLUMN_DISH_NAME_INDEX));
+                dish.setImage(cs.getInt(COLUMN_DISH_IMAGE_INDEX));
 
 
                 if (listDish.size() == 0 || listDish.get(listDish.size() - 1).getId().intValue() != dish.getId().intValue()){
@@ -85,6 +87,7 @@ public class SqliteShoppingListController extends SqliteDataController {
 
                 dish.setId(cs.getInt(COLUMN_DISH_ID_INDEX));
                 dish.setTitle(cs.getString(COLUMN_DISH_NAME_INDEX));
+                dish.setImage(cs.getInt(COLUMN_DISH_IMAGE_INDEX));
 
 
                 if (listDish.size() == 0 || listDish.get(listDish.size() - 1).getId().intValue() != dish.getId().intValue()){

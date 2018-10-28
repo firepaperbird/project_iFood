@@ -627,6 +627,7 @@ public class detailFoodActivity extends AppCompatActivity {
             shoppingList.setUserId(session.getUserId());
             shoppingList.setDishId(dish.getId());
             shoppingList.setDishName(dish.getTitle());
+            shoppingList.setDishImage(dish.getImage());
             shoppingList.setIngredientId(ingredient.getId());
             shoppingList.setIngredientName(ingredient.getName());
             shoppingList.setIngredientAmount(ingredient.getAmount());

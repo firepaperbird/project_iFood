@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.ifood.ifood.Dialog.ConfirmRemoveDishShoppingListDialog;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Ingredient;
+import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteShoppingListController;
 
@@ -83,6 +85,9 @@ public class ShoppingList extends AppCompatActivity {
                 LinearLayout layoutDishInfo = newLayoutDishAndIngredient.findViewWithTag("layoutDishInfo");
                 LinearLayout.LayoutParams layoutParamsDishInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutDishInfo.setLayoutParams(layoutParamsDishInfo);
+
+                ImageView imageDish = layoutDishInfo.findViewWithTag("imageDish");
+                imageDish.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), dish.getImage()));
 
                 TextView txtDishName = layoutDishInfo.findViewWithTag("txtDishName");
                 txtDishName.setText(dish.getTitle());

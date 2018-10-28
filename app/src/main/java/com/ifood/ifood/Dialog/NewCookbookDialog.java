@@ -28,7 +28,7 @@ public class NewCookbookDialog extends DialogFragment {
         builder.setTitle("Create new cookbook");
 
         final EditText edtCookbookTitle = customLayout.findViewById(R.id.edtCreateCookBookTitle);
-        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Create", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SessionLoginController session = new SessionLoginController(getActivity().getApplicationContext());
@@ -50,7 +50,7 @@ public class NewCookbookDialog extends DialogFragment {
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

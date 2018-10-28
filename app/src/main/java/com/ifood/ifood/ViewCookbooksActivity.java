@@ -72,7 +72,7 @@ public class ViewCookbooksActivity extends AppCompatActivity {
                 newTxtCookbookTitle.setText(listCookbook.get(i).getTitle());
 
                 TextView newTxtTotalRecipes = newLayoutCookbook.findViewById(R.id.txtTotalRecipes);
-                newTxtTotalRecipes.setText(listCookbook.get(i).getTotalRecipes() + " recipes");
+                newTxtTotalRecipes.setText(listCookbook.get(i).getTotalRecipes() + " dishes");
 
                 int totalLayoutCookbook = mainLayoutCookbooks.getChildCount();
                 if (i % 2 == 0){
