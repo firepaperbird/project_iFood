@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Ingredient;
 import com.ifood.ifood.data.Transaction;
+import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteShoppingListController;
 
@@ -76,6 +78,9 @@ public class TransactionConfirmActivity extends AppCompatActivity {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(0,20,0,20);
             layout.setLayoutParams(layoutParams);
+
+            ImageView imageDish = layout.findViewWithTag("imageDish");
+            imageDish.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), dish.getImage()));
 
             TextView txtDishName = layout.findViewWithTag("txtDishName");
             txtDishName.setText(dish.getTitle());
