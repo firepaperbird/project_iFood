@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,14 @@ public class detailFoodActivity extends AppCompatActivity {
         setDetail();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_dish_actions, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -86,6 +95,13 @@ public class detailFoodActivity extends AppCompatActivity {
                 }
                 finish();
                 return true;
+            case R.id.btnShare - 1:
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = "Here is the share content body";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share your dish to"));
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -424,7 +440,7 @@ public class detailFoodActivity extends AppCompatActivity {
             }
 
             FrameLayout item = new FrameLayout(this);
-            item.setLayoutParams(new FrameLayout.LayoutParams(300, 300));
+            item.setLayoutParams(new FrameLayout.LayoutParams(400, 400));
             BitmapDrawable imageDrawable = ConfigImageQuality.getBitmapImage(getResources(), dishItem.getImage());
             item.setBackground(imageDrawable);
 
@@ -435,7 +451,8 @@ public class detailFoodActivity extends AppCompatActivity {
             itemName.setGravity(Gravity.BOTTOM);
             itemName.setTextColor(Color.LTGRAY);
             itemName.setPadding(25,0,25,25);
-            itemName.setText(dishItem.getTitle());
+            String dishTitle = dishItem.getTitle().length() > 25 ? dishItem.getTitle().substring(0, 25) + "..." : dishItem.getTitle();
+            itemName.setText(dishTitle);
 
             LinearLayout shadowLayout = new LinearLayout(this);
             shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -473,11 +490,13 @@ public class detailFoodActivity extends AppCompatActivity {
 
 
         LinearLayout cookbookLayout = new LinearLayout(this);
-        cookbookLayout.setLayoutParams(new LinearLayout.LayoutParams(size.x / 2 - 20, ViewGroup.LayoutParams.MATCH_PARENT));
+        cookbookLayout.setLayoutParams(new LinearLayout.LayoutParams(size.x / 2 - 30, ViewGroup.LayoutParams.MATCH_PARENT));
         cookbookLayout.setGravity(Gravity.CENTER);
+        cookbookLayout.setBackground(getResources().getDrawable(R.drawable.border_btn_actions_dish_detail));
         LinearLayout orderLayout = new LinearLayout(this);
-        orderLayout.setLayoutParams(new LinearLayout.LayoutParams(size.x / 2, ViewGroup.LayoutParams.MATCH_PARENT));
+        orderLayout.setLayoutParams(new LinearLayout.LayoutParams(size.x / 2 - 30, ViewGroup.LayoutParams.MATCH_PARENT));
         orderLayout.setGravity(Gravity.CENTER);
+        orderLayout.setBackground(getResources().getDrawable(R.drawable.border_btn_actions_dish_detail));
 
         ImageButton btnCookbook = new ImageButton(this);
         btnCookbook.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_add_cook_book));
@@ -511,7 +530,9 @@ public class detailFoodActivity extends AppCompatActivity {
 
         /*Add border between 2 layout*/
         LinearLayout borderLayout = new LinearLayout(this);
-        borderLayout.setLayoutParams(new LinearLayout.LayoutParams(2, ViewGroup.LayoutParams.MATCH_PARENT));
+        LinearLayout.LayoutParams layoutParamsBorder = new LinearLayout.LayoutParams(2, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParamsBorder.setMargins(15,0,15,0);
+        borderLayout.setLayoutParams(layoutParamsBorder);
         borderLayout.setBackgroundColor(Color.DKGRAY);
         /*===========================*/
 
