@@ -13,18 +13,20 @@ public class Dish implements Serializable{
     private String author;
     private Integer image;
     private List<String> tags;
+    private String filterType;
     private List<Ingredient> ingredients;
 
     public Dish() {
     }
 
-    public Dish(Integer id, String title, String description, String author, Integer image, List<String> tags) {
+    public Dish(Integer id, String title, String description, String author, Integer image, List<String> tags, String filterType) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.author = author;
         this.image = image;
         this.tags = tags;
+        this.filterType = filterType;
     }
 
     public Integer getId() {
@@ -91,5 +93,13 @@ public class Dish implements Serializable{
         }
 
         ingredients.add(ingredient);
+    }
+
+    public String getFilterType() {
+        return filterType;
+    }
+
+    public void setFilterType(String filterType) {
+        this.filterType = filterType;
     }
 }

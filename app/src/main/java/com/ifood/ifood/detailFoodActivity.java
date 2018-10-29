@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -95,7 +97,7 @@ public class detailFoodActivity extends AppCompatActivity {
                 }
                 finish();
                 return true;
-            case R.id.btnShare - 1:
+            case R.id.btnShare:
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 String shareBody = "Here is the share content body";
@@ -134,6 +136,8 @@ public class detailFoodActivity extends AppCompatActivity {
 
         RatingBar ratingFood = new RatingBar(this,null,android.R.attr.ratingBarStyleSmall);
         ratingFood.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LayerDrawable stars = (LayerDrawable) ratingFood.getProgressDrawable();
+        stars.getDrawable(0).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         ratingFood.setNumStars(5);
         ratingFood.setRating(4);
         ratingFood.setClickable(false);
@@ -150,7 +154,7 @@ public class detailFoodActivity extends AppCompatActivity {
         txtTimeCooking.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         txtTimeCooking.setText("1 hr 5 min");
         txtTimeCooking.setTextColor(Color.WHITE);
-        txtTimeCooking.setPadding(5,0,0,5);
+        txtTimeCooking.setPadding(5,10,0,0);
 
         timeCooking.addView(clock);
         timeCooking.addView(txtTimeCooking);
@@ -226,7 +230,7 @@ public class detailFoodActivity extends AppCompatActivity {
         TextView rec = new TextView(this);
         rec.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
         rec.setGravity(Gravity.CENTER_VERTICAL);
-        rec.setText("Method");
+        rec.setText("Step by step");
         rec.setTypeface(null, Typeface.BOLD);
         rec.setTextSize(18);
         rec.setPadding(30,0,0,0);

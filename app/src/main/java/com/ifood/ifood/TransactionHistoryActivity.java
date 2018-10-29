@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.ifood.ifood.ultil.SessionLoginController;
 
@@ -34,5 +35,17 @@ public class TransactionHistoryActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void viewDetailHistorySuccessful(View view) {
+        Intent intent = new Intent(this, TransactionHistoryDetailActivity.class);
+        intent.putExtra("STATUS", true);
+        startActivity(intent);
+    }
+
+    public void viewDetailHistoryCancel(View view) {
+        Intent intent = new Intent(this, TransactionHistoryDetailActivity.class);
+        intent.putExtra("STATUS", false);
+        startActivity(intent);
     }
 }

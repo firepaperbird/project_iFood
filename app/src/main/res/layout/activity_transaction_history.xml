@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:onClick="viewDetailHistorySuccessful">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -28,7 +29,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Black Bean-Quinoa Buddha Bowl"
+                        android:text="Deviled Eggs"
                         android:textStyle="bold"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -61,7 +62,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:onClick="viewDetailHistorySuccessful">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -96,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                     android:src="@drawable/ic_action_check_circle_outline"/>
+                    android:src="@drawable/ic_action_check_circle_outline"/>
 
             </RelativeLayout>
 
@@ -106,7 +108,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:onClick="viewDetailHistoryCancel">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
