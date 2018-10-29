@@ -1,17 +1,14 @@
 package com.ifood.ifood;
 
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
@@ -28,12 +25,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,9 +45,6 @@ import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
 import com.ifood.ifood.ultil.SqliteCookbookDishController;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -238,11 +232,11 @@ public class mainMenuActivity extends AppCompatActivity {
 
         LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParamsText.setMargins(0, 0,10,20);
+        layoutParamsText.setMargins(0, 0,10,10);
 
         LinearLayout.LayoutParams layoutParamsDivider = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 3);
-        layoutParamsDivider.setMargins(0,0,0,20);
+        layoutParamsDivider.setMargins(0,10,0,20);
 
         RelativeLayout.LayoutParams layoutParamsTag = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT    ,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -333,7 +327,6 @@ public class mainMenuActivity extends AppCompatActivity {
             layout.setLayoutParams(layoutMenu);
             BitmapDrawable image = ConfigImageQuality.getBitmapImage(getResources(), dish.getImage());
             layout.setBackground(image);
-            layout.setAlpha(Float.parseFloat("150"));
 
             LinearLayout layoutInfo = new LinearLayout(this);
             layoutInfo.setLayoutParams(layoutParamsInfo);
@@ -349,6 +342,15 @@ public class mainMenuActivity extends AppCompatActivity {
             txtTitle.setTypeface(font, Typeface.BOLD);
             txtTitle.setTextColor(Color.WHITE);
             txtTitle.setText(dish.getTitle());
+
+            /*Rating bar*/
+            RatingBar ratingFood = new RatingBar(this,null,android.R.attr.ratingBarStyleSmall);
+            ratingFood.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            LayerDrawable stars = (LayerDrawable) ratingFood.getProgressDrawable();
+            stars.getDrawable(0).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+            ratingFood.setNumStars(5);
+            ratingFood.setRating(4);
+            ratingFood.setClickable(false);
 
             /*Divider*/
             View divider = new View(this);
@@ -378,6 +380,7 @@ public class mainMenuActivity extends AppCompatActivity {
             }
 
             layoutInfo.addView(txtTitle);
+            layoutInfo.addView(ratingFood);
             layoutInfo.addView(divider);
             layoutInfo.addView(tagLayout);
 
@@ -386,6 +389,7 @@ public class mainMenuActivity extends AppCompatActivity {
             shadowLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     LAYOUT_DISH_HEIGHT));
             shadowLayout.setBackground(getResources().getDrawable(R.drawable.shadow));
+            shadowLayout.getBackground().setAlpha(175);
 
             /*cookbook_icon show when that dish was add into cookbook*/
             LinearLayout cookbookLayout = enableCookbookIcon();
@@ -414,6 +418,34 @@ public class mainMenuActivity extends AppCompatActivity {
                 addDishRow.setLayoutParams(dishRowLayoutParams);
 
             }
+
+            /*Ribbon Filter*/
+            TextView filter = new TextView(this);
+            LinearLayout.LayoutParams layoutParamsFilter = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100);
+            layoutParamsFilter.setMargins(30,30,0,0);
+            filter.setLayoutParams(layoutParamsFilter);
+            filter.setPadding(50,10,20,10);
+            filter.setTypeface(null, Typeface.BOLD);
+            filter.setGravity(Gravity.CENTER_VERTICAL);
+            filter.setTextColor(Color.WHITE);
+            switch (dish.getFilterType()){
+                case "recommend" :
+                    filter.setText("RECOMMENDED FOR YOU");
+                    filter.setBackground(getResources().getDrawable(R.drawable.filter_tag_recommend));
+                    break;
+                case "popular":
+                    filter.setText("POPULAR");
+                    filter.setBackground(getResources().getDrawable(R.drawable.filter_tag_popular));
+                    break;
+                case "new":
+                    filter.setText("NEW");
+                    filter.setBackground(getResources().getDrawable(R.drawable.filter_tag_new));
+                    break;
+                default:
+                    break;
+            }
+
+            frameLayout.addView(filter);
 
             frameLayout.addView(layoutInfo);
 
