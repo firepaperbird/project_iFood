@@ -22,25 +22,71 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name(*)"/>
+
         <EditText
             android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name(*)"
             android:inputType="" android:text="Alibaba"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Phone(*)"/>
 
         <EditText
             android:id="@+id/txtPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="Phone(*)"/>
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="City(*)"/>
+
+        <Spinner
+            android:id="@+id/spnCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Spinner>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDarkerGray"
+            android:layout_marginLeft="4dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="District(*)"
+            android:layout_marginTop="10dp"/>
+
+        <Spinner
+            android:id="@+id/spnDistrict"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Spinner>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDarkerGray"
+            android:layout_marginLeft="4dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address(*)"
+            android:layout_marginTop="10dp"/>
 
         <EditText
             android:id="@+id/txtAddress"
             android:layout_width="match_parent" android:inputType="" 
-            android:layout_height="wrap_content"
-            android:hint="Address(*)"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <Button
