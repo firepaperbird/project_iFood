@@ -77,6 +77,7 @@ public class TransactionAddressActivity extends AppCompatActivity {
                     break;
                     default:break;
                 }
+                city = adapterView.getItemAtPosition(i).toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -84,6 +85,7 @@ public class TransactionAddressActivity extends AppCompatActivity {
             }
         });
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     //set list district
@@ -136,7 +138,6 @@ public class TransactionAddressActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         List<Dish> listDishOrder = (List<Dish>)intent.getSerializableExtra("LISTDISHORDER");
-        intent.removeExtra("LISTDISHORDER");
         intent = new Intent(this, TransactionConfirmActivity.class);
         intent.putExtra("LISTDISHORDER" , (Serializable) listDishOrder);
         intent.putExtra("TRANSACTION", transaction);

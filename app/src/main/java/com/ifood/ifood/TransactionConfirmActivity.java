@@ -68,8 +68,6 @@ public class TransactionConfirmActivity extends AppCompatActivity {
 
         List<Dish> dishList = (List<Dish>)intent.getSerializableExtra("LISTDISHORDER");
         Transaction transaction = (Transaction)intent.getSerializableExtra("TRANSACTION");
-        intent.removeExtra("LISTDISHORDER");
-        intent.removeExtra("TRANSACTION");
 
         txtName.setText(transaction.getName().toString());
         txtPhone.setText(transaction.getPhone().toString());

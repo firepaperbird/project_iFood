@@ -78,7 +78,5 @@ public class categoryIfood extends AppCompatActivity {
         sessionCategoryController.setCurrentCategory(categoryId);
         Intent intent = new Intent(this, mainMenuActivity.class);
         startActivity(intent);
-
-        finish();
     }
 }

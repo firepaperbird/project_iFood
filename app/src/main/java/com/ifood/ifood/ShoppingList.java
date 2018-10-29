@@ -76,6 +76,8 @@ public class ShoppingList extends AppCompatActivity {
         if (dishList.size() > 0) {
             TextView txtShoppingListIsEmpty = findViewById(R.id.txtShoppingListIsEmpty);
             txtShoppingListIsEmpty.setVisibility(View.INVISIBLE);
+            Button btnCheckout = findViewById(R.id.btnOrder);
+            btnCheckout.setVisibility(View.VISIBLE);
             for (Dish dish : dishList){
                 LinearLayout newLayoutDishAndIngredient = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.layout_dish, null);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

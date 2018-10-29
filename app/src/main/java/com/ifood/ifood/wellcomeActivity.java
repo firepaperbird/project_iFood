@@ -22,8 +22,7 @@ public class wellcomeActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(wellcomeActivity.this, categoryIfood.class);
                 startActivity(intent);
-
-//                finish(); //This closes current activity
+                finish(); //This closes current activity
             }
         }, 1700); //It means 4 seconds
     }
