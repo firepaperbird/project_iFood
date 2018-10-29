@@ -16,36 +16,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:background="@drawable/background_shoppinglist" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="-5dp"
                     android:orientation="horizontal"
                     android:background="#000000">
 
-                    <ImageButton
-                        android:id="@+id/btnOrder"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="50dp"
-                        android:layout_alignParentEnd="true"
-                        android:background="@color/trans"
-                        android:src="@drawable/ic_action_purchase_order"
-                        android:onClick="orderDishes"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        android:background="@drawable/background_shoppinglist" />
 
                     <ImageButton
                         android:id="@+id/btnAdd"
                         android:layout_width="35dp"
-                        android:layout_height="40dp"
+                        android:layout_height="60dp"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="20dp"
+                        android:paddingBottom="20dp"
                         android:background="@color/trans"
                         android:src="@drawable/ic_action_add_more_list"
                         android:onClick="addMoreDishIntoShoppingList"/>
@@ -76,7 +67,20 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="--- End ---"/>
-
+                <Button
+                    android:id="@+id/btnOrder"
+                    android:layout_width="250dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button_checkout"
+                    android:drawableLeft="@drawable/ic_action_purchase_order"
+                    android:text="Check out"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:onClick="orderDishes"/>
             </LinearLayout>
 
         </ScrollView>

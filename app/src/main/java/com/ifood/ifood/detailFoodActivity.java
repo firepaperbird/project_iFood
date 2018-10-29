@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -533,7 +534,7 @@ public class detailFoodActivity extends AppCompatActivity {
         LinearLayout.LayoutParams layoutParamsBorder = new LinearLayout.LayoutParams(2, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParamsBorder.setMargins(15,0,15,0);
         borderLayout.setLayoutParams(layoutParamsBorder);
-        borderLayout.setBackgroundColor(Color.DKGRAY);
+        borderLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.colorLightGray));
         /*===========================*/
 
         actionLayout.addView(cookbookLayout);
