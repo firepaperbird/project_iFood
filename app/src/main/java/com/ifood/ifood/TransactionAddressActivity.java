@@ -61,8 +61,10 @@ public class TransactionAddressActivity extends AppCompatActivity {
                 this, R.array.list_city_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCity.setAdapter(adapter);
-        int position = adapter.getPosition("Đà Nẵng");
-        spinnerCity.setSelection(position);
+        if(user.getCity() != null){
+            int pos = adapter.getPosition(user.getCity());
+            spinnerCity.setSelection(pos);
+        }
 
         //set Event
         spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
