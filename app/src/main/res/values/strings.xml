@@ -27,4 +27,58 @@
 
     <!-- login activity-->
     <string name="plese_login"> <u>Already have an account ?</u></string>
+
+    <!-- City List -->
+    <string-array name="list_city_array">
+        <item>TP.Hồ Chí Minh</item>
+        <item>Hà Nội</item>
+        <item>Đà Nẵng</item>
+    </string-array>
+
+    <!-- SG county List -->
+    <string-array name="list_District_SG_array">
+        <item>Quận 1</item>
+        <item>Quận 2</item>
+        <item>Quận 3</item>
+        <item>Quận 4</item>
+        <item>Quận 5</item>
+        <item>Quận 6</item>
+        <item>Quận 7</item>
+        <item>Quận 8</item>
+        <item>Quận 9</item>
+        <item>Quận 10</item>
+        <item>Quận 11</item>
+        <item>Quận 12</item>
+        <item>Quận Thủ Đức</item>
+        <item>Quận Gò Vấp</item>
+        <item>Quận Bình Thạnh</item>
+        <item>Quận Tân Bình</item>
+        <item>Quận Tân Phú</item>
+        <item>Quận Phú Nhuận</item>
+        <item>Quận Bình Tân</item>
+    </string-array>
+
+    <!-- HN county List -->
+    <string-array name="list_District_HN_array">
+        <item>Quận Ba Đình</item>
+        <item>Quận Hoàn Kiếm</item>
+        <item>Quận Hai Bà Trưng</item>
+        <item>Quận Đống Đa</item>
+        <item>Quận Tây Hồ</item>
+        <item>Quận Cầu Giấy</item>
+        <item>Quận Thanh Xuân</item>
+        <item>Quận Hoàng Mai</item>
+        <item>Quận Long Biên</item>
+        <item>Quận Hà Đông</item>
+    </string-array>
+
+    <!-- DN county List -->
+    <string-array name="list_District_DN_array">
+        <item>Quận Hải Châu</item>
+        <item>Quận Thanh Khê</item>
+        <item>Quận Sơn Trà</item>
+        <item>Quận Ngũ Hành Sơn</item>
+        <item>Quận Liên Chiểu</item>
+        <item>Quận Cẩm Lệ</item>
+    </string-array>
 </resources>

@@ -226,7 +226,7 @@ public class detailFoodActivity extends AppCompatActivity {
         TextView rec = new TextView(this);
         rec.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
         rec.setGravity(Gravity.CENTER_VERTICAL);
-        rec.setText("Method");
+        rec.setText("Step by step");
         rec.setTypeface(null, Typeface.BOLD);
         rec.setTextSize(18);
         rec.setPadding(30,0,0,0);

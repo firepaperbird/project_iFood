@@ -28,20 +28,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionConfirmActivity extends AppCompatActivity {
-
-//    Ingredient ingredient = new Ingredient(1, "Hanh cu", "1", "qua", 20000);
-//    List<Ingredient> ingredientList = new ArrayList<Ingredient>();
-//    Dish dish = new Dish(1, "Mon ngon chua ngot ", " ngon", "huy", R.drawable.black_bean_bowl, null);
-//    List<Dish> dishList = new ArrayList<Dish>();
+    TextView txtName;
+    TextView txtPhone;
+    TextView txtAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_confirm);
 
-//        ingredientList = ingredient.getListIngredient();
-//        dish.setIngredients(ingredientList);
-//        dishList.add(dish);
+        txtName = findViewById(R.id.txtNameConfirm);
+        txtPhone = findViewById(R.id.txtPhoneConfirm);
+        txtAddress = findViewById(R.id.txtAddressConfirm);
 
         setContent();
 
@@ -69,7 +67,13 @@ public class TransactionConfirmActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         List<Dish> dishList = (List<Dish>)intent.getSerializableExtra("LISTDISHORDER");
+        Transaction transaction = (Transaction)intent.getSerializableExtra("TRANSACTION");
         intent.removeExtra("LISTDISHORDER");
+        intent.removeExtra("TRANSACTION");
+
+        txtName.setText(transaction.getName().toString() + "");
+        txtPhone.setText(transaction.getPhone().toString() + "");
+        txtAddress.setText(transaction.getAddress().toString() + "");
 
         double total = 0;
 
