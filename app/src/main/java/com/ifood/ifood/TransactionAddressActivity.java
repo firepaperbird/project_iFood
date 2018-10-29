@@ -96,6 +96,8 @@ public class TransactionAddressActivity extends AppCompatActivity {
 
         //set list District
         setListDistrict(R.array.list_District_SG_array);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     //set list district
@@ -139,7 +141,6 @@ public class TransactionAddressActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         List<Dish> listDishOrder = (List<Dish>)intent.getSerializableExtra("LISTDISHORDER");
-        intent.removeExtra("LISTDISHORDER");
         intent = new Intent(this, TransactionConfirmActivity.class);
         intent.putExtra("LISTDISHORDER" , (Serializable) listDishOrder);
         intent.putExtra("TRANSACTION", transaction);
