@@ -36,6 +36,7 @@ public class TransactionAddressActivity extends AppCompatActivity {
     Spinner spinnerDistrict;
     String city;
     String district;
+    boolean flag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class TransactionAddressActivity extends AppCompatActivity {
 
         SessionLoginController session = new SessionLoginController(this);
         SqliteUserController sqliteUser = new SqliteUserController(getApplicationContext());
-        Model_User user = sqliteUser.getUserByEmail(session.getEmail());
+        final Model_User user = sqliteUser.getUserByEmail(session.getEmail());
         txtName.setText(user.getUsername());
         txtPhone.setText(user.getPhoneNumber());
         txtAddress.setText(user.getAddress());
@@ -60,21 +61,22 @@ public class TransactionAddressActivity extends AppCompatActivity {
                 this, R.array.list_city_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCity.setAdapter(adapter);
+        int position = adapter.getPosition("Đà Nẵng");
+        spinnerCity.setSelection(position);
 
         //set Event
         spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i){
-                    case 0: setListDistrict(R.array.list_District_SG_array);
+                    case 0: setListDistrict(spinnerDistrict,R.array.list_District_SG_array,user);
                     break;
-                    case 1: setListDistrict(R.array.list_District_HN_array);
+                    case 1: setListDistrict(spinnerDistrict,R.array.list_District_HN_array,user);
                     break;
-                    case 2: setListDistrict(R.array.list_District_DN_array);
+                    case 2: setListDistrict(spinnerDistrict,R.array.list_District_DN_array,user);
                     break;
                     default:break;
                 }
-                city = adapterView.getItemAtPosition(i).toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -82,28 +84,22 @@ public class TransactionAddressActivity extends AppCompatActivity {
             }
         });
 
-        spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                district = adapterView.getItemAtPosition(i).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        //set list District
-        setListDistrict(R.array.list_District_SG_array);
     }
 
     //set list district
-    private void setListDistrict(int listDistrict){
+    private void setListDistrict(Spinner spnDistrict, int listDistrict, Model_User user){
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, listDistrict, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerDistrict.setAdapter(adapter);
+        spnDistrict.setAdapter(adapter);
+        if(!flag){
+            return;
+        }
+        if(user.getDistrict() != null){
+            int pos = adapter.getPosition(user.getDistrict());
+            spnDistrict.setSelection(pos);
+            flag = false;
+        }
     }
 
     @Override
@@ -134,7 +130,8 @@ public class TransactionAddressActivity extends AppCompatActivity {
         Transaction transaction = new Transaction();
         transaction.setName(txtName.getText().toString());
         transaction.setPhone(txtPhone.getText().toString());
-        transaction.setAddress(txtAddress.getText().toString() + ", " + district + ", " + city);
+        transaction.setAddress(txtAddress.getText().toString() + ", " + spinnerDistrict.getSelectedItem().toString()
+                + ", " + spinnerCity.getSelectedItem().toString());
 
 
         Intent intent = getIntent();

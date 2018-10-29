@@ -71,9 +71,9 @@ public class TransactionConfirmActivity extends AppCompatActivity {
         intent.removeExtra("LISTDISHORDER");
         intent.removeExtra("TRANSACTION");
 
-        txtName.setText(transaction.getName().toString() + "");
-        txtPhone.setText(transaction.getPhone().toString() + "");
-        txtAddress.setText(transaction.getAddress().toString() + "");
+        txtName.setText(transaction.getName().toString());
+        txtPhone.setText(transaction.getPhone().toString());
+        txtAddress.setText(transaction.getAddress().toString());
 
         double total = 0;
 

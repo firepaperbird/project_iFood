@@ -34,28 +34,68 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Name"/>
+
     <EditText
-        android:layout_width="match_parent" android:inputType="" 
+        android:id="@+id/edtName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editName"
-        />
+        android:inputType=""/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Address"/>
+        android:text="Phone"/>
+
     <EditText
-        android:layout_width="match_parent" android:inputType="" 
+        android:id="@+id/edtPhoneNumber"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editAddress"
-        />
+        android:inputType="number" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Phone number"/>
-    <EditText
-        android:layout_width="match_parent" android:inputType="" 
+        android:text="City"/>
+
+    <Spinner
+        android:id="@+id/spnCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Spinner>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDarkerGray"
+        android:layout_marginLeft="4dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editPhoneNumber"
+        android:text="District"
+        android:layout_marginTop="10dp"/>
+
+    <Spinner
+        android:id="@+id/spnDistrict"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Spinner>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDarkerGray"
+        android:layout_marginLeft="4dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Address"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/edtAddress"
+        android:layout_width="match_parent" android:inputType=""
+        android:layout_height="wrap_content" />
+
         />
     <Button
         android:id="@+id/btnSaveUserInfo"

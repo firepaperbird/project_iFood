@@ -7,6 +7,8 @@ public class Model_User implements Serializable {
     private String username;
     private String email;
     private String address;
+    private String city;
+    private String district;
     private String description;
     private String password;
     private String phoneNumber;
@@ -78,4 +80,12 @@ public class Model_User implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public String getCity() { return city; }
+
+    public void setCity(String city) { this.city = city; }
+
+    public String getDistrict() { return district; }
+
+    public void setDistrict(String district) { this.district = district; }
 }
