@@ -43,7 +43,9 @@
             android:id="@+id/edtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType=""/>
+            android:hint="Input your name"
+            android:inputType="textShortMessage"
+            android:imeOptions="actionNext"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -54,6 +56,8 @@
             android:id="@+id/edtPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Input your phone"
+            android:imeOptions="actionNext"
             android:inputType="number" />
 
         <TextView
@@ -97,8 +101,11 @@
 
         <EditText
             android:id="@+id/edtAddress"
-            android:layout_width="match_parent" android:inputType=""
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textShortMessage"
+            android:hint="Input your address"
+            android:imeOptions="actionDone"/>
 
         <Button
             android:id="@+id/btnSaveUserInfo"

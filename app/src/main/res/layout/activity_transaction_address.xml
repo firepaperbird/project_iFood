@@ -31,7 +31,10 @@
             android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="" android:text="Alibaba"/>
+            android:text="Alibaba"
+            android:hint="Input your name"
+            android:inputType="textShortMessage"
+            android:imeOptions="actionNext"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -42,7 +45,9 @@
             android:id="@+id/txtPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:inputType="number"
+            android:hint="Input your phone"
+            android:imeOptions="actionNext"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -85,8 +90,11 @@
 
         <EditText
             android:id="@+id/txtAddress"
-            android:layout_width="match_parent" android:inputType="" 
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Input your address"
+            android:inputType="textShortMessage"
+            android:imeOptions="actionDone"/>
     </LinearLayout>
 
     <Button

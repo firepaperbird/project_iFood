@@ -41,11 +41,25 @@
                         android:layout_height="wrap_content"
                         android:text="Order date: 08:22:05   23-10-2018 "
                         android:textSize="10dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Status: Delivery Successful"
-                        android:textSize="10dp"/>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Status: "
+                            android:textSize="10dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Successful"
+                            android:textColor="#08e01e"
+                            android:textSize="10dp"/>
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <ImageView
@@ -87,11 +101,25 @@
                         android:layout_height="wrap_content"
                         android:text="Order date: 11:56:05   24-10-2018 "
                         android:textSize="10dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Status: Delivery Successful"
-                        android:textSize="10dp"/>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Status: "
+                            android:textSize="10dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Successful"
+                            android:textColor="#08e01e"
+                            android:textSize="10dp"/>
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <ImageView
@@ -133,18 +161,33 @@
                         android:layout_height="wrap_content"
                         android:text="Order date: 08:34:05   21-10-2018 "
                         android:textSize="10dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Status: Cancel"
-                        android:textSize="10dp"/>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Status: "
+                            android:textSize="10dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Cancel"
+                            android:textColor="#EA0B0B"
+                            android:textSize="10dp"/>
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                     android:src="@drawable/ic_action_cancel"/>
+                     android:src="@drawable/ic_action_highlight_off"/>
 
             </RelativeLayout>
 

@@ -321,6 +321,7 @@ public class mainMenuActivity extends AppCompatActivity {
             return;
         }
 
+        int countStar = 5;
         for ( final Dish dish: menu.getListDish()){
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
@@ -349,7 +350,7 @@ public class mainMenuActivity extends AppCompatActivity {
             LayerDrawable stars = (LayerDrawable) ratingFood.getProgressDrawable();
             stars.getDrawable(0).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
             ratingFood.setNumStars(5);
-            ratingFood.setRating(4);
+            ratingFood.setRating(countStar--);
             ratingFood.setClickable(false);
 
             /*Divider*/
