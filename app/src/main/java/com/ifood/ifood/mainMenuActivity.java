@@ -9,8 +9,10 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -25,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -35,6 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ifood.ifood.Dialog.FilterDialog;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.ultil.ConfigImageQuality;
@@ -73,7 +77,6 @@ public class mainMenuActivity extends AppCompatActivity {
         setUserLoginOrSignUp();
 
         setListMenu();
-
     }
 
     @Override
@@ -558,5 +561,10 @@ public class mainMenuActivity extends AppCompatActivity {
     public void moveToCookbook(MenuItem item) {
         Intent intent = new Intent(this, ViewCookbooksActivity.class);
         startActivity(intent);
+    }
+
+    public void showFilterDialog(View view) {
+        FilterDialog dialog = new FilterDialog();
+        dialog.show(getFragmentManager(), "");
     }
 }
