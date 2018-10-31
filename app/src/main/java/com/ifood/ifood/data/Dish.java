@@ -12,6 +12,7 @@ public class Dish implements Serializable{
     private String description;
     private String author;
     private Integer image;
+    private int ratingStar;
     private List<String> tags;
     private String filterType;
     private List<Ingredient> ingredients;
@@ -19,7 +20,7 @@ public class Dish implements Serializable{
     public Dish() {
     }
 
-    public Dish(Integer id, String title, String description, String author, Integer image, List<String> tags, String filterType) {
+    public Dish(Integer id, String title, String description, String author, Integer image, List<String> tags, String filterType, int ratingStar) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -27,6 +28,7 @@ public class Dish implements Serializable{
         this.image = image;
         this.tags = tags;
         this.filterType = filterType;
+        this.ratingStar = ratingStar;
     }
 
     public Integer getId() {
@@ -101,5 +103,13 @@ public class Dish implements Serializable{
 
     public void setFilterType(String filterType) {
         this.filterType = filterType;
+    }
+
+    public int getRatingStar() {
+        return ratingStar;
+    }
+
+    public void setRatingStar(int ratingStar) {
+        this.ratingStar = ratingStar;
     }
 }
