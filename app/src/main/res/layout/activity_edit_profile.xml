@@ -1,114 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/padding_medium"
     android:paddingRight="@dimen/padding_medium"
     tools:context=".EditProfileActivity">
 
-    <ImageView
-         android:paddingTop="10dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:scaleType="center"
-        android:src="@drawable/icon_user_50"/>
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:textColor="#ff6060"
-        android:textSize="16sp"
-        android:background="@drawable/buttonshape"
-        android:shadowColor="#787878"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="update picture"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Name"/>
+        <ImageView
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:scaleType="center"
+            android:src="@drawable/icon_user_50"/>
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="#ff6060"
+            android:textSize="16sp"
+            android:background="@drawable/buttonshape"
+            android:shadowColor="#787878"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:text="update picture"/>
 
-    <EditText
-        android:id="@+id/edtName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType=""/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Phone"/>
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Input your name"
+            android:inputType="textShortMessage"
+            android:imeOptions="actionNext"/>
 
-    <EditText
-        android:id="@+id/edtPhoneNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Phone"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="City"/>
+        <EditText
+            android:id="@+id/edtPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Input your phone"
+            android:imeOptions="actionNext"
+            android:inputType="number" />
 
-    <Spinner
-        android:id="@+id/spnCity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></Spinner>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="City"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorDarkerGray"
-        android:layout_marginLeft="4dp"/>
+        <Spinner
+            android:id="@+id/spnCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Spinner>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="District"
-        android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDarkerGray"
+            android:layout_marginLeft="4dp"/>
 
-    <Spinner
-        android:id="@+id/spnDistrict"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></Spinner>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="District"
+            android:layout_marginTop="10dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorDarkerGray"
-        android:layout_marginLeft="4dp"/>
+        <Spinner
+            android:id="@+id/spnDistrict"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Spinner>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Address"
-        android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDarkerGray"
+            android:layout_marginLeft="4dp"/>
 
-    <EditText
-        android:id="@+id/edtAddress"
-        android:layout_width="match_parent" android:inputType=""
-        android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:layout_marginTop="10dp"/>
 
-        />
-    <Button
-        android:id="@+id/btnSaveUserInfo"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:textColor="#ff6060"
-        android:textSize="16sp"
-        android:background="@drawable/buttonshape"
-        android:shadowColor="#787878"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="save"/>
-</LinearLayout>
+        <EditText
+            android:id="@+id/edtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textShortMessage"
+            android:hint="Input your address"
+            android:imeOptions="actionDone"/>
+
+        <Button
+            android:id="@+id/btnSaveUserInfo"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="#ff6060"
+            android:textSize="16sp"
+            android:background="@drawable/buttonshape"
+            android:shadowColor="#787878"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:text="save"/>
+
+    </LinearLayout>
+
+</ScrollView>

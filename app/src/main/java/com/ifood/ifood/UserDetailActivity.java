@@ -58,6 +58,8 @@ public class UserDetailActivity extends AppCompatActivity {
 
         TextView txtUsername = findViewById(R.id.txtUsername);
         txtUsername.setText(user.getUsername());
+        TextView txtEmail = findViewById(R.id.txtEmail);
+        txtEmail.setText(user.getEmail());
 
         Button editProfileBtn = findViewById(R.id.btnEditProfile);
         final Model_User finalUser = user;

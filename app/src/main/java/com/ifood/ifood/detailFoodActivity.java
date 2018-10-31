@@ -140,7 +140,7 @@ public class detailFoodActivity extends AppCompatActivity {
         LayerDrawable stars = (LayerDrawable) ratingFood.getProgressDrawable();
         stars.getDrawable(0).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         ratingFood.setNumStars(5);
-        ratingFood.setRating(4);
+        ratingFood.setRating(dish.getRatingStar());
         ratingFood.setClickable(false);
 
         LinearLayout timeCooking = new LinearLayout(this);
@@ -188,7 +188,7 @@ public class detailFoodActivity extends AppCompatActivity {
         ingredient.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         ingredient.setPadding(20,10,20,10);
         TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, 150);
         for (Ingredient ingredientItem : listIngredient){
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(tableParams);

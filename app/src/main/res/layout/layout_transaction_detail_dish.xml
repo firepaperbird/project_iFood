@@ -18,8 +18,7 @@
         <ImageView
             android:tag="imageDish"
             android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:background="@drawable/icon_dish"/>
+            android:layout_height="75dp"/>
 
         <TextView
             android:tag="txtDishName"
