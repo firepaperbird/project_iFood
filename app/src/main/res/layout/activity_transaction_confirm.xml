@@ -62,15 +62,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
-        android:paddingLeft="20dp">
-
-        <TextView
-            android:tag="txtTransactionType"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cash on delivery"
-            android:textStyle="bold"
-            android:textSize="12dp"/>
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cash on delivery" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ATM Card / Internet Banking"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment by card Visa, Master, JCB"/>
+        </RadioGroup>
     </LinearLayout>
 
     <TextView
