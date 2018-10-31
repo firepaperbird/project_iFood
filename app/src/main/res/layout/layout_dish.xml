@@ -36,7 +36,6 @@
             android:background="@drawable/inconbtn"
             android:onClick="removeDishOutShoppingList"/>
 
-
     </LinearLayout>
 
 </LinearLayout>
