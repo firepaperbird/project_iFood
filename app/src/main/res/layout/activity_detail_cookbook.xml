@@ -67,7 +67,7 @@ tools:context=".DetailCookbook">
             android:textColor="@color/colorAccent"
             android:background="@color/trans"
             android:layout_alignParentEnd="true"
-            android:text="Remove(s)"
+            android:text="Remove"
             android:onClick="removeDishesInCookbook"/>
 
     </RelativeLayout>

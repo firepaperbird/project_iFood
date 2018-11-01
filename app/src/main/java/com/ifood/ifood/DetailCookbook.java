@@ -26,6 +26,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ifood.ifood.Dialog.ConfirmRemoveDishInCookbookDialog;
+import com.ifood.ifood.Dialog.ConfirmRemoveDishShoppingListDialog;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Menu;
 import com.ifood.ifood.data.Model_Cookbook;
@@ -223,7 +225,7 @@ public class DetailCookbook extends AppCompatActivity {
     public void removeAllDishesInCookbook(View view) {
         List<Dish> listDishRemove = listDishesDetail;
         if (listDishRemove.size() > 0){
-            removeDishes(listDishRemove);
+            removeDishes(listDishRemove, "Remove all dishes?");
         }
     }
 
@@ -237,25 +239,16 @@ public class DetailCookbook extends AppCompatActivity {
         }
 
         if (listDishRemove.size() > 0){
-            removeDishes(listDishRemove);
+            removeDishes(listDishRemove, "Remove dish?");
         } else {
             Toast.makeText(this,"Please select at least 1 dish", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void removeDishes (List<Dish> listDishRemove){
-        SqliteCookbookDishController sqlite = new SqliteCookbookDishController(getApplicationContext());
-        sqlite.deleteListDishInCookbook(sqlite.getTableName(), listDishRemove, cookbook.getId());
-        cookbook.decreaseTotalRecipes(listDishRemove.size());
-        if (cookbook.getTotalRecipes() == 0){
-            cookbook.setImageId(R.drawable.cookbook_image_blank + "");
-        }
-        SqliteCookbookController sqliteCookbook = new SqliteCookbookController(getApplicationContext());
-        sqliteCookbook.updateDataIntoTable(sqliteCookbook.getTableName(), cookbook, "Id = ?", new String[] {cookbook.getId() + ""});
-        Intent intent = new Intent(this, DetailCookbook.class);
-        intent.putExtra("COOKBOOK_INFO", cookbook);
-        intent.putExtra("UPDATE_COOKBOOK_SUCCESSFUL", true);
-        startActivity(intent);
-        finish();
+    private void removeDishes (List<Dish> listDishRemove, String warningMessage){
+        ConfirmRemoveDishInCookbookDialog dialog = new ConfirmRemoveDishInCookbookDialog();
+        dialog.setListDishesRemove(cookbook, listDishRemove);
+        dialog.setWarningMessage(warningMessage);
+        dialog.show(getFragmentManager(), "");
     }
 }
