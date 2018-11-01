@@ -101,14 +101,17 @@
             android:layout_height="wrap_content"
             android:text="Card number: "/>
         <EditText
+            android:id="@+id/edtCardNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="number"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name:"/>
         <EditText
+            android:id="@+id/edtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -117,14 +120,18 @@
             android:layout_height="wrap_content"
             android:text="Expiration date:"/>
         <EditText
+            android:id="@+id/edtExpDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="date"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Security code:"/>
+            android:text="Security code:"
+            android:inputType="number"/>
         <EditText
+            android:id="@+id/edtSecCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
