@@ -435,14 +435,17 @@ public class mainMenuActivity extends AppCompatActivity {
                 case "recommend" :
                     filter.setText("RECOMMENDED FOR YOU");
                     filter.setBackground(getResources().getDrawable(R.drawable.filter_tag_recommend));
+                    filter.getBackground().setAlpha(150);
                     break;
                 case "popular":
                     filter.setText("POPULAR");
                     filter.setBackground(getResources().getDrawable(R.drawable.filter_tag_popular));
+                    filter.getBackground().setAlpha(150);
                     break;
                 case "new":
                     filter.setText("NEW");
                     filter.setBackground(getResources().getDrawable(R.drawable.filter_tag_new));
+                    filter.getBackground().setAlpha(150);
                     break;
                 default:
                     break;

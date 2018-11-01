@@ -12,7 +12,7 @@
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <LinearLayout
-        android:id="@+id/filterPopular"
+        android:id="@+id/filterRating"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -21,14 +21,14 @@
         <TextView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_action_popular"
-            android:layout_marginEnd="@dimen/padding_medium"/>
+            android:background="@drawable/ic_action_star"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Popular"
+            android:text="Highest Rating"
             android:textSize="18sp"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
@@ -69,7 +69,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/filterRating"
+        android:id="@+id/filterPopular"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -78,16 +78,15 @@
         <TextView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_action_star"
-            android:layout_marginEnd="@dimen/padding_medium"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_action_popular"
+            android:layout_marginEnd="@dimen/padding_medium"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Highest Rating"
+            android:text="Popular"
             android:textSize="18sp"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
-
 </LinearLayout>

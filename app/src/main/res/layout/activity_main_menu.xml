@@ -88,7 +88,7 @@
                     android:gravity="center"
                     android:textStyle="italic"
                     android:visibility="visible"
-                    android:text="Sorry, no result were found"/>
+                    android:text="Sorry, no results were found"/>
 
             </LinearLayout>
 

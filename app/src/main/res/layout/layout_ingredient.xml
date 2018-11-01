@@ -41,14 +41,12 @@
         android:textSize="16sp"/>
 
     <TextView
-        android:layout_marginLeft="20dp"
         android:tag="txtIngredientPrice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="5$"
         android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:gravity="end"
+        android:gravity="center"
         android:textSize="16sp" />
 
 </LinearLayout>

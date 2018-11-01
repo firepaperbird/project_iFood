@@ -9,7 +9,7 @@ public class ConfigImageQuality {
     public static BitmapDrawable getBitmapImage(Resources resources, int imageId){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
-        options.inSampleSize = 3;
+        options.inSampleSize = 2;
         Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
         BitmapDrawable image = new BitmapDrawable(bitmap);
 

@@ -21,6 +21,28 @@ public class FilterDialog extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View customLayout = inflater.inflate(R.layout.bottom_filter_sheet, null);
+        LinearLayout filterPopular = customLayout.findViewById(R.id.filterPopular);
+        LinearLayout filterNew = customLayout.findViewById(R.id.filterNew);
+        LinearLayout filterRating = customLayout.findViewById(R.id.filterRating);
+
+        filterPopular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        filterNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        filterRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         builder.setView(customLayout);
         return builder.create();
     }

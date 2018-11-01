@@ -17,11 +17,12 @@
         <ImageView
             android:tag="imageDish"
             android:layout_width="100dp"
+            android:scaleType="fitXY"
             android:layout_height="match_parent"/>
 
         <TextView
             android:tag="txtDishName"
-            android:layout_width="190dp"
+            android:layout_width="250dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:gravity="center"
@@ -29,11 +30,12 @@
             android:textAlignment="center"
             android:textSize="14sp" />
 
-        <Button
+        <ImageView
             android:tag="btnRemoveDish"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/inconbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_action_delete_forever"
             android:onClick="removeDishOutShoppingList"/>
 
     </LinearLayout>

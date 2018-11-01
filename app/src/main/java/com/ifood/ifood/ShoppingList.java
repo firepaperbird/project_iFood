@@ -94,7 +94,7 @@ public class ShoppingList extends AppCompatActivity {
                 TextView txtDishName = layoutDishInfo.findViewWithTag("txtDishName");
                 txtDishName.setText(dish.getTitle());
 
-                Button btnRemoveDish = layoutDishInfo.findViewWithTag("btnRemoveDish");
+                ImageView btnRemoveDish = layoutDishInfo.findViewWithTag("btnRemoveDish");
                 btnRemoveDish.setId(dish.getId());
                 btnRemoveDish.setTag("btnRemoveDish_" + dish.getId());
 
@@ -123,14 +123,18 @@ public class ShoppingList extends AppCompatActivity {
                             TextView txtUnit = newLayoutIngredient.findViewWithTag(txtUnitTag);
                             String txtNameTag = chkTag.replace("checkbox_", "IngredientName_");
                             TextView txtName = newLayoutIngredient.findViewWithTag(txtNameTag);
+                            String txtPriceTag = chkTag.replace("checkbox_", "IngredientPrice_");
+                            TextView txtPrice = newLayoutIngredient.findViewWithTag(txtPriceTag);
                             if (isChecked){
                                 edtAmount.setEnabled(true);
                                 txtUnit.setEnabled(true);
                                 txtName.setEnabled(true);
+                                txtPrice.setEnabled(true);
                             } else {
                                 edtAmount.setEnabled(false);
                                 txtUnit.setEnabled(false);
                                 txtName.setEnabled(false);
+                                txtPrice.setEnabled(false);
                             }
                         }
                     });
@@ -154,6 +158,9 @@ public class ShoppingList extends AppCompatActivity {
                     TextView txtIngredientName = newLayoutIngredient.findViewWithTag("txtIngredientName");
                     txtIngredientName.setText(ingredient.getName());
                     txtIngredientName.setTag("IngredientName_" + dish.getId() + "_" + ingredient.getId());
+
+                    TextView txtIngredientPrice = newLayoutIngredient.findViewWithTag("txtIngredientPrice");
+                    txtIngredientPrice.setTag("IngredientPrice_" + dish.getId() + "_" + ingredient.getId());
 
                     newLayoutDishAndIngredient.addView(newLayoutIngredient);
                 }
