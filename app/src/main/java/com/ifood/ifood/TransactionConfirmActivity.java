@@ -35,6 +35,11 @@ public class TransactionConfirmActivity extends AppCompatActivity {
     TextView txtAddress;
     LinearLayout visaForm;
     ScrollView mScrollview;
+    EditText edtCardNumber;
+    EditText edtName;
+    EditText edtExpDate;
+    EditText edtSecCode;
+    boolean visaFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,10 @@ public class TransactionConfirmActivity extends AppCompatActivity {
         txtAddress = findViewById(R.id.txtAddressConfirm);
         visaForm = findViewById(R.id.visaForm);
         mScrollview = findViewById(R.id.mScrollview);
+        edtCardNumber = findViewById(R.id.edtCardNumber);
+        edtName = findViewById(R.id.edtName);
+        edtExpDate = findViewById(R.id.edtExpDate);
+        edtSecCode = findViewById(R.id.edtSecCode);
 
         final RadioGroup rpgTrans = findViewById(R.id.rgpTransactionType);
         rpgTrans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -53,10 +62,15 @@ public class TransactionConfirmActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i){
                     case R.id.rbtCOD: visaForm.setVisibility(View.GONE);
+                        visaFlag = false;
+                        setVisaFormToDefault();
                         break;
                     case R.id.rbtATM: visaForm.setVisibility(View.GONE);
+                        visaFlag = false;
+                        setVisaFormToDefault();
                         break;
                     case R.id.rbtVisa: visaForm.setVisibility(View.VISIBLE);
+                        visaFlag = true;
                         break;
                 }
             }
@@ -76,6 +90,13 @@ public class TransactionConfirmActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setVisaFormToDefault(){
+        edtCardNumber.setText("");
+        edtName.setText("");
+        edtExpDate.setText("");
+        edtSecCode.setText("");
     }
 
 
@@ -144,6 +165,24 @@ public class TransactionConfirmActivity extends AppCompatActivity {
     }
 
     public void onCLick(View view) {
+        if(visaFlag){
+            if(edtCardNumber.getText().toString().equals("")){
+                Toast.makeText(this, "Card number must fill", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(edtName.getText().toString().equals("")){
+                Toast.makeText(this, "Name must fill", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(edtExpDate.getText().toString().equals("")){
+                Toast.makeText(this, "Expiration date must fill", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(edtSecCode.getText().toString().equals("")){
+                Toast.makeText(this, "Security code must fill", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
         Toast.makeText(this, "Order successful", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, mainMenuActivity.class);
         startActivity(intent);
