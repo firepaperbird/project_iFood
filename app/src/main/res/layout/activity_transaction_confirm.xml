@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TransactionConfirmActivity">
+    tools:context=".TransactionConfirmActivity"
+    android:id="@+id/mScrollview">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -65,21 +66,69 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
         <RadioGroup
+            android:id="@+id/rgpTransactionType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RadioButton
+                android:id="@+id/rbtCOD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cash on delivery" />
             <RadioButton
+                android:id="@+id/rbtATM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ATM Card / Internet Banking"/>
             <RadioButton
+                android:id="@+id/rbtVisa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Payment by card Visa, Master, JCB"/>
         </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/visaForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Card number: "/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name:"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Expiration date:"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Security code:"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
     </LinearLayout>
 
     <TextView

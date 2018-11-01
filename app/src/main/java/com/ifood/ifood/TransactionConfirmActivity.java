@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,6 +33,8 @@ public class TransactionConfirmActivity extends AppCompatActivity {
     TextView txtName;
     TextView txtPhone;
     TextView txtAddress;
+    LinearLayout visaForm;
+    ScrollView mScrollview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,23 @@ public class TransactionConfirmActivity extends AppCompatActivity {
         txtName = findViewById(R.id.txtNameConfirm);
         txtPhone = findViewById(R.id.txtPhoneConfirm);
         txtAddress = findViewById(R.id.txtAddressConfirm);
+        visaForm = findViewById(R.id.visaForm);
+        mScrollview = findViewById(R.id.mScrollview);
+
+        final RadioGroup rpgTrans = findViewById(R.id.rgpTransactionType);
+        rpgTrans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.rbtCOD: visaForm.setVisibility(View.GONE);
+                        break;
+                    case R.id.rbtATM: visaForm.setVisibility(View.GONE);
+                        break;
+                    case R.id.rbtVisa: visaForm.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
 
         setContent();
 
