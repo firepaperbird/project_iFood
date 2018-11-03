@@ -15,7 +15,7 @@ import com.ifood.ifood.ultil.SqliteShoppingListController;
 
 public class ConfirmRemoveDishShoppingListDialog extends DialogFragment {
     private int dishIdRemove = -1;
-    private int userId = -1;
+    private String userId;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class ConfirmRemoveDishShoppingListDialog extends DialogFragment {
         return builder.create();
     }
 
-    public void setDishIdRemove(int dishIdRemove, int userId){
+    public void setDishIdRemove(int dishIdRemove, String userId){
         this.dishIdRemove = dishIdRemove;
         this.userId = userId;
     }

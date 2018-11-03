@@ -31,7 +31,7 @@ public class EditProfileActivity extends AppCompatActivity {
         final Model_User user = (Model_User)intent.getSerializableExtra("USERINFO");
 
         final EditText edtName = findViewById(R.id.edtName);
-        edtName.setText(user.getUsername());
+        edtName.setText(user.getName());
 
         final EditText edtAddress = findViewById(R.id.edtAddress);
         edtAddress.setText(user.getAddress());
@@ -75,7 +75,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent( EditProfileActivity.this, UserDetailActivity.class);
                 Model_User edtUser = user;
-                edtUser.setUsername(edtName.getText().toString());
+                edtUser.setName(edtName.getText().toString());
                 edtUser.setAddress(edtAddress.getText().toString());
                 edtUser.setPhoneNumber(edtPhoneNumber.getText().toString());
                 edtUser.setCity(spnCity.getSelectedItem().toString());
@@ -86,7 +86,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 sqlite.updateDataIntoTable(sqlite.getTableName(), edtUser, "Id = ?", new String[] {user.getId().toString()});
 
                 SessionLoginController session = new SessionLoginController(EditProfileActivity.this);
-                session.setUsername(edtUser.getUsername());
+                session.setName(edtUser.getName());
 
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("EDIT_SUCCESSFUL", true);

@@ -52,7 +52,7 @@ public class TransactionAddressActivity extends AppCompatActivity {
         SessionLoginController session = new SessionLoginController(this);
         SqliteUserController sqliteUser = new SqliteUserController(getApplicationContext());
         final Model_User user = sqliteUser.getUserByEmail(session.getEmail());
-        txtName.setText(user.getUsername());
+        txtName.setText(user.getName());
         txtPhone.setText(user.getPhoneNumber());
         txtAddress.setText(user.getAddress());
 

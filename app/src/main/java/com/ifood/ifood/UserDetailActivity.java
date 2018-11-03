@@ -57,7 +57,7 @@ public class UserDetailActivity extends AppCompatActivity {
         }
 
         TextView txtUsername = findViewById(R.id.txtUsername);
-        txtUsername.setText(user.getUsername());
+        txtUsername.setText(user.getName());
         TextView txtEmail = findViewById(R.id.txtEmail);
         txtEmail.setText(user.getEmail());
 

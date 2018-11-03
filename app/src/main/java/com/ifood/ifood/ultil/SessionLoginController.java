@@ -12,11 +12,11 @@ public class SessionLoginController {
         prefs = PreferenceManager.getDefaultSharedPreferences(cntx);
     }
 
-    public void setUsername(String username) {
+    public void setName(String username) {
         prefs.edit().putString("username", username).commit();
     }
 
-    public String getUsername() {
+    public String getName() {
         String username = prefs.getString("username","");
         return username;
     }
@@ -30,16 +30,13 @@ public class SessionLoginController {
         return email;
     }
 
-    public void setUserId(int id) {
+    public void setUserId(String id) {
         prefs.edit().putString("userId", id + "").commit();
     }
 
-    public int getUserId() {
+    public String getUserId() {
         String id = prefs.getString("userId","0");
-        if (id.isEmpty() || id == null){
-            return -1;
-        }
-        return Integer.parseInt(id);
+        return id;
     }
 
     public void clearSession(){

@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Model_Cookbook implements Serializable {
     private Integer id;
-    private Integer userId;
+    private String userId;
     private String title;
     private String imageId;
     private int totalRecipes;
@@ -14,7 +14,7 @@ public class Model_Cookbook implements Serializable {
     public Model_Cookbook() {
     }
 
-    public Model_Cookbook(Integer userId, String title, String imageId, int totalRecipes) {
+    public Model_Cookbook(String userId, String title, String imageId, int totalRecipes) {
         this.userId = userId;
         this.title = title;
         this.imageId = imageId;
@@ -45,11 +45,11 @@ public class Model_Cookbook implements Serializable {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

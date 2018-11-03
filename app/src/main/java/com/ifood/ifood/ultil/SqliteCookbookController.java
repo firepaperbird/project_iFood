@@ -25,7 +25,7 @@ public class SqliteCookbookController extends SqliteDataController {
         checkTableExistInDatabase(TABLE_NAME);
     }
 
-    public List<Model_Cookbook> getCookbookByUserId(int userId) {
+    public List<Model_Cookbook> getCookbookByUserId(String userId) {
         List<Model_Cookbook> listCookbook = new ArrayList<>();
         try {
             openDataBase();
@@ -33,7 +33,7 @@ public class SqliteCookbookController extends SqliteDataController {
             while (cs.moveToNext()) {
                 Model_Cookbook cookbook = new Model_Cookbook();
                 cookbook.setId(Integer.parseInt(cs.getString(COLUMN_ID_INDEX)));
-                cookbook.setUserId(Integer.parseInt(cs.getString(COLUMN_USER_ID_INDEX)));
+                cookbook.setUserId(cs.getString(COLUMN_USER_ID_INDEX));
                 cookbook.setTitle(cs.getString(COLUMN_TITLE_INDEX));
                 cookbook.setImageId(cs.getString(COLUMN_IMAGE_ID_INDEX));
                 cookbook.setTotalRecipes(Integer.parseInt(cs.getString(COLUMN_TOTAL_RECIPES_INDEX)));
@@ -55,7 +55,7 @@ public class SqliteCookbookController extends SqliteDataController {
             if (cs.moveToFirst()) {
                 Model_Cookbook cookbook = new Model_Cookbook();
                 cookbook.setId(Integer.parseInt(cs.getString(COLUMN_ID_INDEX)));
-                cookbook.setUserId(Integer.parseInt(cs.getString(COLUMN_USER_ID_INDEX)));
+                cookbook.setUserId(cs.getString(COLUMN_USER_ID_INDEX));
                 cookbook.setTitle(cs.getString(COLUMN_TITLE_INDEX));
                 cookbook.setImageId(cs.getString(COLUMN_IMAGE_ID_INDEX));
                 cookbook.setTotalRecipes(Integer.parseInt(cs.getString(COLUMN_TOTAL_RECIPES_INDEX)));
