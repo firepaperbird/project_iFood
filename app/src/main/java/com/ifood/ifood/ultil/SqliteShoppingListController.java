@@ -35,7 +35,7 @@ public class SqliteShoppingListController extends SqliteDataController {
         return TABLE_NAME;
     }
 
-    public List<Dish> getDishInShoppingList(int userId) {
+    public List<Dish> getDishInShoppingList(String userId) {
         List<Dish> listDish = new ArrayList<>();
         Dish dish = new Dish();
         try {
@@ -106,7 +106,7 @@ public class SqliteShoppingListController extends SqliteDataController {
         return listDish;
     }
 
-    public boolean isDishExistInShoppingList(int userId, int dishId) {
+    public boolean isDishExistInShoppingList(String userId, int dishId) {
         try {
             openDataBase();
             Cursor cs = database.query(TABLE_NAME, null, "UserId = ? AND DishId = ? AND Status = ?"

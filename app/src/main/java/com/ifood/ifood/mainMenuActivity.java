@@ -491,8 +491,8 @@ public class mainMenuActivity extends AppCompatActivity {
         LinearLayout btnSignout = findViewById(R.id.btn_signout_category);
 
         LinearLayout iconUser = findViewById(R.id.userIcon);
-        if (!session.getUsername().isEmpty()){
-            userName.setText(session.getUsername());
+        if (!session.getName().isEmpty()){
+            userName.setText(session.getName());
             userEmail.setText(session.getEmail());
             btnSignout.setVisibility(View.VISIBLE);
             btnSignin.setVisibility(View.INVISIBLE);

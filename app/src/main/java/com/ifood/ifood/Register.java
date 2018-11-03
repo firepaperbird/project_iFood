@@ -60,14 +60,14 @@ public class Register extends AppCompatActivity {
         if (!password.equals(confirmPassword)){
             Toast.makeText(this, "Password does not match the confirm password! ", Toast.LENGTH_SHORT).show();
         }
-        Model_User user = new Model_User(username, email, "", "", password, "");
+        Model_User user = new Model_User(username, email, password);
         SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
         sqlite.insertDataIntoTable(sqlite.getTableName(), user);
 
         SessionLoginController session = new SessionLoginController(this);
         Model_User newUser = sqlite.getUserByEmail(email);
         session.setUserId(newUser.getId());
-        session.setUsername(username);
+        session.setName(username);
         session.setEmail(email);
 
         Intent intent = new Intent(this, mainMenuActivity.class);

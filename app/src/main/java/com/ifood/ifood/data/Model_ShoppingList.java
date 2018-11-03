@@ -3,7 +3,7 @@ package com.ifood.ifood.data;
 public class Model_ShoppingList {
     private Integer Id;
     private int TransactionId;
-    private int UserId;
+    private String UserId;
     private int DishId;
     private String DishName;
     private int DishImage;
@@ -16,7 +16,7 @@ public class Model_ShoppingList {
     public Model_ShoppingList() {
     }
 
-    public Model_ShoppingList(int transactionId, int userId, int dishId, String dishName, int dishImage, int ingredientId, String ingredientName, String ingredientAmount, String ingredientUnit, int status) {
+    public Model_ShoppingList(int transactionId, String userId, int dishId, String dishName, int dishImage, int ingredientId, String ingredientName, String ingredientAmount, String ingredientUnit, int status) {
         TransactionId = transactionId;
         UserId = userId;
         DishId = dishId;
@@ -45,11 +45,11 @@ public class Model_ShoppingList {
         TransactionId = transactionId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return UserId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         UserId = userId;
     }
 

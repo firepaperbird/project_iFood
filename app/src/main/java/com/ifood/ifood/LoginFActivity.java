@@ -15,13 +15,23 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ifood.ifood.data.Model_User;
+import com.ifood.ifood.ultil.HttpUtils;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteUserController;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class LoginFActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout listMenu;
+    private Model_User responseUser = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,15 +56,15 @@ public class LoginFActivity extends AppCompatActivity {
         String email = edEmail.getText().toString().toLowerCase();
         EditText edPassword = findViewById(R.id.edtLoginPassword);
         String password = edPassword.getText().toString();
-
+        callCheckLog(email,password);
         SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
-        Model_User user = sqlite.getUserByEmailAndPassword(email, password);
-        if (user != null){
+//      caan save user data vao sqlite
+        if (responseUser != null){
             SessionLoginController session = new SessionLoginController(this);
 
-            session.setUserId(user.getId());
-            session.setUsername(user.getUsername());
-            session.setEmail(user.getEmail());
+            session.setUserId(responseUser.getId());
+            session.setName(responseUser.getName());
+            session.setEmail(responseUser.getEmail());
 
             startActivity(new Intent(this, mainMenuActivity.class));
             finish();
@@ -63,4 +73,28 @@ public class LoginFActivity extends AppCompatActivity {
         }
     }
 
+    private void callCheckLog(String email, String password){
+
+        try {
+            JSONObject jsonParams = new JSONObject();
+            jsonParams.put("email",email);
+            jsonParams.put("password",password);
+            StringEntity entity = new StringEntity(jsonParams.toString());
+            HttpUtils.post(this,"/user/checklogin", entity,new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    try {
+                        JSONObject serverResp = new JSONObject(response.toString());
+                        responseUser = new Model_User(serverResp);
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
