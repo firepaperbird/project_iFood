@@ -4,76 +4,78 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:id="@+id/layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".categoryIfood">
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cateGoryLayout">
-        <ImageView
-            android:id="@+id/topCate"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginBottom="10px"
-            android:layout_marginTop="10px"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/c1"
-            android:background="@null"
-            android:clickable="true"
-            android:onClick="clickGym"/>
-
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/midCate"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginBottom="10px"
-        android:layout_marginTop="10px"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/c2"
-        android:background="@null"
-        android:clickable="true"
-        android:onClick="clickHealthy"/>
-
-    <ImageView
-        android:id="@+id/botCate"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginBottom="10px"
-        android:layout_marginTop="10px"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/c3"
-        android:background="@null"
-        android:clickable="true"
-        android:onClick="clickDaily"/>
-    <ImageView
-        android:id="@+id/background"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="this is background"
-        android:foreground="@drawable/background"
-        android:scaleType="fitXY" />
+        android:layout_x="0dp"
+        android:layout_y="4dp"
+        android:fillViewport="true">
 
-</LinearLayout>
-</ScrollView>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".categoryIfood">
+
+
+            <RelativeLayout
+                android:id="@+id/cateGoryLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.loopj.android.image.SmartImageView
+                    android:id="@+id/topCate"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="10px"
+                    android:layout_marginBottom="10px"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:onClick="clickGym"
+                    android:scaleType="centerCrop" />
+
+            </RelativeLayout>
+
+            <com.loopj.android.image.SmartImageView
+                android:id="@+id/midCate"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="10px"
+                android:layout_marginBottom="10px"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:clickable="true"
+                android:onClick="clickHealthy"
+                android:scaleType="centerCrop" />
+
+            <com.loopj.android.image.SmartImageView
+                android:id="@+id/botCate"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="10px"
+                android:layout_marginBottom="10px"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:clickable="true"
+                android:onClick="clickDaily"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:contentDescription="this is background"
+                android:foreground="@drawable/background"
+                android:scaleType="fitXY" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <ImageButton
         android:layout_width="100dp"

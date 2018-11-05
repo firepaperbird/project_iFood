@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="(click to add image)"
+                android:text="(click to add imageLink)"
                 android:textSize="12sp"
                 android:textStyle="italic"
                 android:gravity="center"/>

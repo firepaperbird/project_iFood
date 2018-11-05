@@ -58,7 +58,7 @@ public class Menu {
         this.description = description;
     }
 
-    public List<Dish> getDalyMenu(){
+    /*public List<Dish> getDalyMenu(){
         List<String> tags = new ArrayList<>();
         tags.add("High Vitamin C"); tags.add("High Potassium"); tags.add("Main Dishes"); tags.add("Slow Cooking");
         Dish dish_1 = new Dish(11, "CrockPot Goulash", "", "Marina", R.drawable.crockpot_goulash, tags, "recommend", 5);
@@ -146,9 +146,9 @@ public class Menu {
         list.add(dish_4);
         list.add(dish_5);
         return list;
-    }
+    }*/
 
-    public List<Dish> getAllDish(){
+    /*public List<Dish> getAllDish(){
         List<Dish> allDish = new ArrayList<>();
 
         allDish.addAll(getGymMenu());
@@ -156,6 +156,6 @@ public class Menu {
         allDish.addAll(getDalyMenu());
 
         return allDish;
-    }
+    }*/
 
 }

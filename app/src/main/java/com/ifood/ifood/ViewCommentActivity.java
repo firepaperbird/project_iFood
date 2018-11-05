@@ -11,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ifood.ifood.data.Comment_User;
+import com.ifood.ifood.data.Model_Review;
 
 import java.util.List;
 
@@ -22,12 +23,12 @@ public class ViewCommentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_comment);
 
         Intent intent = getIntent();
-        List<Comment_User> list = (List<Comment_User>) intent.getSerializableExtra("list");
+        List<Model_Review> list = (List<Model_Review>) intent.getSerializableExtra("listComment");
         LinearLayout layout = findViewById(R.id.layout);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        for (Comment_User commentUser:list) {
+        for (Model_Review commentUser:list) {
             LinearLayout comment = new LinearLayout(this);
             comment.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             comment.setOrientation(LinearLayout.HORIZONTAL);
@@ -43,17 +44,17 @@ public class ViewCommentActivity extends AppCompatActivity {
 
             TextView username = new TextView(this);
             username.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            username.setText(commentUser.getName());
+            username.setText(commentUser.getUserName());
             username.setTypeface(null, Typeface.BOLD);
 
             TextView time = new TextView(this);
             time.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            time.setText(commentUser.getTime());
+            time.setText(commentUser.getReviewOn().toString().substring(0,10));
 
             RatingBar rating = new RatingBar(this,null,android.R.attr.ratingBarStyleSmall);
             rating.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             rating.setNumStars(5);
-            rating.setRating(commentUser.getStar());
+            rating.setRating(commentUser.getRate());
             rating.setClickable(false);
 
 
@@ -68,7 +69,7 @@ public class ViewCommentActivity extends AppCompatActivity {
 
             TextView comment_review = new TextView(this);
             comment_review.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            comment_review.setText(commentUser.getReview());
+            comment_review.setText(commentUser.getComment());
             comment_review.setPadding(30,0,20,30);
 
             layout.addView(comment_review);

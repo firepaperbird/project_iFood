@@ -1,40 +1,47 @@
 package com.ifood.ifood.data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Ingredient implements Serializable {
-    private int id;
+    private String id;
+    private Integer typeId;
     private String name;
-    private String amount;
-    private String unit;
-    private double price;
+    private String description;
+    private double amount;
+    private int unitId;
+    private double pricePerUnit;
+    private Boolean isDelete;
 
     public Ingredient() {
     }
 
-    public Ingredient(int id, String name, String amount, String unit, double price) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.unit = unit;
-        this.price = price;
+    public Ingredient(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getString("id");
+        this.typeId = jsonObject.getInt("typeId");
+        this.name = jsonObject.getString("name");
+        this.description = jsonObject.getString("description");
+        this.amount = jsonObject.getDouble("amount");
+        this.unitId = jsonObject.getInt("unitId");
+        this.pricePerUnit = jsonObject.getDouble("pricePerUnit");
+        this.isDelete = jsonObject.getBoolean("delete");
     }
 
-    public double getPrice() {
-        return price;
+    public double getPricePerUnit() {
+        return pricePerUnit;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPricePerUnit(double pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,23 +53,23 @@ public class Ingredient implements Serializable {
         this.name = name;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public String getUnit() {
-        return unit;
+    public int getUnitId() {
+        return unitId;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
     }
 
-    public List<Ingredient> getListIngredient(){
+    /*public List<Ingredient> getListIngredient(){
         List<Ingredient> ingredientList = new ArrayList<>();
         Ingredient ingredient = new Ingredient(1, "potatoes", "454", "grams", 45000);
         ingredientList.add(ingredient);
@@ -74,5 +81,5 @@ public class Ingredient implements Serializable {
         ingredientList.add(ingredient);
 
         return ingredientList;
-    }
+    }*/
 }

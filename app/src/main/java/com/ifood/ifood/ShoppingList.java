@@ -89,13 +89,12 @@ public class ShoppingList extends AppCompatActivity {
                 layoutDishInfo.setLayoutParams(layoutParamsDishInfo);
 
                 ImageView imageDish = layoutDishInfo.findViewWithTag("imageDish");
-                imageDish.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), dish.getImage()));
+                imageDish.setImageDrawable(ConfigImageQuality.getBitmapImage(this, getResources(), dish.getImageLink()));
 
                 TextView txtDishName = layoutDishInfo.findViewWithTag("txtDishName");
-                txtDishName.setText(dish.getTitle());
+                txtDishName.setText(dish.getName());
 
                 ImageView btnRemoveDish = layoutDishInfo.findViewWithTag("btnRemoveDish");
-                btnRemoveDish.setId(dish.getId());
                 btnRemoveDish.setTag("btnRemoveDish_" + dish.getId());
 
                 int ingredientCount = 0;
@@ -140,7 +139,7 @@ public class ShoppingList extends AppCompatActivity {
                     });
 
                     EditText edtIngredientAmount = newLayoutIngredient.findViewWithTag("edtIngredientAmount");
-                    edtIngredientAmount.setText(ingredient.getAmount());
+                    edtIngredientAmount.setText(ingredient.getAmount() + "");
                     edtIngredientAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                     edtIngredientAmount.setTag("IngredientAmount_" + dish.getId() + "_" + ingredient.getId());
                     edtIngredientAmount.setFocusableInTouchMode(false);
@@ -152,7 +151,7 @@ public class ShoppingList extends AppCompatActivity {
                     });
 
                     TextView txtIngredientUnit = newLayoutIngredient.findViewWithTag("txtIngredientUnit");
-                    txtIngredientUnit.setText(ingredient.getUnit());
+                    txtIngredientUnit.setText(ingredient.getUnitId());
                     txtIngredientUnit.setTag("IngredientUnit_" + dish.getId() + "_" + ingredient.getId());
 
                     TextView txtIngredientName = newLayoutIngredient.findViewWithTag("txtIngredientName");
@@ -185,7 +184,7 @@ public class ShoppingList extends AppCompatActivity {
                     CheckBox checkBoxChoice = layoutDish.findViewWithTag("checkbox_" + dish.getId() + "_" + ingredient.getId());
                     if (checkBoxChoice.isChecked()){
                         EditText edtAmount = layoutDish.findViewWithTag("IngredientAmount_" + dish.getId() + "_" + ingredient.getId());
-                        ingredient.setAmount(edtAmount.getText().toString());
+                        ingredient.setAmount(Double.parseDouble(edtAmount.getText().toString()));
                         listIngredientsChoice.add(ingredient);
                     }
                 }
@@ -199,7 +198,7 @@ public class ShoppingList extends AppCompatActivity {
     }
 
     public void removeDishOutShoppingList(View view) {
-        int dishIdRemove = view.getId();
+        String dishIdRemove = view.getTag().toString().substring(0,10);
         ConfirmRemoveDishShoppingListDialog dialog = new ConfirmRemoveDishShoppingListDialog();
         dialog.setDishIdRemove(dishIdRemove, session.getUserId());
         dialog.show(getFragmentManager(), "");

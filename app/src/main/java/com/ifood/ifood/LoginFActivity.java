@@ -57,20 +57,6 @@ public class LoginFActivity extends AppCompatActivity {
         EditText edPassword = findViewById(R.id.edtLoginPassword);
         String password = edPassword.getText().toString();
         callCheckLog(email,password);
-        SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
-//      caan save user data vao sqlite
-        if (responseUser != null){
-            SessionLoginController session = new SessionLoginController(this);
-
-            session.setUserId(responseUser.getId());
-            session.setName(responseUser.getName());
-            session.setEmail(responseUser.getEmail());
-
-            startActivity(new Intent(this, mainMenuActivity.class));
-            finish();
-        }else{
-            Toast.makeText(this, "Email or password is incorrect!", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void callCheckLog(String email, String password){
@@ -87,6 +73,19 @@ public class LoginFActivity extends AppCompatActivity {
                     try {
                         JSONObject serverResp = new JSONObject(response.toString());
                         responseUser = new Model_User(serverResp);
+                        if (responseUser != null){
+                            SessionLoginController session = new SessionLoginController(LoginFActivity.this);
+
+                            session.setUserId(responseUser.getId());
+                            session.setName(responseUser.getName());
+                            session.setEmail(responseUser.getEmail());
+
+                            startActivity(new Intent(LoginFActivity.this, mainMenuActivity.class));
+                            finish();
+                        }else{
+                            Toast.makeText(LoginFActivity.this, "Email or password is incorrect!", Toast.LENGTH_SHORT).show();
+                        }
+
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
