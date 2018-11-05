@@ -73,19 +73,7 @@ public class LoginFActivity extends AppCompatActivity {
                     try {
                         JSONObject serverResp = new JSONObject(response.toString());
                         responseUser = new Model_User(serverResp);
-                        if (responseUser != null){
-                            SessionLoginController session = new SessionLoginController(LoginFActivity.this);
-
-                            session.setUserId(responseUser.getId());
-                            session.setName(responseUser.getName());
-                            session.setEmail(responseUser.getEmail());
-
-                            startActivity(new Intent(LoginFActivity.this, mainMenuActivity.class));
-                            finish();
-                        }else{
-                            Toast.makeText(LoginFActivity.this, "Email or password is incorrect!", Toast.LENGTH_SHORT).show();
-                        }
-
+                        logUserCheckedToApp();
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -94,6 +82,21 @@ public class LoginFActivity extends AppCompatActivity {
             });
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    private void logUserCheckedToApp(){
+        if (responseUser != null){
+            SessionLoginController session = new SessionLoginController(this);
+
+            session.setUserId(responseUser.getId());
+            session.setName(responseUser.getName());
+            session.setEmail(responseUser.getEmail());
+
+            startActivity(new Intent(this, mainMenuActivity.class));
+            finish();
+        }else{
+            Toast.makeText(this, "Email or password is incorrect!", Toast.LENGTH_SHORT).show();
         }
     }
 }
