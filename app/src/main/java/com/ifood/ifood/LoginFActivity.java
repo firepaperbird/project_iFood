@@ -31,6 +31,7 @@ public class LoginFActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout listMenu;
+    private Model_User responseUser = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,8 @@ public class LoginFActivity extends AppCompatActivity {
                     super.onSuccess(statusCode, headers, response);
                     try {
                         JSONObject serverResp = new JSONObject(response.toString());
-                        logUserCheckedToApp(new Model_User(serverResp));
+                        responseUser = new Model_User(serverResp);
+                        logUserCheckedToApp();
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -84,11 +86,8 @@ public class LoginFActivity extends AppCompatActivity {
         }
     }
 
-    private void logUserCheckedToApp(Model_User responseUser){
+    private void logUserCheckedToApp(){
         if (responseUser != null){
-            SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
-            sqlite.insertDataIntoTable(sqlite.getTableName(), responseUser);
-
             SessionLoginController session = new SessionLoginController(this);
 
             session.setUserId(responseUser.getId());

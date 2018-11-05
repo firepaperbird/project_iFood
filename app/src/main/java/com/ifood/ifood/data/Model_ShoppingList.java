@@ -4,10 +4,10 @@ public class Model_ShoppingList {
     private Integer Id;
     private int TransactionId;
     private String UserId;
-    private int DishId;
+    private String DishId;
     private String DishName;
-    private int DishImage;
-    private int IngredientId;
+    private String DishImage;
+    private String IngredientId;
     private String IngredientName;
     private String IngredientAmount;
     private String IngredientUnit;
@@ -16,7 +16,7 @@ public class Model_ShoppingList {
     public Model_ShoppingList() {
     }
 
-    public Model_ShoppingList(int transactionId, String userId, int dishId, String dishName, int dishImage, int ingredientId, String ingredientName, String ingredientAmount, String ingredientUnit, int status) {
+    public Model_ShoppingList(int transactionId, String userId, String dishId, String dishName, String dishImage, String ingredientId, String ingredientName, String ingredientAmount, String ingredientUnit, int status) {
         TransactionId = transactionId;
         UserId = userId;
         DishId = dishId;
@@ -53,11 +53,11 @@ public class Model_ShoppingList {
         UserId = userId;
     }
 
-    public int getDishId() {
+    public String getDishId() {
         return DishId;
     }
 
-    public void setDishId(int dishId) {
+    public void setDishId(String dishId) {
         DishId = dishId;
     }
 
@@ -65,11 +65,11 @@ public class Model_ShoppingList {
         return DishName;
     }
 
-    public int getDishImage() {
+    public String getDishImage() {
         return DishImage;
     }
 
-    public void setDishImage(int dishImage) {
+    public void setDishImage(String dishImage) {
         DishImage = dishImage;
     }
 
@@ -77,11 +77,11 @@ public class Model_ShoppingList {
         DishName = dishName;
     }
 
-    public int getIngredientId() {
+    public String getIngredientId() {
         return IngredientId;
     }
 
-    public void setIngredientId(int ingredientId) {
+    public void setIngredientId(String ingredientId) {
         IngredientId = ingredientId;
     }
 

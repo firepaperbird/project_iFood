@@ -9,7 +9,6 @@ import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Ingredient;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SqliteShoppingListController extends SqliteDataController {
@@ -43,17 +42,17 @@ public class SqliteShoppingListController extends SqliteDataController {
             Cursor cs = database.query(TABLE_NAME, null, "UserId = ?", new String[]{userId + ""}, null, null, "DishId ASC", null);
             while (cs.moveToNext()) {
                 Ingredient ingredient = new Ingredient();
-                ingredient.setId(Integer.parseInt(cs.getString(COLUMN_INGREDIENT_ID_INDEX)));
+                //ingredient.setId(Integer.parseInt(cs.getString(COLUMN_INGREDIENT_ID_INDEX)));
                 ingredient.setName(cs.getString(COLUMN_INGREDIENT_NAME_INDEX));
-                ingredient.setAmount(cs.getString(COLUMN_INGREDIENT_AMOUNT_INDEX));
-                ingredient.setUnit(cs.getString(COLUMN_INGREDIENT_UNIT_INDEX));
+                ingredient.setAmount(cs.getDouble(COLUMN_INGREDIENT_AMOUNT_INDEX));
+                ingredient.setUnitId(cs.getInt(COLUMN_INGREDIENT_UNIT_INDEX));
 
-                dish.setId(cs.getInt(COLUMN_DISH_ID_INDEX));
-                dish.setTitle(cs.getString(COLUMN_DISH_NAME_INDEX));
-                dish.setImage(cs.getInt(COLUMN_DISH_IMAGE_INDEX));
+                dish.setId(cs.getString(COLUMN_DISH_ID_INDEX));
+                dish.setName(cs.getString(COLUMN_DISH_NAME_INDEX));
+                dish.setImageLink(cs.getString(COLUMN_DISH_IMAGE_INDEX));
 
 
-                if (listDish.size() == 0 || listDish.get(listDish.size() - 1).getId().intValue() != dish.getId().intValue()){
+                if (listDish.size() == 0 || listDish.get(listDish.size() - 1).getId().equals(dish.getId())){
                     listDish.add(dish);
                     dish = new Dish();
                 }
@@ -80,17 +79,17 @@ public class SqliteShoppingListController extends SqliteDataController {
                     new String[]{transactionId + "", userId + "", ConstantStatusTransaction.SUCCESSFUL + ""}, null, null, "DishId ASC", null);
             while (cs.moveToNext()) {
                 Ingredient ingredient = new Ingredient();
-                ingredient.setId(Integer.parseInt(cs.getString(COLUMN_INGREDIENT_ID_INDEX)));
+                //ingredient.setId(Integer.parseInt(cs.getString(COLUMN_INGREDIENT_ID_INDEX)));
                 ingredient.setName(cs.getString(COLUMN_INGREDIENT_NAME_INDEX));
-                ingredient.setAmount(cs.getString(COLUMN_INGREDIENT_AMOUNT_INDEX));
-                ingredient.setUnit(cs.getString(COLUMN_INGREDIENT_UNIT_INDEX));
+                ingredient.setAmount(cs.getDouble(COLUMN_INGREDIENT_AMOUNT_INDEX));
+                ingredient.setUnitId(cs.getInt(COLUMN_INGREDIENT_UNIT_INDEX));
 
-                dish.setId(cs.getInt(COLUMN_DISH_ID_INDEX));
-                dish.setTitle(cs.getString(COLUMN_DISH_NAME_INDEX));
-                dish.setImage(cs.getInt(COLUMN_DISH_IMAGE_INDEX));
+                dish.setId(cs.getString(COLUMN_DISH_ID_INDEX));
+                dish.setName(cs.getString(COLUMN_DISH_NAME_INDEX));
+                dish.setImageLink(cs.getString(COLUMN_DISH_IMAGE_INDEX));
 
 
-                if (listDish.size() == 0 || listDish.get(listDish.size() - 1).getId().intValue() != dish.getId().intValue()){
+                if (listDish.size() == 0 || listDish.get(listDish.size() - 1).getId().equals(dish.getId())){
                     listDish.add(dish);
                     dish = new Dish();
                 }
@@ -106,7 +105,7 @@ public class SqliteShoppingListController extends SqliteDataController {
         return listDish;
     }
 
-    public boolean isDishExistInShoppingList(String userId, int dishId) {
+    public boolean isDishExistInShoppingList(String userId, String dishId) {
         try {
             openDataBase();
             Cursor cs = database.query(TABLE_NAME, null, "UserId = ? AND DishId = ? AND Status = ?"

@@ -14,7 +14,7 @@ import com.ifood.ifood.ultil.SqliteCookbookController;
 import com.ifood.ifood.ultil.SqliteShoppingListController;
 
 public class ConfirmRemoveDishShoppingListDialog extends DialogFragment {
-    private int dishIdRemove = -1;
+    private String dishIdRemove = "";
     private String userId;
 
     @Override
@@ -27,7 +27,7 @@ public class ConfirmRemoveDishShoppingListDialog extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 SqliteShoppingListController sqlite = new SqliteShoppingListController(getActivity().getApplicationContext());
                 sqlite.deleteData_From_Table(sqlite.getTableName(), "UserId = ? AND DishId = ?"
-                        , new String[]{userId + "", dishIdRemove + ""});
+                        , new String[]{userId + "", dishIdRemove});
                 getActivity().recreate();
                 dismiss();
             }
@@ -43,7 +43,7 @@ public class ConfirmRemoveDishShoppingListDialog extends DialogFragment {
         return builder.create();
     }
 
-    public void setDishIdRemove(int dishIdRemove, String userId){
+    public void setDishIdRemove(String dishIdRemove, String userId){
         this.dishIdRemove = dishIdRemove;
         this.userId = userId;
     }

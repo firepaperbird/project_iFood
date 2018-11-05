@@ -1,7 +1,6 @@
 package com.ifood.ifood;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -13,14 +12,12 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
@@ -39,14 +36,17 @@ import com.ifood.ifood.data.ConstantStatusTransaction;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Ingredient;
 import com.ifood.ifood.data.Model_Cookbook;
-import com.ifood.ifood.data.Model_Cookbook_Dish;
+import com.ifood.ifood.data.Model_Recipe;
+import com.ifood.ifood.data.Model_Review;
 import com.ifood.ifood.data.Model_ShoppingList;
+import com.ifood.ifood.data.RelatedDish;
 import com.ifood.ifood.ultil.ConfigImageQuality;
+import com.ifood.ifood.ultil.ConstantManager;
 import com.ifood.ifood.ultil.MoveToDetailView;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
-import com.ifood.ifood.ultil.SqliteCookbookDishController;
 import com.ifood.ifood.ultil.SqliteShoppingListController;
+import com.loopj.android.image.SmartImageView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,7 +55,8 @@ import java.util.List;
 public class detailFoodActivity extends AppCompatActivity {
 
     private List<Ingredient> listIngredient = new ArrayList<Ingredient>();
-    private List<Comment_User> comment_userList = new ArrayList<Comment_User>();
+    private List<Model_Review> comment_userList = new ArrayList<Model_Review>();
+    private List<RelatedDish> relatedDishes = new ArrayList<>();
 
     private final String ADD_COOKBOOK = "Add Cookbook";
 
@@ -69,10 +70,6 @@ public class detailFoodActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_food);
-
-        comment_userList.add(new Comment_User("huy","everyone like it alot", 5, "2018-10-11"));
-        comment_userList.add(new Comment_User("hoang","Taste , easy to make . Would make again", 5, "2018-10-11"));
-        comment_userList.add(new Comment_User("huy","so good", Float.parseFloat("4.5"), "2018-10-11"));
 
         setDetail();
 
@@ -120,17 +117,18 @@ public class detailFoodActivity extends AppCompatActivity {
         //Set image food
         final Intent intent = getIntent();
         dish = (Dish)intent.getSerializableExtra("dish");
-        final List<Dish> dishList = (List<Dish>)intent.getSerializableExtra("listDish");
+        relatedDishes = dish.getRelatedDishes();
+        listIngredient = dish.getIngredients();
 
-        FrameLayout imgMain = findViewById(R.id.imgMain);
-        BitmapDrawable image = ConfigImageQuality.getBitmapImage(getResources(), dish.getImage());
-        imgMain.setBackground(image);
+        SmartImageView imgMain = findViewById(R.id.imgMain);
+        //BitmapDrawable image = ConfigImageQuality.getBitmapImage(this, getResources(), dish.getImageLink());
+        imgMain.setImageUrl(dish.getImageLink());
 
         LinearLayout content = findViewById(R.id.content);
 
         TextView nameFood = new TextView(this);
         nameFood.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        nameFood.setText(dish.getTitle());
+        nameFood.setText(dish.getName());
         nameFood.setTypeface(null, Typeface.BOLD);
         nameFood.setTextColor(Color.WHITE);
         nameFood.setTextSize(18);
@@ -153,7 +151,7 @@ public class detailFoodActivity extends AppCompatActivity {
         clock.setLayoutParams(new LinearLayout.LayoutParams(50, 90));
         TextView txtTimeCooking = new TextView(this);
         txtTimeCooking.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        txtTimeCooking.setText("1 hr 5 min");
+        txtTimeCooking.setText(dish.getTimeCooking());
         txtTimeCooking.setTextColor(Color.WHITE);
         txtTimeCooking.setPadding(5,10,0,0);
 
@@ -182,7 +180,7 @@ public class detailFoodActivity extends AppCompatActivity {
 
         //Ingredients
         Ingredient ingredients = new Ingredient();
-        listIngredient = ingredients.getListIngredient();
+        //listIngredient = ingredients.getListIngredient();
 
         TableLayout ingredient = new TableLayout(this);
         ingredient.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -195,14 +193,14 @@ public class detailFoodActivity extends AppCompatActivity {
 
             TextView quantity = new TextView(this);
             quantity.setLayoutParams(rowParams);
-            quantity.setText(ingredientItem.getAmount());
+            quantity.setText(ingredientItem.getAmount() + "");
             quantity.setPadding(30,0,0,0);
             quantity.setGravity(Gravity.CENTER_VERTICAL);
             quantity.setPadding(5,5,5,5);
 
             TextView unit = new TextView(this);
             unit.setLayoutParams(rowParams);
-            unit.setText(ingredientItem.getUnit());
+            unit.setText(ConstantManager.getUnitById(ingredientItem.getUnitId()));
             unit.setGravity(Gravity.CENTER_VERTICAL);
             unit.setPadding(5,5,5,5);
 
@@ -240,13 +238,14 @@ public class detailFoodActivity extends AppCompatActivity {
         detail.addView(rec);
 
         //Recipe
-        for (int i = 0; i < 3; i++){
+        List<Model_Recipe> stepByStep = dish.getStepByStep();
+        for (int i = 0; i < stepByStep.size() && i < 3; i++){
             GridLayout recipe = new GridLayout(this);
             recipe.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             recipe.setColumnCount(2);
             recipe.setPadding(20,20,20,0);
 
-            ImageView imgR = new ImageView(this);
+            SmartImageView imgR = new SmartImageView(this);
             imgR.setLayoutParams(new LinearLayout.LayoutParams(getWindowManager().getDefaultDisplay().getWidth()/6, 180));
             imgR.setScaleType(ImageView.ScaleType.FIT_XY);
             LinearLayout step = new LinearLayout(this);
@@ -263,20 +262,9 @@ public class detailFoodActivity extends AppCompatActivity {
 
             TextView stepDetail = new TextView(this);
             stepDetail.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            switch (i){
-                case 0:
-                    imgR.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.step_1));
-                    stepDetail.setText("Pierce the skin of each of the little potato, ...");
-                    break;
-                case 1:
-                    imgR.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.step_2));
-                    stepDetail.setText("In a large non-stick skillet, heat coconut oil (1 Tbsp) ...");
-                    break;
-                case 2:
-                    imgR.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.step_3));
-                    stepDetail.setText("In the same skillet, heat the remaining coconut oil (1/2 tsp) ...");
-                    break;
-            }
+            imgR.setImageUrl(stepByStep.get(i).getImageSource());
+            stepDetail.setText(stepByStep.get(i).getDescription().length() > 35 ?
+                    stepByStep.get(i).getDescription().substring(0,35) + "..." : stepByStep.get(i).getDescription());
             stepDetail.setGravity(Gravity.CENTER_VERTICAL);
 
             step.addView(stepTitle);
@@ -303,6 +291,7 @@ public class detailFoodActivity extends AppCompatActivity {
         });
         detail.addView(moreRecipes);
 
+        comment_userList = dish.getReviews();
         //Review Title
         TextView reviewTitle = new TextView(this);
         reviewTitle.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
@@ -354,7 +343,7 @@ public class detailFoodActivity extends AppCompatActivity {
         detail.addView(borderBottom);
 
         //Comment
-        for(int i = 0; i < 2 && i < comment_userList.size(); i++){
+        for(int i = 0; i < 3 && i < comment_userList.size(); i++){
             LinearLayout comment = new LinearLayout(this);
             comment.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             comment.setOrientation(LinearLayout.HORIZONTAL);
@@ -370,17 +359,17 @@ public class detailFoodActivity extends AppCompatActivity {
 
             TextView username = new TextView(this);
             username.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            username.setText(comment_userList.get(i).getName());
+            username.setText(comment_userList.get(i).getUserName());
             username.setTypeface(null,Typeface.BOLD);
 
             TextView time = new TextView(this);
             time.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            time.setText(comment_userList.get(i).getTime());
+            time.setText(comment_userList.get(i).getReviewOn() + "");
 
             RatingBar rating = new RatingBar(this,null,android.R.attr.ratingBarStyleSmall);
             rating.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             rating.setNumStars(5);
-            rating.setRating(comment_userList.get(i).getStar());
+            rating.setRating(comment_userList.get(i).getRate());
             rating.setClickable(false);
 
 
@@ -395,7 +384,8 @@ public class detailFoodActivity extends AppCompatActivity {
 
             TextView comment_review = new TextView(this);
             comment_review.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            comment_review.setText(comment_userList.get(i).getReview());
+            comment_review.setText(comment_userList.get(i).getComment().length() > 25
+                    ? comment_userList.get(i).getComment().substring(0, 25) + "..." : comment_userList.get(i).getComment());
             comment_review.setPadding(30,0,20,30);
 
             detail.addView(comment_review);
@@ -404,7 +394,7 @@ public class detailFoodActivity extends AppCompatActivity {
         //ViewMore Comment
         Button moreComment = new Button(this);
         moreComment.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
-        moreComment.setText(comment_userList.size() - 2 + " MORE REVIEWS");
+        moreComment.setText(comment_userList.size() + " MORE REVIEWS");
         moreComment.setTypeface(null,Typeface.BOLD);
         moreComment.setBackgroundColor(Color.parseColor("#E5EAE5"));
         moreComment.setPadding(0,0,30,0);
@@ -412,7 +402,7 @@ public class detailFoodActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent moreComment = new Intent(detailFoodActivity.this,ViewCommentActivity.class);
-                moreComment.putExtra("list", (Serializable) comment_userList);
+                moreComment.putExtra("listComment", (Serializable) comment_userList);
                 startActivity(moreComment);
             }
         });
@@ -439,15 +429,19 @@ public class detailFoodActivity extends AppCompatActivity {
         menu.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         menu.setOrientation(LinearLayout.HORIZONTAL);
 
-        for (final Dish dishItem:dishList) {
-            if(dish.getId().intValue() == dishItem.getId().intValue()){
+        for (final RelatedDish dishItem: relatedDishes) {
+            if(dish.getId().equals(dishItem.getId())){
                 continue;
             }
 
             FrameLayout item = new FrameLayout(this);
             item.setLayoutParams(new FrameLayout.LayoutParams(400, 400));
-            BitmapDrawable imageDrawable = ConfigImageQuality.getBitmapImage(getResources(), dishItem.getImage());
-            item.setBackground(imageDrawable);
+            //BitmapDrawable imageDrawable = ConfigImageQuality.getBitmapImage(this, getResources(), dishItem.getImageLink());
+            SmartImageView imageRelatedDish = new SmartImageView(this);
+            imageRelatedDish.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            imageRelatedDish.setImageUrl(dishItem.getImageLink());
+            imageRelatedDish.setScaleType(ImageView.ScaleType.FIT_XY);
+            item.addView(imageRelatedDish);
 
             TextView itemName = new TextView(this);
             itemName.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -456,7 +450,7 @@ public class detailFoodActivity extends AppCompatActivity {
             itemName.setGravity(Gravity.BOTTOM);
             itemName.setTextColor(Color.LTGRAY);
             itemName.setPadding(25,0,25,25);
-            String dishTitle = dishItem.getTitle().length() > 25 ? dishItem.getTitle().substring(0, 25) + "..." : dishItem.getTitle();
+            String dishTitle = dishItem.getName().length() > 25 ? dishItem.getName().substring(0, 25) + "..." : dishItem.getName();
             itemName.setText(dishTitle);
 
             LinearLayout shadowLayout = new LinearLayout(this);
@@ -472,7 +466,7 @@ public class detailFoodActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     MoveToDetailView move = new MoveToDetailView();
-                    move.moveToDetail(detailFoodActivity.this, detailFoodActivity.class, dishItem, dishList);
+                    move.moveToDetail(detailFoodActivity.this, detailFoodActivity.class, dishItem.getId());
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             });
@@ -631,12 +625,12 @@ public class detailFoodActivity extends AppCompatActivity {
             Model_ShoppingList shoppingList = new Model_ShoppingList();
             shoppingList.setUserId(session.getUserId());
             shoppingList.setDishId(dish.getId());
-            shoppingList.setDishName(dish.getTitle());
-            shoppingList.setDishImage(dish.getImage());
+            shoppingList.setDishName(dish.getName());
+            shoppingList.setDishImage(dish.getImageLink());
             shoppingList.setIngredientId(ingredient.getId());
             shoppingList.setIngredientName(ingredient.getName());
-            shoppingList.setIngredientAmount(ingredient.getAmount());
-            shoppingList.setIngredientUnit(ingredient.getUnit());
+            shoppingList.setIngredientAmount(ingredient.getAmount() + "");
+            shoppingList.setIngredientUnit(ingredient.getUnitId() + "");
             shoppingList.setStatus(ConstantStatusTransaction.PENDING);
             sqlite.insertDataIntoTable(sqlite.getTableName(), shoppingList);
         }

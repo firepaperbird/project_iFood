@@ -6,20 +6,13 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.ifood.ifood.DetailCookbook;
-import com.ifood.ifood.R;
-import com.ifood.ifood.UserDetailActivity;
 import com.ifood.ifood.ViewCookbooksActivity;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.data.Model_Cookbook_Dish;
-import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
 import com.ifood.ifood.ultil.SqliteCookbookDishController;
 
@@ -88,13 +81,13 @@ public class AddToCookbookDialog extends DialogFragment {
                         Model_Cookbook_Dish cookbook_dish = new Model_Cookbook_Dish();
                         cookbook_dish.setCookbookId(selectedItem.getId());
                         cookbook_dish.setDishId(dish.getId());
-                        cookbook_dish.setDishName(dish.getTitle());
+                        cookbook_dish.setDishName(dish.getName());
 
                         SqliteCookbookDishController sqlite = new SqliteCookbookDishController(getActivity().getApplicationContext());
                         boolean result = sqlite.insertDataIntoTable(sqlite.getTableName(), cookbook_dish);
 
                         Model_Cookbook selectedCookbook = selectedItem;
-                        selectedCookbook.setImageId(dish.getImage() + "");
+                        selectedCookbook.setImageId(dish.getImageLink() + "");
                         selectedCookbook.increaseTotalRecipes(1);
                         SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getActivity().getApplicationContext());
                         sqliteCookbookController.updateDataIntoTable(sqliteCookbookController.getTableName(), selectedCookbook,

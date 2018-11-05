@@ -33,7 +33,7 @@ public class SqliteCookbookDishController extends SqliteDataController {
             while (cs.moveToNext()) {
                 Model_Cookbook_Dish cookbook_dish = new Model_Cookbook_Dish();
                 cookbook_dish.setId(Integer.parseInt(cs.getString(COLUMN_ID_INDEX)));
-                cookbook_dish.setDishId(Integer.parseInt(cs.getString(COLUMN_DISH_ID_INDEX)));
+                cookbook_dish.setDishId(cs.getString(COLUMN_DISH_ID_INDEX));
                 cookbook_dish.setDishName(cs.getString(COLUMN_DISH_NAME_INDEX));
                 cookbook_dish.setCookbookId(Integer.parseInt(cs.getString(COLUMN_COOKBOOK_ID_INDEX)));
                 listDish.add(cookbook_dish);
@@ -47,7 +47,7 @@ public class SqliteCookbookDishController extends SqliteDataController {
         return listDish;
     }
 
-     public boolean checkDishIsAdded(List<Model_Cookbook> listCookbook, int dishId){
+     public boolean checkDishIsAdded(List<Model_Cookbook> listCookbook, String dishId){
         try {
             openDataBase();
             if (listCookbook == null || listCookbook.size() == 0){

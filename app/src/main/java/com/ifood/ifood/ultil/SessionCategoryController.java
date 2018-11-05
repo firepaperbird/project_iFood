@@ -12,13 +12,13 @@ public class SessionCategoryController {
         prefs = PreferenceManager.getDefaultSharedPreferences(cntx);
     }
 
-    public void setCurrentCategory(int categoryId) {
-        prefs.edit().putString("current_category", categoryId + "").commit();
+    public void setCurrentCategory(String categoryId) {
+        prefs.edit().putString("current_category", categoryId).commit();
     }
 
-    public int getCurrentCategory() {
+    public String getCurrentCategory() {
         String categoryId = prefs.getString("current_category","0");
-        return Integer.parseInt(categoryId);
+        return categoryId;
     }
 
     public void clearSession(){

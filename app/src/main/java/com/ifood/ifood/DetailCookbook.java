@@ -1,13 +1,10 @@
 package com.ifood.ifood;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,20 +22,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ifood.ifood.Dialog.ConfirmRemoveDishInCookbookDialog;
-import com.ifood.ifood.Dialog.ConfirmRemoveDishShoppingListDialog;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Menu;
 import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.data.Model_Cookbook_Dish;
 import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.MoveToDetailView;
-import com.ifood.ifood.ultil.SessionLoginController;
-import com.ifood.ifood.ultil.SqliteCookbookController;
 import com.ifood.ifood.ultil.SqliteCookbookDishController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class DetailCookbook extends AppCompatActivity {
     private Model_Cookbook cookbook;
@@ -102,14 +93,14 @@ public class DetailCookbook extends AppCompatActivity {
     private void setListDish(){
         SqliteCookbookDishController sqlite = new SqliteCookbookDishController(getApplicationContext());
         final Menu menu = new Menu();
-        List<Dish> allDish = menu.getAllDish();
+        List<Dish> allDish = new ArrayList<>(); /*= menu.getAllDish();*/
 
         List<Model_Cookbook_Dish> listDishInCookbook = sqlite.getDishInCookbook(cookbook.getId());
         listDishesDetail = new ArrayList<>();
 
         for (Dish dish : allDish){
             for (Model_Cookbook_Dish dishInCookbook : listDishInCookbook){
-                if (dish.getId().intValue() == dishInCookbook.getDishId().intValue()){
+                if (dish.getId().equals(dishInCookbook.getDishId())){
                     listDishesDetail.add(dish);
                 }
             }
@@ -148,7 +139,7 @@ public class DetailCookbook extends AppCompatActivity {
                 LinearLayout layout = new LinearLayout(this);
                 layout.setOrientation(LinearLayout.VERTICAL);
                 layout.setLayoutParams(layoutMenu);
-                BitmapDrawable image = ConfigImageQuality.getBitmapImage(getResources(), dish.getImage());
+                BitmapDrawable image = ConfigImageQuality.getBitmapImage(this,getResources(), dish.getImageLink());
                 layout.setBackground(image);  ;
 
                 LinearLayout layoutInfo = new LinearLayout(this);
@@ -164,7 +155,7 @@ public class DetailCookbook extends AppCompatActivity {
                 Typeface font = ResourcesCompat.getFont(this, R.font.arrusb);
                 txtTitle.setTypeface(font, Typeface.BOLD);
                 txtTitle.setTextColor(Color.WHITE);
-                txtTitle.setText(dish.getTitle());
+                txtTitle.setText(dish.getName());
 
                 layoutInfo.addView(txtTitle);
 
@@ -183,7 +174,7 @@ public class DetailCookbook extends AppCompatActivity {
                 checkBoxLayout.setPadding(0,10,10,0);
 
                 CheckBox checkBox = new CheckBox(this);
-                checkBox.setId(dish.getId());
+                checkBox.setTag(dish.getId());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     checkBox.setButtonTintList(getResources().getColorStateList(R.color.colorAccent));
                 }
@@ -203,16 +194,7 @@ public class DetailCookbook extends AppCompatActivity {
                 layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        List<Dish> relativeDishes = new ArrayList<>();
-                        if (dish.getId() <=5 ){
-                            relativeDishes = menu.getGymMenu();
-                        } else if (dish.getId() <= 10){
-                            relativeDishes = menu.getHealthyMenu();
-                        } else {
-                            relativeDishes = menu.getDalyMenu();
-                        }
-
-                        MoveToDetailView.moveToDetail(DetailCookbook.this,detailFoodActivity.class, dish, relativeDishes);
+                        MoveToDetailView.moveToDetail(DetailCookbook.this,detailFoodActivity.class, dish.getId());
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 });
@@ -230,9 +212,10 @@ public class DetailCookbook extends AppCompatActivity {
     }
 
     public void removeDishesInCookbook(View view) {
+        LinearLayout listMenu = findViewById(R.id.layoutDishInCookbook);
         List<Dish> listDishRemove = new ArrayList<>();
         for (Dish dish : listDishesDetail){
-            CheckBox checkBox = findViewById(dish.getId());
+            CheckBox checkBox = listMenu.findViewWithTag(dish.getId());
             if (checkBox.isChecked()){
                 listDishRemove.add(dish);
             }

@@ -7,12 +7,11 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -27,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -40,33 +38,46 @@ import android.widget.Toast;
 
 import com.ifood.ifood.Dialog.FilterDialog;
 import com.ifood.ifood.data.Dish;
+import com.ifood.ifood.data.Model_Category;
 import com.ifood.ifood.data.Model_Cookbook;
+import com.ifood.ifood.data.Model_Course;
 import com.ifood.ifood.ultil.ConfigImageQuality;
+import com.ifood.ifood.ultil.HttpUtils;
 import com.ifood.ifood.ultil.MoveToDetailView;
 import com.ifood.ifood.ultil.BottomNavigationViewHelper;
 import com.ifood.ifood.ultil.SessionCategoryController;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
 import com.ifood.ifood.ultil.SqliteCookbookDishController;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.image.SmartImageView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class mainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout listMenu;
     private com.ifood.ifood.data.Menu menu;
+    private List<Model_Category> categories;
 
     private boolean isLogin = false;
 
     final int LAYOUT_DISH_HEIGHT = 1000;
 
-    final int GYM_FOOD_CATEGORY_ID = 1;
-    final int HEALTHY_FOOD_CATEGORY_ID = 2;
-    final int DAILY_FOOD_CATEGORY_ID = 3;
-    final int SEARCH_FOOD_CATEGORY_ID = 4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +87,10 @@ public class mainMenuActivity extends AppCompatActivity {
 
         setUserLoginOrSignUp();
 
-        setListMenu();
+        SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
+        String categoryId = sessionCategoryController.getCurrentCategory();
+        setMainMenuByCategoryId(categoryId);
+
     }
 
     @Override
@@ -101,7 +115,7 @@ public class mainMenuActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_actions, menu);
         MenuItem searchItem = (MenuItem) (menu.findItem(R.id.btnSearch));
-        if (searchItem != null){
+        if (searchItem != null) {
             SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                 @Override
@@ -121,6 +135,7 @@ public class mainMenuActivity extends AppCompatActivity {
                     Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
                     intent.putExtra("SEARCH_DISH_ITEM", query);
                     intent.putExtra("SEARCH_TYPE", "Searches");
+                    intent.putExtra("CATEGORIES", (Serializable) categories);
                     startActivity(intent);
                     return false;
                 }
@@ -139,7 +154,7 @@ public class mainMenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -151,42 +166,31 @@ public class mainMenuActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void moveToUserDetail(View view){
-        Intent intent = new Intent(mainMenuActivity.this,UserDetailActivity.class);
+    public void moveToUserDetail(View view) {
+        Intent intent = new Intent(mainMenuActivity.this, UserDetailActivity.class);
         startActivity(intent);
     }
 
     public void moveToUserDetail(MenuItem item) {
         Intent intent;
-        if (isLogin == false){
-            intent = new Intent(this,LoginActivity.class);
+        if (isLogin == false) {
+            intent = new Intent(this, LoginActivity.class);
         } else {
-            intent = new Intent(this,UserDetailActivity.class);
+            intent = new Intent(this, UserDetailActivity.class);
         }
         startActivity(intent);
     }
 
     public void moveToMainMenuByCategoryId(View view) {
-        int nav_category_id = view.getId();
-        int categoryId = 0;
-        switch (nav_category_id){
-            case R.id.gym_category_menu:
-                categoryId = GYM_FOOD_CATEGORY_ID;
-                break;
-            case R.id.healthy_category_menu:
-                categoryId = HEALTHY_FOOD_CATEGORY_ID;
-                break;
-            case R.id.daily_category_menu:
-                categoryId = DAILY_FOOD_CATEGORY_ID;
-                break;
-        }
+        String categoryId = view.getTag().toString();
         SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
         sessionCategoryController.setCurrentCategory(categoryId);
         Intent intent = new Intent(this, mainMenuActivity.class);
+        intent.putExtra("CATEGORIES", (Serializable) categories);
         startActivity(intent);
     }
 
-    private void setDrawerLayout(){
+    private void setDrawerLayout() {
         drawerLayout = findViewById(R.id.activity_main_drawer);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -202,31 +206,54 @@ public class mainMenuActivity extends AppCompatActivity {
 
     }
 
-    private void setMainMenuByCategoryId(int categoryId){
+    private void setMainMenuByCategoryId(String categoryId) {
         TextView txtTitle = findViewById(R.id.action_bar_title);
 
-        menu = new com.ifood.ifood.data.Menu(categoryId + "", txtTitle.getText().toString());
-        switch (categoryId) {
-            case GYM_FOOD_CATEGORY_ID:
-                txtTitle.setText(getResources().getString(R.string.menu_gym_food));
-                menu.setListDish(menu.getGymMenu());
-                break;
-            case HEALTHY_FOOD_CATEGORY_ID:
-                txtTitle.setText(getResources().getString(R.string.menu_healthy_food));
-                menu.setListDish(menu.getHealthyMenu());
-                break;
-            case DAILY_FOOD_CATEGORY_ID:
-                txtTitle.setText(getResources().getString(R.string.menu_daily_food));
-                menu.setListDish(menu.getDalyMenu());
-                break;
-            default:
-                txtTitle.setText(getResources().getString(R.string.menu_daily_food));
-                menu.setListDish(menu.getDalyMenu());
-                break;
+        categories = (List<Model_Category>) getIntent().getSerializableExtra("CATEGORIES");
+        menu = new com.ifood.ifood.data.Menu(categoryId, txtTitle.getText().toString());
+        LinearLayout drawerCategoryGym = findViewById(R.id.gym_category_menu);
+        LinearLayout drawerCategoryHealthy = findViewById(R.id.healthy_category_menu);
+        LinearLayout drawerCategoryDaily = findViewById(R.id.daily_category_menu);
+        for (Model_Category category : categories) {
+            if (category.getId().equals(categoryId)) {
+                txtTitle.setText(category.getName());
+                getListMenuFromServer(categoryId);
+            }
+            switch (category.getDisplayOrder()){
+                case 1: drawerCategoryGym.setTag(category.getId());
+                    break;
+                case 2: drawerCategoryHealthy.setTag(category.getId());
+                    break;
+                case 3: drawerCategoryDaily.setTag(category.getId());
+                    break;
+            }
         }
     }
 
-    private void setListMenu(){
+    private void getListMenuFromServer(String categoryId) {
+
+        HttpUtils.get(this, "/dish/getByCategory?categoryId=" + categoryId, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    List<Dish> dishList = new ArrayList<>();
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject jsonObject = response.getJSONObject(i);
+                        Dish dish = new Dish(jsonObject);
+                        dishList.add(dish);
+                    }
+                    menu.setListDish(dishList);
+                    setListMenu();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void setListMenu() {
         LinearLayout.LayoutParams layoutMenu = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 LAYOUT_DISH_HEIGHT);
 
@@ -235,13 +262,13 @@ public class mainMenuActivity extends AppCompatActivity {
 
         LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParamsText.setMargins(0, 0,10,10);
+        layoutParamsText.setMargins(0, 0, 10, 10);
 
         LinearLayout.LayoutParams layoutParamsDivider = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 3);
-        layoutParamsDivider.setMargins(0,10,0,20);
+        layoutParamsDivider.setMargins(0, 10, 0, 20);
 
-        RelativeLayout.LayoutParams layoutParamsTag = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT    ,
+        RelativeLayout.LayoutParams layoutParamsTag = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParamsTag.setMargins(0, 0, 10, 0);
         layoutParamsTag.addRule(RelativeLayout.ALIGN_PARENT_END);
@@ -249,26 +276,31 @@ public class mainMenuActivity extends AppCompatActivity {
 
         LinearLayout.LayoutParams layoutParamsSearchTag = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParamsSearchTag.gravity = Gravity.CENTER_VERTICAL;
-        layoutParamsSearchTag.setMargins(0,0,5,0);
+        layoutParamsSearchTag.setMargins(0, 0, 5, 0);
 
         listMenu = findViewById(R.id.listMenu);
-        SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
-        int categoryId = sessionCategoryController.getCurrentCategory();
+
         final String search_dish_item = getIntent().getStringExtra("SEARCH_DISH_ITEM");
         final String search_type = getIntent().getStringExtra("SEARCH_TYPE");
-        setMainMenuByCategoryId(categoryId);
+
         List<Dish> dishListSearch = menu.getListDish();
-        if (search_dish_item != null && search_type != null){
+        if (search_dish_item != null && search_type != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 final List<String> tags = Arrays.asList(search_dish_item.split("-"));
                 dishListSearch.removeIf(new Predicate<Dish>() {
                     @Override
                     public boolean test(Dish dish) {
                         boolean isFound = false;
-                        if (search_type.equals("Tags")){
-                            isFound = !dish.getTags().containsAll(tags);
+                        if (search_type.equals("Tags")) {
+                            for (Model_Course course : dish.getCourses()){
+                                isFound = tags.contains(course.getName());
+                                if (isFound) {
+                                    return false;
+                                }
+                            }
+                            return true;
                         } else {
-                            isFound = !dish.getTitle().toLowerCase().contains(search_dish_item.toLowerCase());
+                            isFound = !dish.getName().toLowerCase().contains(search_dish_item.toLowerCase());
                         }
                         return isFound;
                     }
@@ -280,8 +312,8 @@ public class mainMenuActivity extends AppCompatActivity {
                 txtSearchValue.setLayoutParams(layoutParamsSearchTag);
                 txtSearchValue.setBackgroundResource(R.drawable.border_tag);
 
-                if (search_type.equals("Tags") && tags.size() > 1){
-                    for (String tagStr : tags){
+                if (search_type.equals("Tags") && tags.size() > 1) {
+                    for (String tagStr : tags) {
                         TextView anotherTag = new TextView(this);
                         anotherTag.setLayoutParams(layoutParamsSearchTag);
                         anotherTag.setBackgroundResource(R.drawable.border_tag);
@@ -293,7 +325,7 @@ public class mainMenuActivity extends AppCompatActivity {
                     layout_tags_search.addView(txtSearchValue, 0);
                 }
 
-                if (!search_type.equals("Tags")){
+                if (!search_type.equals("Tags")) {
                     LinearLayout add_new_tag_layout = findViewById(R.id.add_new_tag_layout);
                     layout_tags_search.removeView(add_new_tag_layout);
                 } else {
@@ -306,6 +338,7 @@ public class mainMenuActivity extends AppCompatActivity {
                             Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
                             intent.putExtra("SEARCH_DISH_ITEM", SearchingTags);
                             intent.putExtra("SEARCH_TYPE", "Tags");
+                            intent.putExtra("CATEGORIES", (Serializable) categories);
                             startActivity(intent);
                         }
                     });
@@ -317,25 +350,24 @@ public class mainMenuActivity extends AppCompatActivity {
         }
         menu.setListDish(dishListSearch);
 
-        if (menu.getListDish().size() > 0){
+        if (menu.getListDish().size() > 0) {
             TextView noResultsWereFound = findViewById(R.id.txtNoResultsWereFound);
             listMenu.removeView(noResultsWereFound);
         } else {
             return;
         }
 
-        for ( final Dish dish: menu.getListDish()){
+        for (final Dish dish : menu.getListDish()) {
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(layoutMenu);
-            BitmapDrawable image = ConfigImageQuality.getBitmapImage(getResources(), dish.getImage());
-            layout.setBackground(image);
+            //BitmapDrawable image = ConfigImageQuality.getBitmapImage(this, getResources(), dish.getImageLink());
 
             LinearLayout layoutInfo = new LinearLayout(this);
             layoutInfo.setLayoutParams(layoutParamsInfo);
             layoutInfo.setOrientation(LinearLayout.VERTICAL);
             layoutInfo.setGravity(Gravity.BOTTOM);
-            layoutInfo.setPadding(25,25,25,5);
+            layoutInfo.setPadding(25, 25, 25, 5);
 
             /*Title*/
             TextView txtTitle = new TextView(this);
@@ -344,10 +376,10 @@ public class mainMenuActivity extends AppCompatActivity {
             Typeface font = ResourcesCompat.getFont(this, R.font.courgette_regular);
             txtTitle.setTypeface(font, Typeface.BOLD);
             txtTitle.setTextColor(Color.WHITE);
-            txtTitle.setText(dish.getTitle());
+            txtTitle.setText(dish.getName());
 
             /*Rating bar*/
-            RatingBar ratingFood = new RatingBar(this,null,android.R.attr.ratingBarStyleSmall);
+            RatingBar ratingFood = new RatingBar(this, null, android.R.attr.ratingBarStyleSmall);
             ratingFood.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             LayerDrawable stars = (LayerDrawable) ratingFood.getProgressDrawable();
             stars.getDrawable(0).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
@@ -364,10 +396,10 @@ public class mainMenuActivity extends AppCompatActivity {
             LinearLayout tagLayout = new LinearLayout(this);
             tagLayout.setLayoutParams(layoutParamsTag);
 
-            for (int k = 0; k < dish.getTags().size() && k < 3; k++){
+            for (int k = 0; k < dish.getCourses().size() && k < 3; k++) {
                 TextView tag = new TextView(this);
                 tag.setLayoutParams(layoutParamsText);
-                tag.setText(dish.getTags().get(k));
+                tag.setText(dish.getCourses().get(k).getName());
                 tag.setBackgroundResource(R.drawable.border_tag);
                 tag.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -376,6 +408,7 @@ public class mainMenuActivity extends AppCompatActivity {
                         Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
                         intent.putExtra("SEARCH_DISH_ITEM", tagOnclick.getText().toString());
                         intent.putExtra("SEARCH_TYPE", "Tags");
+                        intent.putExtra("CATEGORIES", (Serializable) categories);
                         startActivity(intent);
                     }
                 });
@@ -401,6 +434,12 @@ public class mainMenuActivity extends AppCompatActivity {
             frameLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT, Gravity.BOTTOM));
 
+            SmartImageView image = new SmartImageView(this);
+            image.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            image.setImageUrl(dish.getImageLink());
+            image.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            frameLayout.addView(image);
             frameLayout.addView(shadowLayout);
 
             if (isLogin) {
@@ -409,7 +448,7 @@ public class mainMenuActivity extends AppCompatActivity {
                 SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getApplicationContext());
                 List<Model_Cookbook> listCookbook = sqliteCookbookController.getCookbookByUserId(session.getUserId());
                 boolean isExist = sqlite.checkDishIsAdded(listCookbook, dish.getId());
-                if (isExist){
+                if (isExist) {
                     frameLayout.addView(cookbookLayout);
                 }
                 //code cuar quan
@@ -417,22 +456,22 @@ public class mainMenuActivity extends AppCompatActivity {
                 addDishRow.setVisibility(View.VISIBLE);
                 ViewGroup.LayoutParams dishRowLayoutParams = addDishRow.getLayoutParams();
                 final float scale = getApplicationContext().getResources().getDisplayMetrics().density;
-                dishRowLayoutParams.height=(int)(48 * scale + 0.5f);
+                dishRowLayoutParams.height = (int) (48 * scale + 0.5f);
                 addDishRow.setLayoutParams(dishRowLayoutParams);
 
             }
 
             /*Ribbon Filter*/
-            TextView filter = new TextView(this);
+            /*TextView filter = new TextView(this);
             LinearLayout.LayoutParams layoutParamsFilter = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100);
-            layoutParamsFilter.setMargins(30,30,0,0);
+            layoutParamsFilter.setMargins(30, 30, 0, 0);
             filter.setLayoutParams(layoutParamsFilter);
-            filter.setPadding(50,10,20,10);
+            filter.setPadding(50, 10, 20, 10);
             filter.setTypeface(null, Typeface.BOLD);
             filter.setGravity(Gravity.CENTER_VERTICAL);
             filter.setTextColor(Color.WHITE);
-            switch (dish.getFilterType()){
-                case "recommend" :
+            switch (dish.getFilterType()) {
+                case "recommend":
                     filter.setText("RECOMMENDED FOR YOU");
                     filter.setBackground(getResources().getDrawable(R.drawable.filter_tag_recommend));
                     filter.getBackground().setAlpha(150);
@@ -449,9 +488,9 @@ public class mainMenuActivity extends AppCompatActivity {
                     break;
                 default:
                     break;
-            }
+            }*/
 
-            frameLayout.addView(filter);
+            //frameLayout.addView(filter);
 
             frameLayout.addView(layoutInfo);
 
@@ -460,7 +499,7 @@ public class mainMenuActivity extends AppCompatActivity {
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MoveToDetailView.moveToDetail(mainMenuActivity.this,detailFoodActivity.class,dish,menu.getListDish());
+                    MoveToDetailView.moveToDetail(mainMenuActivity.this, detailFoodActivity.class, dish.getId());
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             });
@@ -469,12 +508,12 @@ public class mainMenuActivity extends AppCompatActivity {
         }
     }
 
-    private LinearLayout enableCookbookIcon(){
+    private LinearLayout enableCookbookIcon() {
         LinearLayout cookbookLayout = new LinearLayout(this);
         cookbookLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         cookbookLayout.setGravity(Gravity.RIGHT);
-        cookbookLayout.setPadding(0,10,10,0);
+        cookbookLayout.setPadding(0, 10, 10, 0);
         ImageButton cookbook_icon = new ImageButton(this);
         cookbook_icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_cook_book_icon));
         cookbook_icon.setBackgroundColor(Color.TRANSPARENT);
@@ -483,7 +522,7 @@ public class mainMenuActivity extends AppCompatActivity {
         return cookbookLayout;
     }
 
-    private void setUserLoginOrSignUp (){
+    private void setUserLoginOrSignUp() {
         SessionLoginController session = new SessionLoginController(this);
         TextView userName = findViewById(R.id.userName);
         TextView userEmail = findViewById(R.id.userEmail);
@@ -491,14 +530,14 @@ public class mainMenuActivity extends AppCompatActivity {
         LinearLayout btnSignout = findViewById(R.id.btn_signout_category);
 
         LinearLayout iconUser = findViewById(R.id.userIcon);
-        if (!session.getName().isEmpty()){
+        if (!session.getName().isEmpty()) {
             userName.setText(session.getName());
             userEmail.setText(session.getEmail());
             btnSignout.setVisibility(View.VISIBLE);
             btnSignin.setVisibility(View.INVISIBLE);
 
             boolean isSignUpSuccessful = getIntent().getBooleanExtra("LOGIN_SUCCESSFUL", false);
-            if (isSignUpSuccessful){
+            if (isSignUpSuccessful) {
                 Toast.makeText(this, "Sign up successful. ", Toast.LENGTH_SHORT).show();
                 getIntent().removeExtra("LOGIN_SUCCESSFUL");
             }
@@ -516,12 +555,12 @@ public class mainMenuActivity extends AppCompatActivity {
         }
     }
 
-    private LinearLayout getRandomTag(){
+    private LinearLayout getRandomTag() {
         LinearLayout tagLayout = new LinearLayout(this);
         tagLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         tagLayout.setGravity(Gravity.LEFT);
-        tagLayout.setPadding(0,10,10,0);
+        tagLayout.setPadding(0, 10, 10, 0);
         ImageButton tagImg = new ImageButton(this);
         tagImg.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_cook_book_icon));
         tagImg.setBackgroundColor(Color.TRANSPARENT);

@@ -2,14 +2,14 @@ package com.ifood.ifood.data;
 
 public class Model_Cookbook_Dish {
     private Integer id;
-    private Integer dishId;
+    private String dishId;
     private String dishName;
     private Integer cookbookId;
 
     public Model_Cookbook_Dish() {
     }
 
-    public Model_Cookbook_Dish(Integer dishId, String dishName, Integer cookbookId) {
+    public Model_Cookbook_Dish(String dishId, String dishName, Integer cookbookId) {
         this.dishId = dishId;
         this.dishName = dishName;
         this.cookbookId = cookbookId;
@@ -23,11 +23,11 @@ public class Model_Cookbook_Dish {
         this.id = id;
     }
 
-    public Integer getDishId() {
+    public String getDishId() {
         return dishId;
     }
 
-    public void setDishId(Integer dishId) {
+    public void setDishId(String dishId) {
         this.dishId = dishId;
     }
 
