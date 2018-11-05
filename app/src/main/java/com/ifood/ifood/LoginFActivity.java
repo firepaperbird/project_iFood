@@ -31,7 +31,6 @@ public class LoginFActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout listMenu;
-    private Model_User responseUser = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +56,6 @@ public class LoginFActivity extends AppCompatActivity {
         EditText edPassword = findViewById(R.id.edtLoginPassword);
         String password = edPassword.getText().toString();
         callCheckLog(email,password);
-        SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
 //      caan save user data vao sqlite
     }
 
@@ -74,8 +72,7 @@ public class LoginFActivity extends AppCompatActivity {
                     super.onSuccess(statusCode, headers, response);
                     try {
                         JSONObject serverResp = new JSONObject(response.toString());
-                        responseUser = new Model_User(serverResp);
-                        logUserCheckedToApp();
+                        logUserCheckedToApp(new Model_User(serverResp));
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -87,8 +84,11 @@ public class LoginFActivity extends AppCompatActivity {
         }
     }
 
-    private void logUserCheckedToApp(){
+    private void logUserCheckedToApp(Model_User responseUser){
         if (responseUser != null){
+            SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
+            sqlite.insertDataIntoTable(sqlite.getTableName(), responseUser);
+
             SessionLoginController session = new SessionLoginController(this);
 
             session.setUserId(responseUser.getId());

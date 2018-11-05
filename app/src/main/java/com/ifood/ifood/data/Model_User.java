@@ -1,5 +1,7 @@
 package com.ifood.ifood.data;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -139,4 +141,10 @@ public class Model_User implements Serializable {
     public void setDelete(Boolean delete) {
         isDelete = delete;
     }
+
+    public JSONObject toJSON() throws JSONException{
+        JSONObject json = new JSONObject(new Gson().toJson(this));
+        return json;
+    }
+
 }

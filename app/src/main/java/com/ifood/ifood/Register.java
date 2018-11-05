@@ -15,13 +15,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ifood.ifood.data.Model_User;
+import com.ifood.ifood.ultil.HttpUtils;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteUserController;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class Register extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout listMenu;
+    private Model_User responseUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,22 +70,46 @@ public class Register extends AppCompatActivity {
             Toast.makeText(this, "Password does not match the confirm password! ", Toast.LENGTH_SHORT).show();
         }
         Model_User user = new Model_User(username, email, password);
+        callRegisAPI(user);
+
+    }
+    private void callRegisAPI(Model_User ur){
+
+        try {
+            JSONObject jsonParams = ur.toJSON();
+            StringEntity entity = new StringEntity(jsonParams.toString());
+            HttpUtils.put(this,"/user", entity,new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    try {
+                        JSONObject serverResp = new JSONObject(response.toString());
+                        setUserToSession(new Model_User(serverResp));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void OnClickLogin(View view){
+        startActivity(new Intent(this, LoginFActivity.class));
+    }
+
+    private void setUserToSession(Model_User newUser){
         SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
-        sqlite.insertDataIntoTable(sqlite.getTableName(), user);
+        sqlite.insertDataIntoTable(sqlite.getTableName(), newUser);
 
         SessionLoginController session = new SessionLoginController(this);
-        Model_User newUser = sqlite.getUserByEmail(email);
         session.setUserId(newUser.getId());
-        session.setName(username);
-        session.setEmail(email);
+        session.setName(newUser.getName());
+        session.setEmail(newUser.getEmail());
 
         Intent intent = new Intent(this, mainMenuActivity.class);
         intent.putExtra("LOGIN_SUCCESSFUL", true);
         startActivity(intent);
         finish();
-    }
-
-    public void OnClickLogin(View view){
-        startActivity(new Intent(this, LoginFActivity.class));
     }
 }
