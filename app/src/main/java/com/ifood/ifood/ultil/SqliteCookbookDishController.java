@@ -25,7 +25,7 @@ public class SqliteCookbookDishController extends SqliteDataController {
         checkTableExistInDatabase(TABLE_NAME);
     }
 
-    public List<Model_Cookbook_Dish> getDishInCookbook(int cookbookId) {
+    public List<Model_Cookbook_Dish> getDishInCookbook(String cookbookId) {
         List<Model_Cookbook_Dish> listDish = new ArrayList<>();
         try {
             openDataBase();
@@ -72,7 +72,7 @@ public class SqliteCookbookDishController extends SqliteDataController {
         return TABLE_NAME;
     }
 
-    public int deleteListDishInCookbook(String tbName, List<Dish> listDishRemove, int cookbookId) {
+    public int deleteListDishInCookbook(String tbName, List<Dish> listDishRemove, String cookbookId) {
 
         int result = 0;
         try {

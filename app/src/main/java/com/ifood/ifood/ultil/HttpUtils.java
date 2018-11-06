@@ -12,8 +12,8 @@ public class HttpUtils {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    public static void get(Context context, String url, StringEntity entity, AsyncHttpResponseHandler responseHandler) {
-        client.get(context, getAbsoluteUrl(url, context), entity,"application/json", responseHandler);
+    public static void get(Context context, String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.get(getAbsoluteUrl(url, context), params, responseHandler);
     }
 
     public static void post(Context context, String url, StringEntity entity, AsyncHttpResponseHandler responseHandler) {

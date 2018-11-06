@@ -159,7 +159,7 @@ public class SqliteDataController extends SQLiteOpenHelper {
         Class objectClass = object.getClass();
         try {
             for (Field field : objectClass.getDeclaredFields()) {
-                if (field.isSynthetic() || field.getName().equals("serialVersionUID")){
+                if (field.isSynthetic() || field.getName().equals("serialVersionUID") || field.getName().equals("dishOfCookBook")){
                     continue;
                 }
                 String fieldName = field.getName();

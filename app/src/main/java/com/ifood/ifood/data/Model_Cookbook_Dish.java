@@ -4,12 +4,12 @@ public class Model_Cookbook_Dish {
     private Integer id;
     private String dishId;
     private String dishName;
-    private Integer cookbookId;
+    private String cookbookId;
 
     public Model_Cookbook_Dish() {
     }
 
-    public Model_Cookbook_Dish(String dishId, String dishName, Integer cookbookId) {
+    public Model_Cookbook_Dish(String dishId, String dishName, String cookbookId) {
         this.dishId = dishId;
         this.dishName = dishName;
         this.cookbookId = cookbookId;
@@ -39,11 +39,11 @@ public class Model_Cookbook_Dish {
         this.dishName = dishName;
     }
 
-    public Integer getCookbookId() {
+    public String getCookbookId() {
         return cookbookId;
     }
 
-    public void setCookbookId(Integer userId) {
+    public void setCookbookId(String userId) {
         this.cookbookId = userId;
     }
 }
