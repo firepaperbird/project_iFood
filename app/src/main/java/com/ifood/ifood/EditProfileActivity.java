@@ -13,8 +13,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.ifood.ifood.data.Model_User;
+import com.ifood.ifood.ultil.HttpUtils;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteUserController;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -73,28 +81,52 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( EditProfileActivity.this, UserDetailActivity.class);
                 Model_User edtUser = user;
                 edtUser.setName(edtName.getText().toString());
                 edtUser.setAddress(edtAddress.getText().toString());
                 edtUser.setPhoneNumber(edtPhoneNumber.getText().toString());
                 edtUser.setCity(spnCity.getSelectedItem().toString());
                 edtUser.setDistrict(spnDistrict.getSelectedItem().toString());
-
-
-                SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
-                sqlite.updateDataIntoTable(sqlite.getTableName(), edtUser, "Id = ?", new String[] {user.getId().toString()});
-
-                SessionLoginController session = new SessionLoginController(EditProfileActivity.this);
-                session.setName(edtUser.getName());
-
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("EDIT_SUCCESSFUL", true);
-                startActivity(intent);
-
-                finish();
+                callRegisAPI(user);
             }
         });
+    }
+
+    private void callRegisAPI(Model_User ur){
+
+        try {
+            JSONObject jsonParams = ur.toJSON();
+            StringEntity entity = new StringEntity(jsonParams.toString());
+            HttpUtils.post(this,"/user", entity,new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    try {
+                        JSONObject serverResp = new JSONObject(response.toString());
+                        setUserToSession(new Model_User(serverResp));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void setUserToSession(Model_User user){
+        SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
+        sqlite.insertDataIntoTable(sqlite.getTableName(), user);
+
+        Intent intent = new Intent( EditProfileActivity.this, UserDetailActivity.class);
+        SessionLoginController session = new SessionLoginController(EditProfileActivity.this);
+        session.setName(user.getName());
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("EDIT_SUCCESSFUL", true);
+        startActivity(intent);
+
+        finish();
     }
 
     private void setListDistrict(Spinner spnDistrict, int listDistrict, Model_User user){

@@ -14,15 +14,21 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.data.Model_User;
 import com.ifood.ifood.ultil.HttpUtils;
 import com.ifood.ifood.ultil.SessionLoginController;
+import com.ifood.ifood.ultil.SqliteCookbookController;
 import com.ifood.ifood.ultil.SqliteUserController;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -57,6 +63,7 @@ public class LoginFActivity extends AppCompatActivity {
         EditText edPassword = findViewById(R.id.edtLoginPassword);
         String password = edPassword.getText().toString();
         callCheckLog(email,password);
+//      caan save user data vao sqlite
     }
 
     private void callCheckLog(String email, String password){
@@ -74,6 +81,33 @@ public class LoginFActivity extends AppCompatActivity {
                         JSONObject serverResp = new JSONObject(response.toString());
                         responseUser = new Model_User(serverResp);
                         logUserCheckedToApp();
+                        callGetCookBookOfUser(responseUser.getId());
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void callGetCookBookOfUser(String userId){
+        try {
+            RequestParams params = new RequestParams();
+            params.add("id",userId);
+            HttpUtils.get(this,"/cookbook/user", params,new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    try {
+                        JSONObject serverResp = new JSONObject(response.toString());
+                        List<Model_Cookbook> cbList = new Gson().fromJson(serverResp.toString(),  new TypeToken<List<Model_Cookbook>>(){}.getType());
+                        SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getApplicationContext());
+                        for ( Model_Cookbook cb: cbList ) {
+                            sqliteCookbookController.insertDataIntoTable(sqliteCookbookController.getTableName(),cb);
+                        }
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
