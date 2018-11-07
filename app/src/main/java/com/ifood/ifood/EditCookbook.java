@@ -13,11 +13,13 @@ import android.widget.TextView;
 
 import com.ifood.ifood.Dialog.ConfirmDeleteCookbookDialog;
 import com.ifood.ifood.data.Model_Cookbook;
+import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.SqliteCookbookController;
+import com.loopj.android.image.SmartImageView;
 
 public class EditCookbook extends AppCompatActivity {
     private EditText edtTitle;
-    private ImageView edtImage;
+    private SmartImageView edtImage;
     private Model_Cookbook cookbook;
     private SqliteCookbookController sqlite;
     @Override
@@ -34,18 +36,23 @@ public class EditCookbook extends AppCompatActivity {
         sqlite = new SqliteCookbookController(getApplicationContext());
 
         edtTitle = findViewById(R.id.editCookbookTitle);
-        edtTitle.setText(cookbook.getTitle());
+        edtTitle.setText(cookbook.getName());
 
         edtImage = findViewById(R.id.editImagecookbook);
         edtImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        edtImage.setImageResource(Integer.parseInt(cookbook.getImageId()));
+        if (cookbook.getTotalRecipes() > 0){
+            edtImage.setImageUrl(cookbook.getDishesInCookBook().get(0).getImageLink());
+        } else {
+            edtImage.setImageResource(R.drawable.cookbook_image_blank);
+        }
+
     }
 
     public void btnSaveCookbook(View view) {
         edtTitle = findViewById(R.id.editCookbookTitle);
         String txtTitle = edtTitle.getText().toString();
 
-        cookbook.setTitle(txtTitle);
+        cookbook.setName(txtTitle);
 
         sqlite.updateDataIntoTable(sqlite.getTableName(), cookbook, "Id = ?", new String[] {cookbook.getId() + ""});
         Intent intent = new Intent(this, DetailCookbook.class);

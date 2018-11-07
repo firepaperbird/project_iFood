@@ -1,7 +1,5 @@
 package com.ifood.ifood.data;
 
-import android.support.annotation.Nullable;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
@@ -11,17 +9,16 @@ public class Model_Cookbook implements Serializable {
     private String name;
     private String userId;
     private String description;
-    private Timestamp createOn;
-    private Boolean isDelete;
-//    private int totalRecipes;
-    private List<Model_Cookbook_Dish> dishOfCookBook;
+    private String createOn;
+    private List<Dish> dishesInCookBook;
     public Model_Cookbook() {
     }
 
-
-
     public int getTotalRecipes() {
-        return this.dishOfCookBook.size();
+        if (this.dishesInCookBook == null){
+            return 0;
+        }
+        return this.dishesInCookBook.size();
     }
 
     public String getId() {
@@ -40,13 +37,13 @@ public class Model_Cookbook implements Serializable {
         this.userId = userId;
     }
 
-    public Model_Cookbook(String id, String name, String userId, String description, Timestamp createOn, List<Model_Cookbook_Dish> dishOfCookBook) {
+    public Model_Cookbook(String id, String name, String userId, String description, String createOn, List<Dish> dishesInCookBook) {
         this.id = id;
         this.name = name;
         this.userId = userId;
         this.description = description;
         this.createOn = createOn;
-        this.dishOfCookBook = dishOfCookBook;
+        this.dishesInCookBook = dishesInCookBook;
     }
 
     public String getName() {
@@ -65,27 +62,19 @@ public class Model_Cookbook implements Serializable {
         this.description = description;
     }
 
-    public Timestamp getCreateOn() {
+    public String getCreateOn() {
         return createOn;
     }
 
-    public void setCreateOn(Timestamp createOn) {
+    public void setCreateOn(String createOn) {
         this.createOn = createOn;
     }
 
-    public Boolean getDelete() {
-        return isDelete;
+    public List<Dish> getDishesInCookBook() {
+        return dishesInCookBook;
     }
 
-    public void setDelete(Boolean delete) {
-        isDelete = delete;
-    }
-
-    public List<Model_Cookbook_Dish> getDishOfCookBook() {
-        return dishOfCookBook;
-    }
-
-    public void setDishOfCookBook(List<Model_Cookbook_Dish> dishOfCookBook) {
-        this.dishOfCookBook = dishOfCookBook;
+    public void setDishesInCookBook(List<Dish> dishesInCookBook) {
+        this.dishesInCookBook = dishesInCookBook;
     }
 }

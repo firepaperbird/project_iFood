@@ -29,6 +29,7 @@ import com.ifood.ifood.data.Model_Cookbook_Dish;
 import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.MoveToDetailView;
 import com.ifood.ifood.ultil.SqliteCookbookDishController;
+import com.loopj.android.image.SmartImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class DetailCookbook extends AppCompatActivity {
     private Model_Cookbook cookbook;
     private final int LAYOUT_DISH_HEIGHT = 600;
     private boolean haveAction = false;
-    private List<Dish> listDishesDetail;
+    private List<Model_Cookbook_Dish> listDishesDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,29 +83,22 @@ public class DetailCookbook extends AppCompatActivity {
             Toast.makeText(this, "Add cookbook successful", Toast.LENGTH_SHORT).show();
         }
 
-        ImageView imageCookbook = findViewById(R.id.detailCookbookImage);
-        imageCookbook.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageCookbook.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), Integer.parseInt(cookbook.getImageId())));
-
+        SmartImageView imageCookbook = findViewById(R.id.detailCookbookImage);
+        imageCookbook.setScaleType(ImageView.ScaleType.FIT_XY);
+        //imageCookbook.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), Integer.parseInt(cookbook.getImageId())));
+        if (cookbook.getTotalRecipes() > 0){
+            imageCookbook.setImageUrl(cookbook.getDishesInCookBook().get(0).getImageLink());
+        } else {
+            imageCookbook.setImageDrawable(ConfigImageQuality.getBitmapImage(getResources(), R.drawable.cookbook_image_blank));
+        }
         TextView txtTitle = findViewById(R.id.detailCookbookTitle);
-        txtTitle.setText(cookbook.getTitle());
+        txtTitle.setText(cookbook.getName());
     }
 
     private void setListDish(){
         SqliteCookbookDishController sqlite = new SqliteCookbookDishController(getApplicationContext());
-        final Menu menu = new Menu();
-        List<Dish> allDish = new ArrayList<>(); /*= menu.getAllDish();*/
 
-        List<Model_Cookbook_Dish> listDishInCookbook = sqlite.getDishInCookbook(cookbook.getId());
-        listDishesDetail = new ArrayList<>();
-
-        for (Dish dish : allDish){
-            for (Model_Cookbook_Dish dishInCookbook : listDishInCookbook){
-                if (dish.getId().equals(dishInCookbook.getDishId())){
-                    listDishesDetail.add(dish);
-                }
-            }
-        }
+        listDishesDetail = sqlite.getDishInCookbook(cookbook.getId());
 
         if (listDishesDetail.size() == 0){
             RelativeLayout layoutRemoveButtons = findViewById(R.id.layoutRemoveButtons);
@@ -135,12 +129,11 @@ public class DetailCookbook extends AppCompatActivity {
 
             LinearLayout listMenu = findViewById(R.id.layoutDishInCookbook);
 
-            for (final Dish dish : listDishesDetail){
+            for (final Model_Cookbook_Dish dish : listDishesDetail){
                 LinearLayout layout = new LinearLayout(this);
                 layout.setOrientation(LinearLayout.VERTICAL);
                 layout.setLayoutParams(layoutMenu);
-                BitmapDrawable image = ConfigImageQuality.getBitmapImage(this,getResources(), dish.getImageLink());
-                layout.setBackground(image);  ;
+                //BitmapDrawable image = ConfigImageQuality.getBitmapImage(this,getResources(), dish.getDishImageLink());
 
                 LinearLayout layoutInfo = new LinearLayout(this);
                 layoutInfo.setLayoutParams(layoutParamsInfo);
@@ -155,7 +148,7 @@ public class DetailCookbook extends AppCompatActivity {
                 Typeface font = ResourcesCompat.getFont(this, R.font.arrusb);
                 txtTitle.setTypeface(font, Typeface.BOLD);
                 txtTitle.setTextColor(Color.WHITE);
-                txtTitle.setText(dish.getName());
+                txtTitle.setText(dish.getDishName());
 
                 layoutInfo.addView(txtTitle);
 
@@ -180,10 +173,16 @@ public class DetailCookbook extends AppCompatActivity {
                 }
                 checkBoxLayout.addView(checkBox);
 
+                SmartImageView imageDish = new SmartImageView(this);
+                imageDish.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                imageDish.setScaleType(ImageView.ScaleType.FIT_XY);
+                imageDish.setImageUrl(dish.getDishImageLink());
+
                 FrameLayout frameLayout = new FrameLayout(this);
                 frameLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT, Gravity.BOTTOM));
 
+                frameLayout.addView(imageDish);
                 frameLayout.addView(shadowLayout);
                 frameLayout.addView(layoutInfo);
                 frameLayout.addView(checkBoxLayout);
@@ -194,7 +193,7 @@ public class DetailCookbook extends AppCompatActivity {
                 layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MoveToDetailView.moveToDetail(DetailCookbook.this,detailFoodActivity.class, dish.getId());
+                        MoveToDetailView.moveToDetail(DetailCookbook.this,detailFoodActivity.class, dish.getDishId());
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 });
@@ -205,7 +204,7 @@ public class DetailCookbook extends AppCompatActivity {
     }
 
     public void removeAllDishesInCookbook(View view) {
-        List<Dish> listDishRemove = listDishesDetail;
+        List<Model_Cookbook_Dish> listDishRemove = listDishesDetail;
         if (listDishRemove.size() > 0){
             removeDishes(listDishRemove, "Remove all dishes?");
         }
@@ -213,8 +212,8 @@ public class DetailCookbook extends AppCompatActivity {
 
     public void removeDishesInCookbook(View view) {
         LinearLayout listMenu = findViewById(R.id.layoutDishInCookbook);
-        List<Dish> listDishRemove = new ArrayList<>();
-        for (Dish dish : listDishesDetail){
+        List<Model_Cookbook_Dish> listDishRemove = new ArrayList<>();
+        for (Model_Cookbook_Dish dish : listDishesDetail){
             CheckBox checkBox = listMenu.findViewWithTag(dish.getId());
             if (checkBox.isChecked()){
                 listDishRemove.add(dish);
@@ -228,7 +227,7 @@ public class DetailCookbook extends AppCompatActivity {
         }
     }
 
-    private void removeDishes (List<Dish> listDishRemove, String warningMessage){
+    private void removeDishes (List<Model_Cookbook_Dish> listDishRemove, String warningMessage){
         ConfirmRemoveDishInCookbookDialog dialog = new ConfirmRemoveDishInCookbookDialog();
         dialog.setListDishesRemove(cookbook, listDishRemove);
         dialog.setWarningMessage(warningMessage);

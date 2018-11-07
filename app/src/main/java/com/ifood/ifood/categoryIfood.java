@@ -138,8 +138,8 @@ public class categoryIfood extends AppCompatActivity {
     private  void nextToMainMenu(String categoryId){
         SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
         sessionCategoryController.setCurrentCategory(categoryId);
+        sessionCategoryController.setCategories(categories);
         Intent intent = new Intent(this, mainMenuActivity.class);
-        intent.putExtra("CATEGORIES", (Serializable) categories);
         startActivity(intent);
     }
 }

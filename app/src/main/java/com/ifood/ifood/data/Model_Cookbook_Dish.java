@@ -4,15 +4,25 @@ public class Model_Cookbook_Dish {
     private Integer id;
     private String dishId;
     private String dishName;
+    private String dishImageLink;
     private String cookbookId;
 
     public Model_Cookbook_Dish() {
     }
 
-    public Model_Cookbook_Dish(String dishId, String dishName, String cookbookId) {
+    public Model_Cookbook_Dish(String dishId, String dishName, String dishImageLink, String cookbookId) {
         this.dishId = dishId;
         this.dishName = dishName;
+        this.dishImageLink = dishImageLink;
         this.cookbookId = cookbookId;
+    }
+
+    public String getDishImageLink() {
+        return dishImageLink;
+    }
+
+    public void setDishImageLink(String dishImageLink) {
+        this.dishImageLink = dishImageLink;
     }
 
     public Integer getId() {

@@ -15,7 +15,8 @@ public class SqliteCookbookDishController extends SqliteDataController {
     private final int COLUMN_ID_INDEX = 0;
     private final int COLUMN_DISH_ID_INDEX = 1;
     private final int COLUMN_DISH_NAME_INDEX = 2;
-    private final int COLUMN_COOKBOOK_ID_INDEX = 3;
+    private final int COLUMN_DISH_IMAGE_LINK_INDEX = 3;
+    private final int COLUMN_COOKBOOK_ID_INDEX = 4;
 
     private final String TABLE_NAME = "CookBook_Dish";
 
@@ -35,7 +36,8 @@ public class SqliteCookbookDishController extends SqliteDataController {
                 cookbook_dish.setId(Integer.parseInt(cs.getString(COLUMN_ID_INDEX)));
                 cookbook_dish.setDishId(cs.getString(COLUMN_DISH_ID_INDEX));
                 cookbook_dish.setDishName(cs.getString(COLUMN_DISH_NAME_INDEX));
-                cookbook_dish.setCookbookId(Integer.parseInt(cs.getString(COLUMN_COOKBOOK_ID_INDEX)));
+                cookbook_dish.setDishImageLink(cs.getString(COLUMN_DISH_IMAGE_LINK_INDEX));
+                cookbook_dish.setCookbookId(cs.getString(COLUMN_COOKBOOK_ID_INDEX));
                 listDish.add(cookbook_dish);
             }
         } catch (SQLException e) {
@@ -72,15 +74,15 @@ public class SqliteCookbookDishController extends SqliteDataController {
         return TABLE_NAME;
     }
 
-    public int deleteListDishInCookbook(String tbName, List<Dish> listDishRemove, String cookbookId) {
+    public int deleteListDishInCookbook(String tbName, List<Model_Cookbook_Dish> listDishRemove, String cookbookId) {
 
         int result = 0;
         try {
             openDataBase();
             database.beginTransaction();
-            for (Dish dish : listDishRemove){
+            for (Model_Cookbook_Dish dish : listDishRemove){
                 result = database.delete(tbName, "DishId = ? AND CookbookId = ?"
-                        , new String[] {dish.getId() + "", cookbookId + ""});
+                        , new String[] {dish.getDishId() + "", cookbookId + ""});
             }
             if (result >= 0) {
                 database.setTransactionSuccessful();

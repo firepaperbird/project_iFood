@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.loopj.android.image.SmartImageView
             android:id="@+id/editImagecookbook"
             android:layout_width="100dp"
             android:layout_height="50dp"

@@ -165,9 +165,11 @@ public class SqliteDataController extends SQLiteOpenHelper {
                 String fieldName = field.getName();
                 fieldName = fieldName.substring(0,1).toUpperCase() + fieldName.substring(1, fieldName.length());
                 Method getValueMethod = objectClass.getMethod("get" + fieldName, null);
-                String value = getValueMethod.invoke(object) != null ? getValueMethod.invoke(object).toString() : null;
-                if (value != null){
-                    values.put(field.getName(), value);
+                if (!getValueMethod.getReturnType().getName().equals("java.util.List")){
+                    String value = getValueMethod.invoke(object) != null ? getValueMethod.invoke(object).toString() : null;
+                    if (value != null){
+                        values.put(field.getName(), value);
+                    }
                 }
             }
         } catch (IllegalAccessException e) {

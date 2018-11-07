@@ -13,11 +13,16 @@ import android.widget.Toast;
 
 import com.ifood.ifood.R;
 import com.ifood.ifood.UserDetailActivity;
+import com.ifood.ifood.ViewCookbooksActivity;
 import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NewCookbookDialog extends DialogFragment {
+    private List<Model_Cookbook> listCookbook = new ArrayList<>();
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -31,22 +36,33 @@ public class NewCookbookDialog extends DialogFragment {
         builder.setNegativeButton("Create", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                boolean isExist = false;
                 SessionLoginController session = new SessionLoginController(getActivity().getApplicationContext());
-
                 String cookbookTitle = edtCookbookTitle.getText().toString();
 
-                Model_Cookbook cookbook = new Model_Cookbook();
-                cookbook.setImageId(R.drawable.cookbook_image_blank + "");
-                cookbook.setUserId(session.getUserId());
-                cookbook.setTitle(cookbookTitle);
-                cookbook.setTotalRecipes(0);
-
-                SqliteCookbookController sqlite = new SqliteCookbookController(getActivity().getApplicationContext());
-                boolean result = sqlite.insertDataIntoTable(sqlite.getTableName(), cookbook);
-                if (result){
-                    getActivity().recreate();
+                for (Model_Cookbook cookbook : listCookbook){
+                    if (cookbook.getName().toLowerCase().equals(cookbookTitle.toLowerCase())){
+                        isExist = true;
+                        break;
+                    }
                 }
-                dismiss();
+                if (!isExist){
+                    Model_Cookbook cookbook = new Model_Cookbook();
+                    cookbook.setUserId(session.getUserId());
+                    cookbook.setName(cookbookTitle);
+
+
+                    SqliteCookbookController sqlite = new SqliteCookbookController(getActivity().getApplicationContext());
+                    boolean result = sqlite.insertDataIntoTable(sqlite.getTableName(), cookbook);
+                    if (result){
+                        getActivity().recreate();
+                    } else {
+                        Toast.makeText(getActivity(), "Something wrong!", Toast.LENGTH_SHORT).show();
+                    }
+                    dismiss();
+                } else {
+                    Toast.makeText(getActivity(), "That cookbook have already existed!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -58,5 +74,9 @@ public class NewCookbookDialog extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    public void setListCookbook(List<Model_Cookbook> listCookbook){
+        this.listCookbook = listCookbook;
     }
 }

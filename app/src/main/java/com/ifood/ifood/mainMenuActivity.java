@@ -135,7 +135,6 @@ public class mainMenuActivity extends AppCompatActivity {
                     Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
                     intent.putExtra("SEARCH_DISH_ITEM", query);
                     intent.putExtra("SEARCH_TYPE", "Searches");
-                    intent.putExtra("CATEGORIES", (Serializable) categories);
                     startActivity(intent);
                     return false;
                 }
@@ -186,7 +185,6 @@ public class mainMenuActivity extends AppCompatActivity {
         SessionCategoryController sessionCategoryController = new SessionCategoryController(this);
         sessionCategoryController.setCurrentCategory(categoryId);
         Intent intent = new Intent(this, mainMenuActivity.class);
-        intent.putExtra("CATEGORIES", (Serializable) categories);
         startActivity(intent);
     }
 
@@ -209,7 +207,8 @@ public class mainMenuActivity extends AppCompatActivity {
     private void setMainMenuByCategoryId(String categoryId) {
         TextView txtTitle = findViewById(R.id.action_bar_title);
 
-        categories = (List<Model_Category>) getIntent().getSerializableExtra("CATEGORIES");
+        SessionCategoryController categorySession = new SessionCategoryController(this);
+        categories = categorySession.getCategories();
         menu = new com.ifood.ifood.data.Menu(categoryId, txtTitle.getText().toString());
         LinearLayout drawerCategoryGym = findViewById(R.id.gym_category_menu);
         LinearLayout drawerCategoryHealthy = findViewById(R.id.healthy_category_menu);
@@ -226,6 +225,8 @@ public class mainMenuActivity extends AppCompatActivity {
                     break;
                 case 3: drawerCategoryDaily.setTag(category.getId());
                     break;
+                    default: drawerCategoryGym.setTag(category.getId());
+                        break;
             }
         }
     }
@@ -338,7 +339,6 @@ public class mainMenuActivity extends AppCompatActivity {
                             Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
                             intent.putExtra("SEARCH_DISH_ITEM", SearchingTags);
                             intent.putExtra("SEARCH_TYPE", "Tags");
-                            intent.putExtra("CATEGORIES", (Serializable) categories);
                             startActivity(intent);
                         }
                     });
@@ -408,7 +408,6 @@ public class mainMenuActivity extends AppCompatActivity {
                         Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
                         intent.putExtra("SEARCH_DISH_ITEM", tagOnclick.getText().toString());
                         intent.putExtra("SEARCH_TYPE", "Tags");
-                        intent.putExtra("CATEGORIES", (Serializable) categories);
                         startActivity(intent);
                     }
                 });
@@ -555,20 +554,6 @@ public class mainMenuActivity extends AppCompatActivity {
         }
     }
 
-    private LinearLayout getRandomTag() {
-        LinearLayout tagLayout = new LinearLayout(this);
-        tagLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-        tagLayout.setGravity(Gravity.LEFT);
-        tagLayout.setPadding(0, 10, 10, 0);
-        ImageButton tagImg = new ImageButton(this);
-        tagImg.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_cook_book_icon));
-        tagImg.setBackgroundColor(Color.TRANSPARENT);
-        tagLayout.addView(tagImg);
-
-        return tagLayout;
-    }
-
     public void moveToLoginView(View view) {
         Intent intent = new Intent(mainMenuActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -577,10 +562,9 @@ public class mainMenuActivity extends AppCompatActivity {
     public void clickToSignOut(View view) {
         SessionLoginController session = new SessionLoginController(this);
         session.clearSession();
-
         Intent intent = new Intent(mainMenuActivity.this, mainMenuActivity.class);
         startActivity(intent);
-        finish();
+        finish();;
     }
 
     public void moveToShoppingList(MenuItem item) {

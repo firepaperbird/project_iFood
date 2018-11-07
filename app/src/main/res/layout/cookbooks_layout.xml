@@ -12,12 +12,46 @@
         android:layout_marginTop="20dp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_medium"
-            android:text="Cookbook"
-            android:background="@drawable/border_cookbook_title"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_medium"
+                android:text="Cookbook"
+                android:background="@drawable/border_cookbook_title"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:onClick="syncCookbookToServer">
+
+                <ImageView
+                    android:id="@+id/syncImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:contentDescription="image_desc"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_action_sync"
+                    android:paddingTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sync"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginEnd="15sp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:tag="layoutCookbooks_1"

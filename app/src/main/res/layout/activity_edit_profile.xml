@@ -11,7 +11,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
 
         <ImageView
             android:paddingTop="10dp"
@@ -20,7 +21,7 @@
             android:layout_centerHorizontal="true"
             android:scaleType="center"
             android:src="@drawable/icon_user_50"/>
-        <Button
+        <!--<Button
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -32,7 +33,7 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="5"
-            android:text="update picture"/>
+            android:text="update picture"/>-->
 
         <TextView
             android:layout_width="match_parent"

@@ -29,6 +29,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation files('src/main/res/libs/android-smart-image-view-1.0.0.jar')
+    implementation files('src/main/assets/libs/android-smart-image-view-1.0.0.jar')
     implementation 'com.google.code.gson:gson:2.8.5'
 }

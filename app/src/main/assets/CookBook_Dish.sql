@@ -1,6 +1,7 @@
 CREATE TABLE CookBook_Dish (
 	Id	INTEGER PRIMARY KEY AUTOINCREMENT,
-	DishId int,
-	DishName	varchar(50),
-	CookBookId int
+	DishId varchar(250),
+	DishName	varchar(250),
+	DishImageLink varchar(250),
+	CookBookId varchar(250)
 );

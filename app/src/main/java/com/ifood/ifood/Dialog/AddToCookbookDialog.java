@@ -55,7 +55,7 @@ public class AddToCookbookDialog extends DialogFragment {
         } else {
             String[] listCookbookTitles = new String[listCookbook.size()];
             for (int i = 0; i < listCookbook.size(); i++){
-                listCookbookTitles[i] = listCookbook.get(i).getTitle();
+                listCookbookTitles[i] = listCookbook.get(i).getName();
             }
             //Gía trị được chọn mặc định là giá trị đầu tiên thứ 0.
             builder.setSingleChoiceItems(listCookbookTitles, 0, new DialogInterface.OnClickListener() {
@@ -82,13 +82,12 @@ public class AddToCookbookDialog extends DialogFragment {
                         cookbook_dish.setCookbookId(selectedItem.getId());
                         cookbook_dish.setDishId(dish.getId());
                         cookbook_dish.setDishName(dish.getName());
+                        cookbook_dish.setDishImageLink(dish.getImageLink());
 
                         SqliteCookbookDishController sqlite = new SqliteCookbookDishController(getActivity().getApplicationContext());
                         boolean result = sqlite.insertDataIntoTable(sqlite.getTableName(), cookbook_dish);
 
                         Model_Cookbook selectedCookbook = selectedItem;
-                        selectedCookbook.setImageId(dish.getImageLink() + "");
-                        selectedCookbook.increaseTotalRecipes(1);
                         SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getActivity().getApplicationContext());
                         sqliteCookbookController.updateDataIntoTable(sqliteCookbookController.getTableName(), selectedCookbook,
                                 "Id = ?", new String[] {selectedCookbook.getId().toString()});

@@ -13,12 +13,11 @@ tools:context=".DetailCookbook">
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.loopj.android.image.SmartImageView
             android:id="@+id/detailCookbookImage"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-             android:src="@drawable/cookbook_image_blank"/>
+            android:layout_alignParentStart="true"/>
 
         <TextView
             android:id="@+id/detailCookbookTitle"

@@ -16,15 +16,19 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Model_Cookbook;
+import com.ifood.ifood.data.Model_Cookbook_Dish;
 import com.ifood.ifood.data.Model_User;
 import com.ifood.ifood.ultil.HttpUtils;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
+import com.ifood.ifood.ultil.SqliteCookbookDishController;
 import com.ifood.ifood.ultil.SqliteUserController;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -78,12 +82,65 @@ public class LoginFActivity extends AppCompatActivity {
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
                     try {
-                        JSONObject serverResp = new JSONObject(response.toString());
-                        responseUser = new Model_User(serverResp);
-                        logUserCheckedToApp();
-                        callGetCookBookOfUser(responseUser.getId());
+                        if (response != null){
+
+                            JSONObject serverResp = new JSONObject(response.toString());
+                            responseUser = new Model_User(serverResp);
+                            logUserCheckedToApp();
+                        } else {
+                            Toast.makeText(LoginFActivity.this, "Email or password is incorrect!", Toast.LENGTH_SHORT).show();
+                        }
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    super.onFailure(statusCode, headers, responseString, throwable);
+                    Toast.makeText(LoginFActivity.this, "Email or password is incorrect!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void callGetCookBookOfUser(final String userId){
+        try {
+            RequestParams params = new RequestParams();
+            params.add("userId",userId);
+            HttpUtils.get(this,"/cookbook/byUserId", params,new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    super.onSuccess(statusCode, headers, response);
+                    try {
+                        List<Model_Cookbook> cbList = new Gson().fromJson(response.toString(),  new TypeToken<List<Model_Cookbook>>(){}.getType());
+                        for (int i = 0; i < response.length(); i++){
+                            List<Dish> dishesInCookbook = new Gson().fromJson(response.getJSONObject(i).get("dishesInCookbook").toString(),  new TypeToken<List<Dish>>(){}.getType());
+                            cbList.get(i).setDishesInCookBook(dishesInCookbook);
+                        }
+                        SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getApplicationContext());
+                        SqliteCookbookDishController sqliteCookbookDishController = new SqliteCookbookDishController(getApplicationContext());
+                        clearCookbookDataInSqlite(userId, sqliteCookbookController, sqliteCookbookDishController);
+                        for ( Model_Cookbook cb: cbList ) {
+                            sqliteCookbookController.insertDataIntoTable(sqliteCookbookController.getTableName(),cb);
+                            for (Dish dishInCookbook : cb.getDishesInCookBook()){
+                                Model_Cookbook_Dish cookbook_dish = new Model_Cookbook_Dish();
+                                cookbook_dish.setCookbookId(cb.getId());
+                                cookbook_dish.setDishId(dishInCookbook.getId());
+                                cookbook_dish.setDishName(dishInCookbook.getName());
+                                cookbook_dish.setDishImageLink(dishInCookbook.getImageLink());
+                                sqliteCookbookDishController.insertDataIntoTable(sqliteCookbookDishController.getTableName(), cookbook_dish);
+                            }
+                        }
+
+
+                        startActivity(new Intent(LoginFActivity.this, mainMenuActivity.class));
+                        finish();
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
@@ -93,30 +150,13 @@ public class LoginFActivity extends AppCompatActivity {
         }
     }
 
-    private void callGetCookBookOfUser(String userId){
-        try {
-            RequestParams params = new RequestParams();
-            params.add("id",userId);
-            HttpUtils.get(this,"/cookbook/user", params,new JsonHttpResponseHandler(){
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    super.onSuccess(statusCode, headers, response);
-                    try {
-                        JSONObject serverResp = new JSONObject(response.toString());
-                        List<Model_Cookbook> cbList = new Gson().fromJson(serverResp.toString(),  new TypeToken<List<Model_Cookbook>>(){}.getType());
-                        SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getApplicationContext());
-                        for ( Model_Cookbook cb: cbList ) {
-                            sqliteCookbookController.insertDataIntoTable(sqliteCookbookController.getTableName(),cb);
-                        }
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }catch (Exception e){
-            e.printStackTrace();
+    private void clearCookbookDataInSqlite(String userId, SqliteCookbookController sqlCookbook, SqliteCookbookDishController sqlCookbookDish){
+        List<Model_Cookbook> cookbooksInSqlite = sqlCookbook.getCookbookByUserId(userId);
+        for (Model_Cookbook cookbook : cookbooksInSqlite){
+            sqlCookbookDish.deleteData_From_Table(sqlCookbookDish.getTableName(),
+                    "cookbookId = ?", new String[]{cookbook.getId()});
         }
+        sqlCookbook.deleteData_From_Table(sqlCookbook.getTableName(), "UserId = ?", new String[]{userId});
     }
 
     private void logUserCheckedToApp(){
@@ -127,10 +167,7 @@ public class LoginFActivity extends AppCompatActivity {
             session.setName(responseUser.getName());
             session.setEmail(responseUser.getEmail());
 
-            startActivity(new Intent(this, mainMenuActivity.class));
-            finish();
-        }else{
-            Toast.makeText(this, "Email or password is incorrect!", Toast.LENGTH_SHORT).show();
+            callGetCookBookOfUser(responseUser.getId());
         }
     }
 }

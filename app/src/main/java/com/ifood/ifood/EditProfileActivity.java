@@ -96,7 +96,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         try {
             JSONObject jsonParams = ur.toJSON();
-            StringEntity entity = new StringEntity(jsonParams.toString());
+            StringEntity entity = new StringEntity(jsonParams.toString(), "UTF-8");
             HttpUtils.post(this,"/user", entity,new JsonHttpResponseHandler(){
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -115,9 +115,6 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void setUserToSession(Model_User user){
-        SqliteUserController sqlite = new SqliteUserController(getApplicationContext());
-        sqlite.insertDataIntoTable(sqlite.getTableName(), user);
-
         Intent intent = new Intent( EditProfileActivity.this, UserDetailActivity.class);
         SessionLoginController session = new SessionLoginController(EditProfileActivity.this);
         session.setName(user.getName());

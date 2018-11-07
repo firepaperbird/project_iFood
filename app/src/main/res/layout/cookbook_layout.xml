@@ -6,7 +6,7 @@
     android:layout_marginLeft="@dimen/padding_large"
     android:orientation="vertical">
 
-    <ImageView
+    <com.loopj.android.image.SmartImageView
         android:id="@+id/imageCookbook"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

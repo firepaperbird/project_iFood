@@ -16,13 +16,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ifood.ifood.Dialog.NewCookbookDialog;
 import com.ifood.ifood.data.Model_Cookbook;
 import com.ifood.ifood.data.Model_User;
+import com.ifood.ifood.ultil.HttpUtils;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteCookbookController;
 import com.ifood.ifood.ultil.SqliteDataController;
 import com.ifood.ifood.ultil.SqliteUserController;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -31,6 +38,8 @@ import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class UserDetailActivity extends AppCompatActivity {
 
@@ -48,29 +57,36 @@ public class UserDetailActivity extends AppCompatActivity {
         }
 
         SqliteUserController sqliteControl = new SqliteUserController(getApplicationContext());
-        Model_User user = null;
         try {
             SessionLoginController session = new SessionLoginController(this);
-            user = sqliteControl.getUserByEmail(session.getEmail());
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("userId", session.getUserId());
+            HttpUtils.get(this, "/user", requestParams, new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+
+                    final Model_User user = new Gson().fromJson(response.toString(),  new TypeToken<Model_User>(){}.getType());
+
+                    TextView txtUsername = findViewById(R.id.txtUsername);
+                    txtUsername.setText(user.getName());
+                    TextView txtEmail = findViewById(R.id.txtEmail);
+                    txtEmail.setText(user.getEmail());
+
+                    Button editProfileBtn = findViewById(R.id.btnEditProfile);
+                    editProfileBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(UserDetailActivity.this, EditProfileActivity.class);
+                            intent.putExtra("USERINFO", user);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            });
         }catch (Exception e) {
             e.printStackTrace();
         }
-
-        TextView txtUsername = findViewById(R.id.txtUsername);
-        txtUsername.setText(user.getName());
-        TextView txtEmail = findViewById(R.id.txtEmail);
-        txtEmail.setText(user.getEmail());
-
-        Button editProfileBtn = findViewById(R.id.btnEditProfile);
-        final Model_User finalUser = user;
-        editProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UserDetailActivity.this, EditProfileActivity.class);
-                intent.putExtra("USERINFO", finalUser);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override

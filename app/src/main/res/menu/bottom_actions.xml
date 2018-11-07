@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="homeTitle"
+        android:title="Home"
         android:id="@+id/action_home"
         android:icon="@drawable/ic_action_home_inactive"
         android:name="Home"/>
     <item
-        android:title="shoppingListTitle"
+        android:title="Shopping List"
         android:icon="@drawable/ic_action_shopping_cart_inactive"
         android:name="Shopping List"
         android:onClick="moveToShoppingList"/>
     <item
-        android:title="cookbookTitle"
+        android:title="Cookbook"
         android:icon="@drawable/ic_action_add_cook_book_inactive"
         android:name="Cookbook"
         android:onClick="moveToCookbook"/>
     <item
-        android:title="userTitle"
+        android:title="Account"
         android:id="@+id/action_account"
         android:icon="@drawable/ic_action_account_circle_inactive"
         android:name="Account"
