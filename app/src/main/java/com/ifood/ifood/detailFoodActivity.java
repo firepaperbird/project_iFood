@@ -322,6 +322,8 @@ public class detailFoodActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 Intent intentRate = new Intent(detailFoodActivity.this,CommentActivity.class);
+                intentRate.putExtra("rating", v);
+                intentRate.putExtra("dishId", dish.getId());
                 startActivity(intentRate);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
