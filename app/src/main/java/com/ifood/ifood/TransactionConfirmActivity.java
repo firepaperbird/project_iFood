@@ -181,7 +181,7 @@ public class TransactionConfirmActivity extends AppCompatActivity {
         }
 
         TextView txtTotal = findViewById(R.id.txtTotal);
-        txtTotal.setText(total + "$");
+        txtTotal.setText(total + "VND");
     }
 
     public void onCLick(View view) {
