@@ -20,6 +20,7 @@ import com.ifood.ifood.ultil.SqliteCookbookController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class NewCookbookDialog extends DialogFragment {
     private List<Model_Cookbook> listCookbook = new ArrayList<>();
@@ -48,6 +49,7 @@ public class NewCookbookDialog extends DialogFragment {
                 }
                 if (!isExist){
                     Model_Cookbook cookbook = new Model_Cookbook();
+                    cookbook.setId(UUID.randomUUID().toString());
                     cookbook.setUserId(session.getUserId());
                     cookbook.setName(cookbookTitle);
 

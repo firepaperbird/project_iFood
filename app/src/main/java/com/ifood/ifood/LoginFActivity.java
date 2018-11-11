@@ -42,6 +42,7 @@ public class LoginFActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout listMenu;
     private Model_User responseUser = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,28 +62,28 @@ public class LoginFActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickLoginF(View v){
+    public void onClickLoginF(View v) {
         EditText edEmail = findViewById(R.id.edtLoginEmail);
         String email = edEmail.getText().toString().toLowerCase();
         EditText edPassword = findViewById(R.id.edtLoginPassword);
         String password = edPassword.getText().toString();
-        callCheckLog(email,password);
+        callCheckLog(email, password);
 //      caan save user data vao sqlite
     }
 
-    private void callCheckLog(String email, String password){
+    private void callCheckLog(String email, String password) {
 
         try {
             JSONObject jsonParams = new JSONObject();
-            jsonParams.put("email",email);
-            jsonParams.put("password",password);
+            jsonParams.put("email", email);
+            jsonParams.put("password", password);
             StringEntity entity = new StringEntity(jsonParams.toString());
-            HttpUtils.post(this,"/user/checklogin", entity,new JsonHttpResponseHandler(){
+            HttpUtils.post(this, "/user/checklogin", entity, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
                     try {
-                        if (response != null){
+                        if (response != null) {
 
                             JSONObject serverResp = new JSONObject(response.toString());
                             responseUser = new Model_User(serverResp);
@@ -103,40 +104,42 @@ public class LoginFActivity extends AppCompatActivity {
                     Toast.makeText(LoginFActivity.this, "Email or password is incorrect!", Toast.LENGTH_SHORT).show();
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void callGetCookBookOfUser(final String userId){
+    private void callGetCookBookOfUser(final String userId) {
         try {
             RequestParams params = new RequestParams();
-            params.add("userId",userId);
-            HttpUtils.get(this,"/cookbook/byUserId", params,new JsonHttpResponseHandler(){
+            params.add("userId", userId);
+            HttpUtils.get(this, "/cookbook/byUserId", params, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     super.onSuccess(statusCode, headers, response);
                     try {
-                        List<Model_Cookbook> cbList = new Gson().fromJson(response.toString(),  new TypeToken<List<Model_Cookbook>>(){}.getType());
-                        for (int i = 0; i < response.length(); i++){
-                            List<Dish> dishesInCookbook = new Gson().fromJson(response.getJSONObject(i).get("dishesInCookbook").toString(),  new TypeToken<List<Dish>>(){}.getType());
-                            cbList.get(i).setDishesInCookBook(dishesInCookbook);
-                        }
-                        SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getApplicationContext());
-                        SqliteCookbookDishController sqliteCookbookDishController = new SqliteCookbookDishController(getApplicationContext());
-                        clearCookbookDataInSqlite(userId, sqliteCookbookController, sqliteCookbookDishController);
-                        for ( Model_Cookbook cb: cbList ) {
-                            sqliteCookbookController.insertDataIntoTable(sqliteCookbookController.getTableName(),cb);
-                            for (Dish dishInCookbook : cb.getDishesInCookBook()){
-                                Model_Cookbook_Dish cookbook_dish = new Model_Cookbook_Dish();
-                                cookbook_dish.setCookbookId(cb.getId());
-                                cookbook_dish.setDishId(dishInCookbook.getId());
-                                cookbook_dish.setDishName(dishInCookbook.getName());
-                                cookbook_dish.setDishImageLink(dishInCookbook.getImageLink());
-                                sqliteCookbookDishController.insertDataIntoTable(sqliteCookbookDishController.getTableName(), cookbook_dish);
+                        List<Model_Cookbook> cbList = new Gson().fromJson(response.toString(), new TypeToken<List<Model_Cookbook>>() {}.getType());
+                        if (!cbList.isEmpty()){
+                            for (int i = 0; i < response.length(); i++) {
+                                List<Dish> dishesInCookbook = new Gson().fromJson(response.getJSONObject(i).get("dishesInCookbook").toString(), new TypeToken<List<Dish>>() {
+                                }.getType());
+                                cbList.get(i).setDishesInCookBook(dishesInCookbook);
+                            }
+                            SqliteCookbookController sqliteCookbookController = new SqliteCookbookController(getApplicationContext());
+                            SqliteCookbookDishController sqliteCookbookDishController = new SqliteCookbookDishController(getApplicationContext());
+                            clearCookbookDataInSqlite(userId, sqliteCookbookController, sqliteCookbookDishController);
+                            for (Model_Cookbook cb : cbList) {
+                                sqliteCookbookController.insertDataIntoTable(sqliteCookbookController.getTableName(), cb);
+                                for (Dish dishInCookbook : cb.getDishesInCookBook()) {
+                                    Model_Cookbook_Dish cookbook_dish = new Model_Cookbook_Dish();
+                                    cookbook_dish.setCookbookId(cb.getId());
+                                    cookbook_dish.setDishId(dishInCookbook.getId());
+                                    cookbook_dish.setDishName(dishInCookbook.getName());
+                                    cookbook_dish.setDishImageLink(dishInCookbook.getImageLink());
+                                    sqliteCookbookDishController.insertDataIntoTable(sqliteCookbookDishController.getTableName(), cookbook_dish);
+                                }
                             }
                         }
-
 
                         startActivity(new Intent(LoginFActivity.this, mainMenuActivity.class));
                         finish();
@@ -145,22 +148,22 @@ public class LoginFActivity extends AppCompatActivity {
                     }
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void clearCookbookDataInSqlite(String userId, SqliteCookbookController sqlCookbook, SqliteCookbookDishController sqlCookbookDish){
+    private void clearCookbookDataInSqlite(String userId, SqliteCookbookController sqlCookbook, SqliteCookbookDishController sqlCookbookDish) {
         List<Model_Cookbook> cookbooksInSqlite = sqlCookbook.getCookbookByUserId(userId);
-        for (Model_Cookbook cookbook : cookbooksInSqlite){
+        for (Model_Cookbook cookbook : cookbooksInSqlite) {
             sqlCookbookDish.deleteData_From_Table(sqlCookbookDish.getTableName(),
                     "cookbookId = ?", new String[]{cookbook.getId()});
         }
         sqlCookbook.deleteData_From_Table(sqlCookbook.getTableName(), "UserId = ?", new String[]{userId});
     }
 
-    private void logUserCheckedToApp(){
-        if (responseUser != null){
+    private void logUserCheckedToApp() {
+        if (responseUser != null) {
             SessionLoginController session = new SessionLoginController(this);
 
             session.setUserId(responseUser.getId());
