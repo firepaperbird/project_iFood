@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,8 +24,10 @@ import com.ifood.ifood.Dialog.ConfirmRemoveDishShoppingListDialog;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Ingredient;
 import com.ifood.ifood.ultil.ConfigImageQuality;
+import com.ifood.ifood.ultil.ConstantManager;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteShoppingListController;
+import com.loopj.android.image.SmartImageView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -88,8 +92,8 @@ public class ShoppingList extends AppCompatActivity {
                 LinearLayout.LayoutParams layoutParamsDishInfo = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutDishInfo.setLayoutParams(layoutParamsDishInfo);
 
-                ImageView imageDish = layoutDishInfo.findViewWithTag("imageDish");
-                imageDish.setImageDrawable(ConfigImageQuality.getBitmapImage(this, getResources(), dish.getImageLink()));
+                SmartImageView imageDish = layoutDishInfo.findViewWithTag("imageDish");
+                imageDish.setImageUrl(dish.getImageLink());
 
                 TextView txtDishName = layoutDishInfo.findViewWithTag("txtDishName");
                 txtDishName.setText(dish.getName());
@@ -98,7 +102,7 @@ public class ShoppingList extends AppCompatActivity {
                 btnRemoveDish.setTag("btnRemoveDish_" + dish.getId());
 
                 int ingredientCount = 0;
-                for (Ingredient ingredient : dish.getIngredients()){
+                for (final Ingredient ingredient : dish.getIngredients()){
                     ingredientCount++;
                     final LinearLayout newLayoutIngredient = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.layout_ingredient, null);
                     LinearLayout.LayoutParams layoutParamsIngredient = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150);
@@ -138,8 +142,9 @@ public class ShoppingList extends AppCompatActivity {
                         }
                     });
 
-                    EditText edtIngredientAmount = newLayoutIngredient.findViewWithTag("edtIngredientAmount");
-                    edtIngredientAmount.setText(ingredient.getAmount() + "");
+                    final EditText edtIngredientAmount = newLayoutIngredient.findViewWithTag("edtIngredientAmount");
+                    Double amount = ingredient.getAmount();
+                    edtIngredientAmount.setText(String.format("%s", amount.intValue()));
                     edtIngredientAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                     edtIngredientAmount.setTag("IngredientAmount_" + dish.getId() + "_" + ingredient.getId());
                     edtIngredientAmount.setFocusableInTouchMode(false);
@@ -149,9 +154,39 @@ public class ShoppingList extends AppCompatActivity {
                             v.setFocusableInTouchMode(true);
                         }
                     });
+                    edtIngredientAmount.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            String tag = edtIngredientAmount.getTag().toString();
+                            TextView txtPrice = newLayoutIngredient.findViewWithTag(tag.replace("IngredientAmount_","IngredientPrice_"));
+                            double currentAmount = 0;
+                            try {
+                                currentAmount = Double.parseDouble(edtIngredientAmount.getText().toString());
+                                if (currentAmount > 0){
+                                    Double price = currentAmount * ingredient.getPricePerUnit();
+                                    txtPrice.setText(String.format("%s $", price.intValue()));
+                                } else {
+                                    txtPrice.setText(String.format("%s $", 0));
+                                }
+                            } catch (Exception ex){
+                                txtPrice.setText(String.format("%s $", 0));
+                            }
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
 
                     TextView txtIngredientUnit = newLayoutIngredient.findViewWithTag("txtIngredientUnit");
-                    txtIngredientUnit.setText(ingredient.getUnitId());
+                    txtIngredientUnit.setText(ConstantManager.getUnitById(ingredient.getUnitId()));
                     txtIngredientUnit.setTag("IngredientUnit_" + dish.getId() + "_" + ingredient.getId());
 
                     TextView txtIngredientName = newLayoutIngredient.findViewWithTag("txtIngredientName");
@@ -159,6 +194,8 @@ public class ShoppingList extends AppCompatActivity {
                     txtIngredientName.setTag("IngredientName_" + dish.getId() + "_" + ingredient.getId());
 
                     TextView txtIngredientPrice = newLayoutIngredient.findViewWithTag("txtIngredientPrice");
+                    Double price = ingredient.getPricePerUnit() * ingredient.getAmount();
+                    txtIngredientPrice.setText(String.format("%s $", price.intValue()));
                     txtIngredientPrice.setTag("IngredientPrice_" + dish.getId() + "_" + ingredient.getId());
 
                     newLayoutDishAndIngredient.addView(newLayoutIngredient);
@@ -184,6 +221,7 @@ public class ShoppingList extends AppCompatActivity {
                     CheckBox checkBoxChoice = layoutDish.findViewWithTag("checkbox_" + dish.getId() + "_" + ingredient.getId());
                     if (checkBoxChoice.isChecked()){
                         EditText edtAmount = layoutDish.findViewWithTag("IngredientAmount_" + dish.getId() + "_" + ingredient.getId());
+                        TextView txtPrice = layoutDish.findViewWithTag("IngredientPrice_" + dish.getId() + "_" + ingredient.getId());
                         ingredient.setAmount(Double.parseDouble(edtAmount.getText().toString()));
                         listIngredientsChoice.add(ingredient);
                     }
@@ -198,7 +236,7 @@ public class ShoppingList extends AppCompatActivity {
     }
 
     public void removeDishOutShoppingList(View view) {
-        String dishIdRemove = view.getTag().toString().substring(0,10);
+        String dishIdRemove = view.getTag().toString().substring(14);
         ConfirmRemoveDishShoppingListDialog dialog = new ConfirmRemoveDishShoppingListDialog();
         dialog.setDishIdRemove(dishIdRemove, session.getUserId());
         dialog.show(getFragmentManager(), "");

@@ -17,16 +17,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ifood.ifood.data.DeleveryInfo;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Model_User;
 import com.ifood.ifood.data.Transaction;
+import com.ifood.ifood.ultil.HttpUtils;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteUserController;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class TransactionAddressActivity extends AppCompatActivity {
     TextView txtName;
@@ -50,40 +59,49 @@ public class TransactionAddressActivity extends AppCompatActivity {
         spinnerDistrict = findViewById(R.id.spnDistrict);
 
         SessionLoginController session = new SessionLoginController(this);
-        SqliteUserController sqliteUser = new SqliteUserController(getApplicationContext());
-        final Model_User user = sqliteUser.getUserByEmail(session.getEmail());
-        txtName.setText(user.getName());
-        txtPhone.setText(user.getPhoneNumber());
-        txtAddress.setText(user.getAddress());
-
-        //set list city
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.list_city_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCity.setAdapter(adapter);
-        if(user.getCity() != null){
-            int pos = adapter.getPosition(user.getCity());
-            spinnerCity.setSelection(pos);
-        }
-
-        //set Event
-        spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("userId", session.getUserId());
+        HttpUtils.get(this, "/user", requestParams, new JsonHttpResponseHandler(){
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i){
-                    case 0: setListDistrict(spinnerDistrict,R.array.list_District_SG_array,user);
-                    break;
-                    case 1: setListDistrict(spinnerDistrict,R.array.list_District_HN_array,user);
-                    break;
-                    case 2: setListDistrict(spinnerDistrict,R.array.list_District_DN_array,user);
-                    break;
-                    default:break;
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                final Model_User user = new Gson().fromJson(response.toString(),  new TypeToken<Model_User>(){}.getType());
+
+                txtName.setText(user.getName());
+                txtPhone.setText(user.getPhoneNumber());
+                txtAddress.setText(user.getAddress());
+
+                //set list city
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                        TransactionAddressActivity.this, R.array.list_city_array, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerCity.setAdapter(adapter);
+                if(user.getCity() != null){
+                    int pos = adapter.getPosition(user.getCity());
+                    spinnerCity.setSelection(pos);
                 }
-                city = adapterView.getItemAtPosition(i).toString();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
+                //set Event
+                spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        switch (i){
+                            case 0: setListDistrict(spinnerDistrict,R.array.list_District_SG_array,user);
+                                break;
+                            case 1: setListDistrict(spinnerDistrict,R.array.list_District_HN_array,user);
+                                break;
+                            case 2: setListDistrict(spinnerDistrict,R.array.list_District_DN_array,user);
+                                break;
+                            default:break;
+                        }
+                        city = adapterView.getItemAtPosition(i).toString();
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
             }
         });
 
@@ -134,8 +152,9 @@ public class TransactionAddressActivity extends AppCompatActivity {
         Transaction transaction = new Transaction();
         transaction.setName(txtName.getText().toString());
         transaction.setPhone(txtPhone.getText().toString());
-        transaction.setAddress(txtAddress.getText().toString() + ", " + spinnerDistrict.getSelectedItem().toString()
-                + ", " + spinnerCity.getSelectedItem().toString());
+        transaction.setAddress(txtAddress.getText().toString());
+        transaction.setCity(spinnerCity.getSelectedItem().toString());
+        transaction.setDistrict(spinnerDistrict.getSelectedItem().toString());
 
 
         Intent intent = getIntent();

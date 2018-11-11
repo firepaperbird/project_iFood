@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -31,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ifood.ifood.Dialog.AddToCookbookDialog;
-import com.ifood.ifood.data.Comment_User;
 import com.ifood.ifood.data.ConstantStatusTransaction;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Ingredient;
@@ -40,7 +38,6 @@ import com.ifood.ifood.data.Model_Recipe;
 import com.ifood.ifood.data.Model_Review;
 import com.ifood.ifood.data.Model_ShoppingList;
 import com.ifood.ifood.data.RelatedDish;
-import com.ifood.ifood.ultil.ConfigImageQuality;
 import com.ifood.ifood.ultil.ConstantManager;
 import com.ifood.ifood.ultil.MoveToDetailView;
 import com.ifood.ifood.ultil.SessionLoginController;
@@ -631,8 +628,9 @@ public class detailFoodActivity extends AppCompatActivity {
             shoppingList.setDishImage(dish.getImageLink());
             shoppingList.setIngredientId(ingredient.getId());
             shoppingList.setIngredientName(ingredient.getName());
-            shoppingList.setIngredientAmount(ingredient.getAmount() + "");
+            shoppingList.setAmount(ingredient.getAmount() + "");
             shoppingList.setIngredientUnit(ingredient.getUnitId() + "");
+            shoppingList.setPricePerUnit(ingredient.getPricePerUnit());
             shoppingList.setStatus(ConstantStatusTransaction.PENDING);
             sqlite.insertDataIntoTable(sqlite.getTableName(), shoppingList);
         }

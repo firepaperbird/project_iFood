@@ -18,14 +18,31 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.ifood.ifood.data.Dish;
 import com.ifood.ifood.data.Ingredient;
+import com.ifood.ifood.data.Model_ShoppingList;
 import com.ifood.ifood.data.Transaction;
 import com.ifood.ifood.ultil.ConfigImageQuality;
+import com.ifood.ifood.ultil.ConstantManager;
+import com.ifood.ifood.ultil.HttpUtils;
 import com.ifood.ifood.ultil.SessionLoginController;
 import com.ifood.ifood.ultil.SqliteShoppingListController;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.image.SmartImageView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class TransactionConfirmActivity extends AppCompatActivity {
     TextView txtName;
@@ -38,6 +55,10 @@ public class TransactionConfirmActivity extends AppCompatActivity {
     EditText edtExpDate;
     EditText edtSecCode;
     boolean visaFlag = false;
+
+    private List<Dish> dishList;
+    private Transaction transaction;
+    private double total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +84,13 @@ public class TransactionConfirmActivity extends AppCompatActivity {
                         visaFlag = false;
                         setVisaFormToDefault();
                         break;
-                    case R.id.rbtATM: visaForm.setVisibility(View.GONE);
+                    /*case R.id.rbtATM: visaForm.setVisibility(View.GONE);
                         visaFlag = false;
                         setVisaFormToDefault();
                         break;
                     case R.id.rbtVisa: visaForm.setVisibility(View.VISIBLE);
                         visaFlag = true;
-                        break;
+                        break;*/
                 }
             }
         });
@@ -106,14 +127,14 @@ public class TransactionConfirmActivity extends AppCompatActivity {
         SessionLoginController session = new SessionLoginController(this);
         Intent intent = getIntent();
 
-        List<Dish> dishList = (List<Dish>)intent.getSerializableExtra("LISTDISHORDER");
-        Transaction transaction = (Transaction)intent.getSerializableExtra("TRANSACTION");
+        dishList = (List<Dish>)intent.getSerializableExtra("LISTDISHORDER");
+        transaction = (Transaction)intent.getSerializableExtra("TRANSACTION");
 
-        txtName.setText(transaction.getName().toString());
-        txtPhone.setText(transaction.getPhone().toString());
-        txtAddress.setText(transaction.getAddress().toString());
+        txtName.setText(transaction.getName());
+        txtPhone.setText(transaction.getPhone());
+        txtAddress.setText(transaction.getAddress() + ", " + transaction.getDistrict() + ", " + transaction.getCity());
 
-        double total = 0;
+        total = 0;
 
         for (Dish dish:dishList) {
             LinearLayout layout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.layout_transaction_detail_dish, null);
@@ -121,8 +142,8 @@ public class TransactionConfirmActivity extends AppCompatActivity {
             layoutParams.setMargins(0,20,0,20);
             layout.setLayoutParams(layoutParams);
 
-            ImageView imageDish = layout.findViewWithTag("imageDish");
-            imageDish.setImageDrawable(ConfigImageQuality.getBitmapImage(this, getResources(), dish.getImageLink()));
+            SmartImageView imageDish = layout.findViewWithTag("imageDish");
+            imageDish.setImageUrl(dish.getImageLink());
 
             TextView txtDishName = layout.findViewWithTag("txtDishName");
             txtDishName.setText(dish.getName());
@@ -139,7 +160,7 @@ public class TransactionConfirmActivity extends AppCompatActivity {
                 edtIngredientAmount.setTag("IngredientAmount_" + dish.getId() + "_" + ingredient.getId());
 
                 TextView txtIngredientUnit = ingredientLayout.findViewWithTag("txtIngredientUnit");
-                txtIngredientUnit.setText(ingredient.getUnitId());
+                txtIngredientUnit.setText(ConstantManager.getUnitById(ingredient.getUnitId()));
                 txtIngredientUnit.setTag("IngredientUnit_" + dish.getId() + "_" + ingredient.getId());
 
                 TextView txtIngredientName = ingredientLayout.findViewWithTag("txtIngredientName");
@@ -147,12 +168,13 @@ public class TransactionConfirmActivity extends AppCompatActivity {
                 txtIngredientName.setTag("IngredientName_" + dish.getId() + "_" + ingredient.getId());
 
                 TextView txtIngredientPrice = ingredientLayout.findViewWithTag("txtIngredientPrice");
-                txtIngredientPrice.setText(5+"$");
+                Double price = ingredient.getPricePerUnit() * ingredient.getAmount();
+                txtIngredientPrice.setText(String.format("%s $", price.intValue()));
                 txtIngredientPrice.setTag("IngredientPrice_" + dish.getId() + "_" + ingredient.getId());
 
                 tableLayout.addView(ingredientLayout);
 
-                total += 5;
+                total += price;
             }
             layout.addView(tableLayout);
             content.addView(layout);
@@ -181,8 +203,52 @@ public class TransactionConfirmActivity extends AppCompatActivity {
                 return;
             }
         }
-        Toast.makeText(this, "Order successful", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, mainMenuActivity.class);
-        startActivity(intent);
+
+
+        try {
+            final SessionLoginController session = new SessionLoginController(this);
+            Map<String, String> map = new HashMap<>();
+            map.put("userId",  session.getUserId());
+            map.put("transaction", new JSONObject(new Gson().toJson(transaction)).toString());
+            map.put("totalPrice", total + "");
+            List<Model_ShoppingList> shoppingLists = new ArrayList<>();
+            for (Dish dish : dishList){
+                for (Ingredient ingredient : dish.getIngredients()){
+                    Model_ShoppingList shoppingList = new Model_ShoppingList();
+                    shoppingList.setUserId(session.getUserId());
+                    shoppingList.setDishId(dish.getId());
+                    shoppingList.setIngredientId(ingredient.getId());
+                    shoppingList.setAmount(ingredient.getAmount() + "");
+                    shoppingLists.add(shoppingList);
+                }
+            }
+            map.put("shoppingLists", new JSONArray(new Gson().toJson(shoppingLists)).toString());
+            JSONObject jsonObject = new JSONObject(new Gson().toJson(map, HashMap.class));
+            StringEntity entity = new StringEntity(jsonObject.toString(), "UTF-8");
+            HttpUtils.put(this, "/transaction", entity, new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+
+                    SqliteShoppingListController sqlite = new SqliteShoppingListController(getApplicationContext());
+                    sqlite.deleteData_From_Table(sqlite.getTableName(), "userId = ?", new String[]{session.getUserId()});
+
+                    Intent intent = new Intent(TransactionConfirmActivity.this, mainMenuActivity.class);
+                    startActivity(intent);
+                    finish();
+                    Toast.makeText(TransactionConfirmActivity.this, "Order successful", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                    int a = 1;
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

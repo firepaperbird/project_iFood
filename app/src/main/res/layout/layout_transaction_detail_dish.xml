@@ -15,7 +15,7 @@
         android:layout_alignParentStart="true"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.loopj.android.image.SmartImageView
             android:tag="imageDish"
             android:layout_width="75dp"
             android:layout_height="75dp"/>

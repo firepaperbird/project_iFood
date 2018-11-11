@@ -9,6 +9,8 @@ public class Transaction implements Serializable {
     private int userId;
     private String name;
     private String phone;
+    private String city;
+    private String district;
     private String address;
     private int typeOfTransaction;
     private String orderTime;
@@ -26,6 +28,22 @@ public class Transaction implements Serializable {
         this.typeOfTransaction = typeOfTransaction;
         this.orderTime = orderTime;
         this.status = status;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public String getName() {

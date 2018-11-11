@@ -22,6 +22,7 @@ public class SqliteShoppingListController extends SqliteDataController {
     private final int COLUMN_INGREDIENT_NAME_INDEX = 7;
     private final int COLUMN_INGREDIENT_AMOUNT_INDEX = 8;
     private final int COLUMN_INGREDIENT_UNIT_INDEX = 9;
+    private final int COLUMN_PRICE_PER_UNIT_INDEX = 10;
 
     private final String TABLE_NAME = "ShoppingList";
 
@@ -42,17 +43,18 @@ public class SqliteShoppingListController extends SqliteDataController {
             Cursor cs = database.query(TABLE_NAME, null, "UserId = ?", new String[]{userId + ""}, null, null, "DishId ASC", null);
             while (cs.moveToNext()) {
                 Ingredient ingredient = new Ingredient();
-                //ingredient.setId(Integer.parseInt(cs.getString(COLUMN_INGREDIENT_ID_INDEX)));
+                ingredient.setId(cs.getString(COLUMN_INGREDIENT_ID_INDEX));
                 ingredient.setName(cs.getString(COLUMN_INGREDIENT_NAME_INDEX));
                 ingredient.setAmount(cs.getDouble(COLUMN_INGREDIENT_AMOUNT_INDEX));
                 ingredient.setUnitId(cs.getInt(COLUMN_INGREDIENT_UNIT_INDEX));
+                ingredient.setPricePerUnit((cs.getDouble(COLUMN_PRICE_PER_UNIT_INDEX)));
 
                 dish.setId(cs.getString(COLUMN_DISH_ID_INDEX));
                 dish.setName(cs.getString(COLUMN_DISH_NAME_INDEX));
                 dish.setImageLink(cs.getString(COLUMN_DISH_IMAGE_INDEX));
 
 
-                if (listDish.size() == 0 || listDish.get(listDish.size() - 1).getId().equals(dish.getId())){
+                if (listDish.size() == 0 || !listDish.get(listDish.size() - 1).getId().equals(dish.getId())){
                     listDish.add(dish);
                     dish = new Dish();
                 }
@@ -79,10 +81,11 @@ public class SqliteShoppingListController extends SqliteDataController {
                     new String[]{transactionId + "", userId + "", ConstantStatusTransaction.SUCCESSFUL + ""}, null, null, "DishId ASC", null);
             while (cs.moveToNext()) {
                 Ingredient ingredient = new Ingredient();
-                //ingredient.setId(Integer.parseInt(cs.getString(COLUMN_INGREDIENT_ID_INDEX)));
+                ingredient.setId(cs.getString(COLUMN_INGREDIENT_ID_INDEX));
                 ingredient.setName(cs.getString(COLUMN_INGREDIENT_NAME_INDEX));
                 ingredient.setAmount(cs.getDouble(COLUMN_INGREDIENT_AMOUNT_INDEX));
                 ingredient.setUnitId(cs.getInt(COLUMN_INGREDIENT_UNIT_INDEX));
+                ingredient.setPricePerUnit((cs.getDouble(COLUMN_PRICE_PER_UNIT_INDEX)));
 
                 dish.setId(cs.getString(COLUMN_DISH_ID_INDEX));
                 dish.setName(cs.getString(COLUMN_DISH_NAME_INDEX));

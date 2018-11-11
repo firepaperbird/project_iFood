@@ -73,8 +73,9 @@
                 android:id="@+id/rbtCOD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cash on delivery" />
-            <RadioButton
+                android:text="Cash on delivery"
+                android:checked="true"/>
+            <!--<RadioButton
                 android:id="@+id/rbtATM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +84,7 @@
                 android:id="@+id/rbtVisa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Payment by card Visa, Master, JCB"/>
+                android:text="Payment by card Visa, Master, JCB"/>-->
         </RadioGroup>
     </LinearLayout>
 

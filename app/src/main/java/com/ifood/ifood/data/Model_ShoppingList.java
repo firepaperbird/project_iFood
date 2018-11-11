@@ -1,119 +1,129 @@
 package com.ifood.ifood.data;
 
 public class Model_ShoppingList {
-    private Integer Id;
-    private int TransactionId;
-    private String UserId;
-    private String DishId;
-    private String DishName;
-    private String DishImage;
-    private String IngredientId;
-    private String IngredientName;
-    private String IngredientAmount;
-    private String IngredientUnit;
-    private int Status;
+    private Integer id;
+    private int transactionId;
+    private String userId;
+    private String dishId;
+    private String dishName;
+    private String dishImage;
+    private String ingredientId;
+    private String ingredientName;
+    private String amount;
+    private String ingredientUnit;
+    private double pricePerUnit;
+    private int status;
 
     public Model_ShoppingList() {
     }
 
-    public Model_ShoppingList(int transactionId, String userId, String dishId, String dishName, String dishImage, String ingredientId, String ingredientName, String ingredientAmount, String ingredientUnit, int status) {
-        TransactionId = transactionId;
-        UserId = userId;
-        DishId = dishId;
-        DishName = dishName;
-        DishImage = dishImage;
-        IngredientId = ingredientId;
-        IngredientName = ingredientName;
-        IngredientAmount = ingredientAmount;
-        IngredientUnit = ingredientUnit;
-        Status = status;
+    public Model_ShoppingList(int transactionId, String userId, String dishId, String dishName, String dishImage, String ingredientId, String ingredientName, String amount, String ingredientUnit, double pricePerUnit, int status) {
+        this.transactionId = transactionId;
+        this.userId = userId;
+        this.dishId = dishId;
+        this.dishName = dishName;
+        this.dishImage = dishImage;
+        this.ingredientId = ingredientId;
+        this.ingredientName = ingredientName;
+        this.amount = amount;
+        this.ingredientUnit = ingredientUnit;
+        this.pricePerUnit = pricePerUnit;
+        this.status = status;
+    }
+
+    public double getPricePerUnit() {
+        return pricePerUnit;
+    }
+
+    public void setPricePerUnit(double pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public int getTransactionId() {
-        return TransactionId;
+        return transactionId;
     }
 
     public void setTransactionId(int transactionId) {
-        TransactionId = transactionId;
+        this.transactionId = transactionId;
     }
 
     public String getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(String userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public String getDishId() {
-        return DishId;
+        return dishId;
     }
 
     public void setDishId(String dishId) {
-        DishId = dishId;
+        this.dishId = dishId;
     }
 
     public String getDishName() {
-        return DishName;
+        return dishName;
     }
 
     public String getDishImage() {
-        return DishImage;
+        return dishImage;
     }
 
     public void setDishImage(String dishImage) {
-        DishImage = dishImage;
+        this.dishImage = dishImage;
     }
 
     public void setDishName(String dishName) {
-        DishName = dishName;
+        this.dishName = dishName;
     }
 
     public String getIngredientId() {
-        return IngredientId;
+        return ingredientId;
     }
 
     public void setIngredientId(String ingredientId) {
-        IngredientId = ingredientId;
+        this.ingredientId = ingredientId;
     }
 
     public String getIngredientName() {
-        return IngredientName;
+        return ingredientName;
     }
 
     public void setIngredientName(String ingredientName) {
-        IngredientName = ingredientName;
+        this.ingredientName = ingredientName;
     }
 
-    public String getIngredientAmount() {
-        return IngredientAmount;
+    public String getAmount() {
+        return amount;
     }
 
-    public void setIngredientAmount(String ingredientAmount) {
-        IngredientAmount = ingredientAmount;
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
     public String getIngredientUnit() {
-        return IngredientUnit;
+        return ingredientUnit;
     }
 
     public void setIngredientUnit(String ingredientUnit) {
-        IngredientUnit = ingredientUnit;
+        this.ingredientUnit = ingredientUnit;
     }
 
     public int getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(int status) {
-        Status = status;
+        this.status = status;
     }
 }
