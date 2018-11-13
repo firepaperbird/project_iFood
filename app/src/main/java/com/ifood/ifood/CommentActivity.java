@@ -35,6 +35,14 @@ public class CommentActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        SessionLoginController session = new SessionLoginController(this);
+        if (session.getEmail().isEmpty()){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         edtComment = (EditText) findViewById(R.id.txtCommentInput);
         rating = getIntent().getFloatExtra("rating", 0);
         dishId = getIntent().getStringExtra("dishId");
