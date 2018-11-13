@@ -68,7 +68,7 @@
                 android:onClick="btnLogin"/>-->
         </LinearLayout>
         <!--add dish-->
-        <LinearLayout
+        <!--<LinearLayout
             android:id="@+id/add_dish"
             android:layout_width="match_parent"
             android:layout_height="@dimen/navigation_item_height"
@@ -91,7 +91,7 @@
                 android:textStyle="bold"
                 android:text="Add New Dish" />
 
-        </LinearLayout>
+        </LinearLayout>-->
         <!-- Item Gym Food -->
 
         <LinearLayout

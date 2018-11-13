@@ -1,7 +1,6 @@
 package com.ifood.ifood.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Transaction implements Serializable {
@@ -13,9 +12,8 @@ public class Transaction implements Serializable {
     private String district;
     private String address;
     private int typeOfTransaction;
-    private String orderTime;
+    private String createOn;
     private int status;
-
 
     public Transaction() {
     }
@@ -26,7 +24,7 @@ public class Transaction implements Serializable {
         this.phone = phone;
         this.address = address;
         this.typeOfTransaction = typeOfTransaction;
-        this.orderTime = orderTime;
+        this.createOn = orderTime;
         this.status = status;
     }
 
@@ -103,11 +101,11 @@ public class Transaction implements Serializable {
         this.typeOfTransaction = typeOfTransaction;
     }
 
-    public String getOrderTime() {
-        return orderTime;
+    public String getCreateOn() {
+        return createOn;
     }
 
-    public void setOrderTime(String orderTime) {
-        this.orderTime = orderTime;
+    public void setCreateOn(String createOn) {
+        this.createOn = createOn;
     }
 }

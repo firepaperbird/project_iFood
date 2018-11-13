@@ -6,6 +6,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".TransactionHistoryDetailActivity">
 <LinearLayout
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="20dp"
@@ -26,6 +27,7 @@ tools:context=".TransactionHistoryDetailActivity">
         android:paddingLeft="20dp">
 
         <TextView
+            android:id="@+id/transactionId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Transaction Id : 123DEVILEDEGGS"
@@ -46,7 +48,7 @@ tools:context=".TransactionHistoryDetailActivity">
                 android:textSize="12dp"/>
 
             <TextView
-                android:id="@+id/txtStatus"
+                android:id="@+id/transactionStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Successful"
@@ -56,7 +58,7 @@ tools:context=".TransactionHistoryDetailActivity">
         </LinearLayout>
 
         <TextView
-            android:tag="txtName"
+            android:id="@+id/transactionUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Bui Quang Huy"
@@ -64,14 +66,14 @@ tools:context=".TransactionHistoryDetailActivity">
             android:textSize="14dp"
             android:textColor="#000000"/>
         <TextView
-            android:tag="txtPhone"
+            android:id="@+id/transactionPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="01665169260"
             android:textStyle="bold"
             android:textSize="12dp"/>
         <TextView
-            android:tag="txtAddress"
+            android:id="@+id/transactionAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="193 Phạm Văn Hai, Phường 5, Quận Tân Bình, TPHCM"
@@ -114,6 +116,14 @@ tools:context=".TransactionHistoryDetailActivity">
         android:layout_marginTop="20dp"/>
 
     <LinearLayout
+        android:id="@+id/dishInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <!--<LinearLayout
         android:id="@+id/detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -136,7 +146,7 @@ tools:context=".TransactionHistoryDetailActivity">
                 android:background="@drawable/deviled_eggs"/>
 
             <TextView
-                android:tag="txtDishName"
+                android:tag="dishName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -149,9 +159,10 @@ tools:context=".TransactionHistoryDetailActivity">
         </LinearLayout>
 
         <TableLayout
+            android:id="@+id/tableIngredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <TableRow
+            &lt;!&ndash;<TableRow
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:tag="layoutIngredient"
                 android:layout_width="match_parent"
@@ -199,160 +210,10 @@ tools:context=".TransactionHistoryDetailActivity">
                     android:textSize="18sp"
                     android:layout_marginRight="20dp"/>
 
-            </TableRow>
-
-            <TableRow
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:tag="layoutIngredient"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:background="#f0eded">
-
-
-                <TextView
-                    android:layout_alignParentStart="true"
-                    android:tag="txtIngredientName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Garlic powder"
-                    android:gravity="center"
-                    android:textSize="18sp" />
-                <TextView
-
-                    android:layout_toRightOf="@id/txtIngredientName"
-                    android:tag="edtIngredientAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="0.5"/>
-
-                <TextView
-                    android:layout_toRightOf="@id/edtIngredientAmount"
-                    android:layout_marginLeft="20dp"
-                    android:tag="txtIngredientUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="tsp"
-                    android:textSize="18sp"/>
-                <TextView
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="20dp"
-                    android:tag="txtIngredientPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="5$"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:layout_marginRight="20dp"/>
-
-            </TableRow>
-
-            <TableRow
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:tag="layoutIngredient"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:background="#f0eded">
-
-
-                <TextView
-                    android:layout_alignParentStart="true"
-                    android:tag="txtIngredientName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Milk"
-                    android:gravity="center"
-                    android:textSize="18sp" />
-                <TextView
-
-                    android:layout_toRightOf="@id/txtIngredientName"
-                    android:tag="edtIngredientAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="100"/>
-
-                <TextView
-                    android:layout_toRightOf="@id/edtIngredientAmount"
-                    android:layout_marginLeft="20dp"
-                    android:tag="txtIngredientUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="ml"
-                    android:textSize="18sp"/>
-                <TextView
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="20dp"
-                    android:tag="txtIngredientPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="5$"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:layout_marginRight="20dp"/>
-
-            </TableRow>
-
-            <TableRow
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:tag="layoutIngredient"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:background="#f0eded">
-
-
-                <TextView
-                    android:layout_alignParentStart="true"
-                    android:tag="txtIngredientName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Pork"
-                    android:gravity="center"
-                    android:textSize="18sp" />
-                <TextView
-
-                    android:layout_toRightOf="@id/txtIngredientName"
-                    android:tag="edtIngredientAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="200"/>
-
-                <TextView
-                    android:layout_toRightOf="@id/edtIngredientAmount"
-                    android:layout_marginLeft="20dp"
-                    android:tag="txtIngredientUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="grams"
-                    android:textSize="18sp"/>
-                <TextView
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="20dp"
-                    android:tag="txtIngredientPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="5$"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:layout_marginRight="20dp"/>
-
-            </TableRow>
+            </TableRow>&ndash;&gt;
         </TableLayout>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"

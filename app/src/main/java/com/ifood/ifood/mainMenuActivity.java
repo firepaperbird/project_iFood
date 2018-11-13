@@ -294,7 +294,9 @@ public class mainMenuActivity extends AppCompatActivity {
                         boolean isFound = false;
                         if (search_type.equals("Tags")) {
                             for (Model_Course course : dish.getCourses()){
-                                isFound = tags.contains(course.getName());
+                                for (String tag : tags){
+                                    isFound = tag.toLowerCase().equals(course.getName().toLowerCase());
+                                }
                                 if (isFound) {
                                     return false;
                                 }
@@ -451,12 +453,12 @@ public class mainMenuActivity extends AppCompatActivity {
                     frameLayout.addView(cookbookLayout);
                 }
                 //code cuar quan
-                LinearLayout addDishRow = findViewById(R.id.add_dish);
+                /*LinearLayout addDishRow = findViewById(R.id.add_dish);
                 addDishRow.setVisibility(View.VISIBLE);
                 ViewGroup.LayoutParams dishRowLayoutParams = addDishRow.getLayoutParams();
                 final float scale = getApplicationContext().getResources().getDisplayMetrics().density;
                 dishRowLayoutParams.height = (int) (48 * scale + 0.5f);
-                addDishRow.setLayoutParams(dishRowLayoutParams);
+                addDishRow.setLayoutParams(dishRowLayoutParams);*/
 
             }
 

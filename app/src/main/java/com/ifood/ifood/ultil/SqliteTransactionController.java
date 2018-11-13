@@ -32,7 +32,7 @@ public class SqliteTransactionController extends SqliteDataController {
                 transaction.setId(cs.getInt(COLUMN_ID_INDEX));
                 transaction.setUserId(cs.getInt(COLUMN_USER_ID_INDEX));
                 transaction.setTypeOfTransaction(cs.getInt(COLUMN_TRANSACTION_TYPE_INDEX));
-                transaction.setOrderTime(cs.getString(COLUMN_ORDER_TIME_INDEX));
+                transaction.setCreateOn(cs.getString(COLUMN_ORDER_TIME_INDEX));
                 transactions.add(transaction);
             }
         } catch (SQLException e) {

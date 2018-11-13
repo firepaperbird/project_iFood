@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/detail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:tag="layoutDishInfo">
+
+        <com.loopj.android.image.SmartImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:tag="imageDish" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:tag="dishName"
+            android:text="Deviled Eggs"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+    <TableLayout
+        android:tag="tableIngredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <!--<TableRow
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:tag="layoutIngredient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip"
+            android:background="#f0eded">
+
+
+            <TextView
+                android:layout_alignParentStart="true"
+                android:tag="txtIngredientName"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Potatoes"
+                android:gravity="center"
+                android:textSize="18sp" />
+            <TextView
+
+                android:layout_toRightOf="@id/txtIngredientName"
+                android:tag="edtIngredientAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text="454"/>
+
+            <TextView
+                android:layout_toRightOf="@id/edtIngredientAmount"
+                android:layout_marginLeft="20dp"
+                android:tag="txtIngredientUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="grams"
+                android:textSize="18sp"/>
+            <TextView
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="20dp"
+                android:tag="txtIngredientPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="5$"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_marginRight="20dp"/>
+
+        </TableRow>-->
+    </TableLayout>
+
+</LinearLayout>
