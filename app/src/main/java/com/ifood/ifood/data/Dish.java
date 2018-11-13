@@ -37,7 +37,7 @@ public class Dish implements Serializable{
         this.description = jsonObject.getString("description");
         this.authorId = jsonObject.getString("authorId");
         this.imageLink = jsonObject.getString("imageLink");
-        this.ratingStar = (int) jsonObject.getDouble("rate");
+        this.ratingStar = !jsonObject.getString("rate").equals("null") ? (int) jsonObject.getDouble("rate") : 5;
         this.timeCooking = jsonObject.getString("timeCooking");
         this.isActive = jsonObject.getBoolean("active");
         this.isDelete = jsonObject.getBoolean("delete");
