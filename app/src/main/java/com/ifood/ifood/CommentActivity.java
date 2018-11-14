@@ -70,7 +70,7 @@ public class CommentActivity extends AppCompatActivity {
 
         try {
             JSONObject jsonObject = new JSONObject(new Gson().toJson(requestJson, HashMap.class));
-            StringEntity entity = new StringEntity(jsonObject.toString());
+            StringEntity entity = new StringEntity(jsonObject.toString(), "UTF-8");
             HttpUtils.post(this, "/review", entity, new JsonHttpResponseHandler(){
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -79,11 +79,10 @@ public class CommentActivity extends AppCompatActivity {
                     Toast.makeText(CommentActivity.this, "Submit review successful", Toast.LENGTH_SHORT).show();
                     MoveToDetailView.moveToDetail(CommentActivity.this, detailFoodActivity.class, dishId);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    finish();
                 }
             });
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }

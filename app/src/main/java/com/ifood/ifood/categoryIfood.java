@@ -73,9 +73,9 @@ public class categoryIfood extends AppCompatActivity {
         top.getLayoutParams().height = categoryH;
         mid.getLayoutParams().height = categoryH;
         bot.getLayoutParams().height = categoryH;
-
+/*
         AbsoluteLayout.LayoutParams params = ((AbsoluteLayout.LayoutParams) findViewById(R.id.btnClose).getLayoutParams());
-        params.x = (width)-(findViewById(R.id.btnClose).getWidth())+20;
+        params.x = (width)-(findViewById(R.id.btnClose).getWidth())+20;*/
 
     }
 

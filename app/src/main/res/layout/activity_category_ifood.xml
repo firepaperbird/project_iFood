@@ -76,7 +76,7 @@
 
         </LinearLayout>
     </ScrollView>
-
+<!--
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -86,5 +86,5 @@
         android:layout_y="-15dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_close"
-        android:id="@+id/btnClose"/>
+        android:id="@+id/btnClose"/>-->
 </AbsoluteLayout>
